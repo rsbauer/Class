@@ -1,0 +1,23 @@
+README
+
+Manage the contents of a video store.  Files include:
+
+Main files:
+
+VideoStore.java - Example of video store usage
+Customer.java   - Customer of a video store
+Rental.java     - Movie rental data
+Movie.java      - Movie data
+
+Testing files:
+
+TestCustomer.cpp - unit testing for Customer class
+TestMovie_t.cpp  - unit testing for Movie class
+TestRental_t.cpp - unit testing for Rental class
+
+TestCustomer.*.txt - output files for unit testing Customer class
+
+Other files:
+
+CREDITS - who create this code
+README - this file

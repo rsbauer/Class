@@ -1,0 +1,89 @@
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/cs480S11/!svn/ver/639/students/rsbauer/Projects/Project4/tags/Release0
+END
+BUILD
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/cs480S11/!svn/ver/639/students/rsbauer/Projects/Project4/tags/Release0/BUILD
+END
+Movie.java
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/cs480S11/!svn/ver/639/students/rsbauer/Projects/Project4/tags/Release0/Movie.java
+END
+TestMovie.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/cs480S11/!svn/ver/639/students/rsbauer/Projects/Project4/tags/Release0/TestMovie.java
+END
+TestCustomer.norental.txt
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/cs480S11/!svn/ver/639/students/rsbauer/Projects/Project4/tags/Release0/TestCustomer.norental.txt
+END
+Customer.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/cs480S11/!svn/ver/639/students/rsbauer/Projects/Project4/tags/Release0/Customer.java
+END
+TestCustomer.java
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/cs480S11/!svn/ver/639/students/rsbauer/Projects/Project4/tags/Release0/TestCustomer.java
+END
+Rental.java
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/cs480S11/!svn/ver/639/students/rsbauer/Projects/Project4/tags/Release0/Rental.java
+END
+TestCustomer.onerental.txt
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/cs480S11/!svn/ver/639/students/rsbauer/Projects/Project4/tags/Release0/TestCustomer.onerental.txt
+END
+TestRental.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/cs480S11/!svn/ver/639/students/rsbauer/Projects/Project4/tags/Release0/TestRental.java
+END
+NetVideoStore.java
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/cs480S11/!svn/ver/639/students/rsbauer/Projects/Project4/tags/Release0/NetVideoStore.java
+END
+CREDITS
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/cs480S11/!svn/ver/639/students/rsbauer/Projects/Project4/tags/Release0/CREDITS
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/cs480S11/!svn/ver/639/students/rsbauer/Projects/Project4/tags/Release0/Makefile
+END
+README
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/cs480S11/!svn/ver/639/students/rsbauer/Projects/Project4/tags/Release0/README
+END
+TestCustomer.tworental.txt
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/cs480S11/!svn/ver/639/students/rsbauer/Projects/Project4/tags/Release0/TestCustomer.tworental.txt
+END

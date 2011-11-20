@@ -1,0 +1,89 @@
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/cs480S11/!svn/ver/637/students/rsbauer/Projects/Project4/trunk
+END
+BUILD
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/cs480S11/!svn/ver/637/students/rsbauer/Projects/Project4/trunk/BUILD
+END
+Movie.java
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/cs480S11/!svn/ver/637/students/rsbauer/Projects/Project4/trunk/Movie.java
+END
+TestMovie.java
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/cs480S11/!svn/ver/637/students/rsbauer/Projects/Project4/trunk/TestMovie.java
+END
+TestCustomer.norental.txt
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/cs480S11/!svn/ver/637/students/rsbauer/Projects/Project4/trunk/TestCustomer.norental.txt
+END
+Customer.java
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/cs480S11/!svn/ver/637/students/rsbauer/Projects/Project4/trunk/Customer.java
+END
+TestCustomer.java
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/cs480S11/!svn/ver/637/students/rsbauer/Projects/Project4/trunk/TestCustomer.java
+END
+Rental.java
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/cs480S11/!svn/ver/637/students/rsbauer/Projects/Project4/trunk/Rental.java
+END
+TestCustomer.onerental.txt
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/cs480S11/!svn/ver/637/students/rsbauer/Projects/Project4/trunk/TestCustomer.onerental.txt
+END
+TestRental.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/cs480S11/!svn/ver/637/students/rsbauer/Projects/Project4/trunk/TestRental.java
+END
+NetVideoStore.java
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/cs480S11/!svn/ver/637/students/rsbauer/Projects/Project4/trunk/NetVideoStore.java
+END
+CREDITS
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/cs480S11/!svn/ver/637/students/rsbauer/Projects/Project4/trunk/CREDITS
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/cs480S11/!svn/ver/637/students/rsbauer/Projects/Project4/trunk/Makefile
+END
+README
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/cs480S11/!svn/ver/637/students/rsbauer/Projects/Project4/trunk/README
+END
+TestCustomer.tworental.txt
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/cs480S11/!svn/ver/637/students/rsbauer/Projects/Project4/trunk/TestCustomer.tworental.txt
+END

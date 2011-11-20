@@ -1,0 +1,24 @@
+Score:  98
+
+Individual report:
+
+- Good observations
+
+UML Class Diagram:
+
+- Very Good
+
+UML Sequence Diagram:
+
+- Good, in general.
+- The arrow shows the call.  The recipient of the arrow MUST have that operation.
+
+UML Use Case Diagram:
+
+- Good
+
+"Repsonse" :)
+
+UML Use Case Text:
+
+- Very Good

@@ -1,0 +1,21 @@
+Files Included:
+
+Visio 2010 *.VSD files included along with PDF versions.  The sequence diagrams 
+were done using websequencediagrams.com and the text used to generate the 
+diagram has been included in Sequence[1|2].txt.  A PNG export of the diagram is 
+also available, although this image can be found in the class diagram documents.
+
+Also included is a database diagram (CRS_DB_Diagram in PDF and Visio formats).  
+
+Commentary:
+
+Overall, an interesting process.  From personal experience, I prefer to create 
+the database diagram first to get an idea of what data needs to be played with 
+and then once the database is sorted out, the classes go a bit easier since the 
+data that needs manipulating has been identified.  I would admit I'm comfortable 
+with database UML diagrams, but not very comfortable with Class UML diagrams.
+
+Visio was a bit clunky to work with for doing class diagrams.  Database diagrams 
+in it are ok.  Using websequencediagrams.com was very handy.  I found working on 
+the sequence and class diagrams side-by-side to be pretty handy to keep both 
+diagrams in check.  

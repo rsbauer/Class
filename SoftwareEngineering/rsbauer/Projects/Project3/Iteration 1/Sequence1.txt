@@ -1,0 +1,30 @@
+http://www.websequencediagrams.com/
+
+
+ClassroomResponseSystem->Panel: OnCreate()
+activate Panel
+ClassroomResponseSystem->User: OnCreate()
+activate User
+ClassroomResponseSystem->UserRegistration:Register(user)
+activate UserRegistration
+UserRegistration->Network:send
+activate Network
+Network->UserRegistration:receive
+deactivate Network
+UserRegistration->ClassroomResponseSystem:User
+deactivate UserRegistration
+
+
+ClassroomResponseSystem->DeviceRegistration:Register(user)
+activate DeviceRegistration
+DeviceRegistration->Network:Send
+activate Network
+Network->DeviceRegistration:Receive
+deactivate Network
+DeviceRegistration->ClassroomResponseSystem:bool success
+deactivate DeviceRegistration
+
+
+
+
+

@@ -1,0 +1,19 @@
+http://www.websequencediagrams.com/
+
+ClassroomResponseSys->Class: CreateClass()
+activate ClassroomResponseSys
+activate Class
+Class->Session:CreateSession()
+activate Session
+Session->Class:new Session
+Class->Session:AddAttendance()
+Session->Session:StudentAttend()
+Class->Session:StartSession()
+Session->Session:LoadQuestions()
+Session->Question:Show()
+activate Question
+Session->Answer:CreateAnswer()
+activate Answer
+Answer->Session:new Answer
+deactivate Answer
+Session->Question:CheckAnswer()

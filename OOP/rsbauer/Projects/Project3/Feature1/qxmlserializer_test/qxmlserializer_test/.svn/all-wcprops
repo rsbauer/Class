@@ -1,0 +1,113 @@
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/cs421F10/!svn/ver/1478/students/rsbauer/Projects/Project3/Feature1/qxmlserializer_test/qxmlserializer_test
+END
+XmlStructureParser.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 134
+/svn/cs421F10/!svn/ver/1473/students/rsbauer/Projects/Project3/Feature1/qxmlserializer_test/qxmlserializer_test/XmlStructureParser.cpp
+END
+TabReader.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/svn/cs421F10/!svn/ver/1473/students/rsbauer/Projects/Project3/Feature1/qxmlserializer_test/qxmlserializer_test/TabReader.hpp
+END
+Model.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svn/cs421F10/!svn/ver/1444/students/rsbauer/Projects/Project3/Feature1/qxmlserializer_test/qxmlserializer_test/Model.cpp
+END
+XmlTxtWriter.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 128
+/svn/cs421F10/!svn/ver/1473/students/rsbauer/Projects/Project3/Feature1/qxmlserializer_test/qxmlserializer_test/XmlTxtWriter.hpp
+END
+XmlStructureParser.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 134
+/svn/cs421F10/!svn/ver/1473/students/rsbauer/Projects/Project3/Feature1/qxmlserializer_test/qxmlserializer_test/XmlStructureParser.hpp
+END
+TabWriter.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/svn/cs421F10/!svn/ver/1473/students/rsbauer/Projects/Project3/Feature1/qxmlserializer_test/qxmlserializer_test/TabWriter.cpp
+END
+Model.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svn/cs421F10/!svn/ver/1444/students/rsbauer/Projects/Project3/Feature1/qxmlserializer_test/qxmlserializer_test/Model.hpp
+END
+Reader.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svn/cs421F10/!svn/ver/1444/students/rsbauer/Projects/Project3/Feature1/qxmlserializer_test/qxmlserializer_test/Reader.hpp
+END
+TabWriter.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/svn/cs421F10/!svn/ver/1473/students/rsbauer/Projects/Project3/Feature1/qxmlserializer_test/qxmlserializer_test/TabWriter.hpp
+END
+Serializable.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 128
+/svn/cs421F10/!svn/ver/1444/students/rsbauer/Projects/Project3/Feature1/qxmlserializer_test/qxmlserializer_test/Serializable.hpp
+END
+Writer.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svn/cs421F10/!svn/ver/1433/students/rsbauer/Projects/Project3/Feature1/qxmlserializer_test/qxmlserializer_test/Writer.hpp
+END
+qxmlserializer_test.pri
+K 25
+svn:wc:ra_dav:version-url
+V 135
+/svn/cs421F10/!svn/ver/1473/students/rsbauer/Projects/Project3/Feature1/qxmlserializer_test/qxmlserializer_test/qxmlserializer_test.pri
+END
+XmlTxtReader.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 128
+/svn/cs421F10/!svn/ver/1473/students/rsbauer/Projects/Project3/Feature1/qxmlserializer_test/qxmlserializer_test/XmlTxtReader.cpp
+END
+main.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svn/cs421F10/!svn/ver/1478/students/rsbauer/Projects/Project3/Feature1/qxmlserializer_test/qxmlserializer_test/main.cpp
+END
+XmlTxtReader.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 128
+/svn/cs421F10/!svn/ver/1473/students/rsbauer/Projects/Project3/Feature1/qxmlserializer_test/qxmlserializer_test/XmlTxtReader.hpp
+END
+qxmlserializer_test.pro
+K 25
+svn:wc:ra_dav:version-url
+V 135
+/svn/cs421F10/!svn/ver/1445/students/rsbauer/Projects/Project3/Feature1/qxmlserializer_test/qxmlserializer_test/qxmlserializer_test.pro
+END
+TabReader.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/svn/cs421F10/!svn/ver/1473/students/rsbauer/Projects/Project3/Feature1/qxmlserializer_test/qxmlserializer_test/TabReader.cpp
+END
+XmlTxtWriter.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 128
+/svn/cs421F10/!svn/ver/1473/students/rsbauer/Projects/Project3/Feature1/qxmlserializer_test/qxmlserializer_test/XmlTxtWriter.cpp
+END
