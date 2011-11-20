@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# print lab report to PDF
+
+# ps2pdf goes here
+echo "ps2pdf - $1/lab$2/lab$2"

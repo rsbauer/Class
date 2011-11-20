@@ -1,0 +1,25 @@
+File Time Modification
+
+The following list shows two columns - the one on the left is the file times
+and which ones were modified, the right column the command being tested.
+
+The file left column indicators are as follows (as seen in the unix command
+stat):
+A - Access time
+M - Modify time
+C - Change time
+
+The results:
+
+A-- cat
+A-- more
+A-- less
+A-- head
+A-- wc
+
+--C chmod
+--C chgrp
+
+AMC nano
+AMC emacs
+AMC touch

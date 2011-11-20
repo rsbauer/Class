@@ -1,0 +1,6 @@
+#!/bin/bash
+
+g++ "$1/lab$2/lab$2.c" -o "$1/lab$2/lab$2"
+
+# execute lab
+echo "$1/lab$2/lab$2"

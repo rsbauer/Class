@@ -1,0 +1,1 @@
+find . ! -name . -prune -type f | xargs -I% grep -a ^\#\!.*\n % | sort | uniq -c

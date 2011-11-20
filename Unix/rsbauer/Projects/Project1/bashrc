@@ -1,0 +1,46 @@
+##
+# 
+# ... standard/default bashrc script content goes here ...
+#
+##
+
+# environment variables
+
+# set default editor to nano
+export EDITOR=nano
+
+# set prompt
+export PS1="\[$(tput rev) \@ $(tput sgr0)[#\!] \w> "
+
+# old prompt (commented out in case I get tired of the new prompt):
+# export PS1="\[\e]0;\u@\h: \w\a\]${debian_chroot:+($debian_chroot)}\u@\h:\w\$"
+
+# some aliases
+
+# aliases to connect to the unix class screens
+alias cmd='screen -x collard/command'
+alias docs='screen -x collard/doc'
+
+# tar gzip archive (z=gzip, c=create, v=verbose, f=file)
+alias tar='tar -zcvf'
+
+# tar extract gzip (z=gzip, x=extract, v=verbose, f=file)
+alias untar='tar -zxvf'
+
+# ls configuration (F=file type decoration, h=readable file sizes))
+alias ls='ls -Fh --color=auto'
+
+# show disk free with readable file sizes
+alias df='df -h'
+
+# find files
+# find files starting from root
+alias ff="find / -type f -name"
+#find files starting from the current dir
+alias f.="find . -type f -name"
+
+#project 1 #3 command
+alias findscripts="find . ! -name . -prune -type f | xargs -I% grep -a ^\#\!.*\n % | sort | uniq -c"
+
+
+
