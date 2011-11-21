@@ -1,0 +1,755 @@
+Intro to Object-Oriented Programming
+Dr. Collard
+A&S 107
+
+8/24/2010 
+
+software development life cycle:
+
+1. requirements (English text)  - what?
+2. analysis			- how?
+3. design			
+4. implementation		- code
+5. testing (release testing)
+6. release
+7. maintenance
+
+Modern programs: 
+- large
+- developed collaboratively (note, in ICS this was cheating!)
+- UI oriented
+
+They use:
+- libraries: your program is the focus, perfect for data structures
+- toolkits: collection of objects, example: networking toolkit
+- frameworks: plug your code in
+
+large group project: 
+
+---------
+8/26/2010
+---------
+
+department accounts have been setup - must use link while on campus (do ASAP)
+
+URL for cs machines:  https://fs1.cs.uakron.edu/sysdocs.php
+
+Using gcc as compiler
+
+Using emacs to edit
+
+Do nothing app:
+
+/*
+	nothing.cpp
+
+	does absolutely nothing
+
+	name
+
+*/
+
+int main() 
+{
+	return 0;
+}
+
+/////  end app
+
+To compile:
+
+g++ nothing.cpp -o nothing
+
+To run:  ./nothing 
+
+Can get code out of code repository
+
+Can use /** */ like javadoc.  Can use Doxygen in place of Javadoc.
+
+HELLO WORLD:
+
+#include <iostream>
+
+int main()
+{
+	std::cout << "Hello world.\n";
+
+	return 0;
+}
+
+svn -commit "comment goes here" ... <-- missed what goes here
+
+Use Trak to track svn changes
+
+g++ -E hello.cpp  <--- just run preprocessor
+cat hello.cpp | wc  <-- how many lines
+
+std::cout  <-- output
+std::cin   <-- input
+std::cerr  <-- standard error
+std::clog  <-- standard log (not buffered)
+
+Compile to class files:
+g++ -c hello.cpp  <-- creates hello.o  <-- object file
+
+This must be linked to run it
+g++ hello.o -o hello
+
+	Knuth version info:
+	DISTRIB_ID=Ubuntu
+	DISTRIB_RELEASE=8.04
+	DISTRIB_CODENAME=hardy
+	DISTRIB_DESCRIPTION="Ubuntu 8.04.4 LTS"
+
+
+Make files!  GNU make flavor
+
+Makefile:
+
+## 
+# Build hello
+
+all : hello
+
+hello : hello.o		# file on left is what we want, file on right is dependency
+	g++ hello.o -o hello
+
+hello.o : hello.cpp
+	g++ -c hello.cpp
+
+#
+##
+
+Run make to build
+
+
+## 
+# Build hello
+
+all : hello
+
+hello : hello.o		
+	g++ hello.o -o $@   # $@ takes target
+
+hello.o : hello.cpp
+	g++ -c $<			# $< target
+
+#
+##
+
+Clean option:
+
+clean :
+	rm -f hello.o hello
+
+
+
+## 
+# Build hello
+
+all : hello
+
+hello : hello.o		
+	g++ hello.o -o $@   # $@ takes target
+
+hello.o : hello.cpp
+	g++ -c $<			# $< target
+
+clean :
+	rm -f hello.o hello
+#
+##
+
+
+C++ Stuff -- -- --
+
+Free Functions - they don't belong to a class
+
+---------
+8/31/2010
+---------
+
+Using Trac for project management
+Read over trac start page
+
+"If you are successful, people will bitch."
+
+svn add scores.cpp  <-- add to svn
+svn commit -m "Donothing form of main program"  <-- commit and add comment
+svn ci -m "comment"  <-- same thing
+
+
+Add an include guard to the header file (hpp)
+
+#ifndef INCLUDED_ADD_HPP
+#define INCLUDED_ADD_HPP
+
+// code goes here
+
+#endif
+
+
+--------
+9/2/2010
+--------
+
+http://www.distancecompsci.com/cppqt/
+username: cppqt
+password: ezust^2
+
+Use "Makefile" and NOT "makefile"
+
+Sequence of test cases
+
+Test Cases:
+
+Input:  0 0 
+Output: 0
+
+created add_t.cpp  <-- unit test file, add "_t" to the program name
+
+Add add_t to make file
+
+DRY = dont repeat yourself (principle)
+
+--------
+9/7/2010
+--------
+
+Assignment 1: C++ program, basic stuff, no classes
+
+assignment is here: http://www.cs.uakron.edu/~collard/cs421//projects/project1.html
+
+Files are located in svn under /students/aed27/Projects/Project1/Concordance
+Double check, should be able to use my ID for user ID instead of aed27
+
+dev.cs.uakron.edu/svn/cs421F10/students/[id]/Projects/Project1/Concordance
+
+SVN Path:
+https://dev.cs.uakron.edu/svn/cs421F10/students/rsbauer/Projects
+
+POD = Plain Old Data
+
+for(i = 0; i < s.size(); i++)  <-- for strings, this is O(n) time
+
+another way to print strings
+
+for(std::string::const_iterator p = s.begin(); p != s.end(); ++p)
+	std::cout << *p << '\n';
+
+check out cppreference.com/wiki
+
+for assignments, try sort() and unique()
+
+iterator is a design pattern
+
+Vectors
+
+std::vector<int> vi;  <-- array of ints
+vector<T> is a template for creating a vector of anything we want
+
+vi.push_back(1);  <-- resized vector and puts 1 on the back
+
+vi[0] = -1;  
+vi.at(0) = -1 ?? same, a bit nicer since it checks size but slower(?)
+
+std::sort(vi.begin(), vi.end());  // <-- need #include <algorithm>
+
+more info tomorrow on how to use subversion
+
+
+--------
+9/9/2010
+--------
+
+Project due not next Tues but following Tues
+
+Project is up and can be found in wiki - Concordance
+
+In repository:
+Update name.txt with name 
+Other dir can be used for other stuff
+
+tree [dir name]  <-- kinda handy!
+
+another neat trick:  touch filename.{ext1,ext2}  <-- creates 2 files with 2 diff extensions
+
+
+for vector info, see http://cppreference.com/wiki/stl/vector/
+
+Pass a string by value:  std::string varname   <-- do NOT use
+Pass string by ref:  std::string& varname      <-- much faster
+Pass strinb by ref but read only:  const std::string& varname
+
+
+					OBJECTS					NATIVE TYPES (int as example)
+
+want to change		object&					int&
+pointer
+
+NO! Do NOT			const object&			int
+change it, 
+
+
+Words assignment:  given a "string" (not vector) of words, returns vector of words
+
+
+---------
+9/23/2010
+---------
+
+Parts of an object:  stats, behavior, identity
+
+State:  set of static (defined once and don't change) properties
+	dynamic values
+
+Behavior:  operations
+	how it acts
+	roles and responsibilities it fits into
+
+Identity:  how to distinguish from others
+	Do they occupy the same memory?
+
+What can be an object?  
+	- anything that is tangible or a visible thing
+	- something that is comprehended intellectually
+	- some thought or action
+
+Class
+	- essance of a set of object
+	- difference between interface and implementation
+
+
+Algorithmic decomposition
+	structured programming --> structured analysis and design
+
+	"Can't re-use middle management" 
+
+	Object Oriented decomposition:  ask, what are the objects?
+		What are the relationships between the objects?
+
+Program_s.cpp <-- "_s" = syntax program
+
+
+---------
+9/28/2010
+---------
+
+nm -C --size [executable]  <-- shows size of executable and stuff in it
+
+end file on empty line!
+
+abstraction leak:  unable to code outside of abstraction
+
+method rename: change "add" to operator+=   <-- refactor
+
+
+---------
+9/30/2010 
+---------
+
+getter/setter might be considered a code smell
+
+Use friend to allow an outside function access to the private members
+
+http://en.wikipedia.org/wiki/Unified_Modeling_Language
+
+UML class diagram
+	Most important part:  the class name!
+
+	Box with class name is a diagram
+
+	Split in 3:  name, attributes, operations
+
+	Rational Class:
+
+		Rational
+		--------
+		- numerator		<-- attributes/state  (minus to show private)
+		- denominator
+		--------
+		+ add()			<-- operations  (plus means public)
+		+ mul()
+		+ sub()
+		+ div()
+
+
+	forward engineering (UML to code)
+	reverse engineering (code to UML) - difficult because you have to 
+		know what to leave out
+
+Going to use UMLAsSketch
+
+Use Visio, ArgoUML, Rational.  
+
+Using array/vector to store large integers:
+
+123 + 46:  
+	v1: 3 2 1
+	v2: 6 4
+
+
+---------
+10/5/2010
+---------
+
+BigInt
+------
+- sign
+- digits : int[*]
+------
++ add()
++ sub()
++ output()
++ compare()
++ assignment()
++ pow()
++ mod()
++ powmod()
++ isprime()
+
+
+UML Class Relationships
+
+- static 
+
+properties:  attributes, associations
+
+For example:
+
+Order
+-----
+dateReceived : Date
+isPrepaid : Boolean
+
+
+
+Order^1
+-----------
+isPrepaid : Boolean
+
+ |
+ |  association
+ V
+Date
+----
+
+
+
+Generalization: (inheritance)
+
+student <- gradstudent, ugradstudent
+
+
+association: Order -------> Date
+dependency:  WebPage - - - -> ajaxUtil
+
+Aggregation:  Club <>----> Person  (person is likely a container/array in club)
+Composition:  Polygon<>-->Point<--<>Circle  NOTE: <> is filled in!
+
+Control classes in middle, boundaries outside and entities in between
+
+---------
+10/7/2010
+---------
+
+40% of methods discovered in design are never implemented
+
+object oriented decomposition:
+	identify objects
+	name the objects (classes)
+	relationships between the objects
+
+
+----------
+10/12/2010
+----------
+
+----------
+10/14/2010
+----------
+
+Cohesion - how well does the class connect internally (want to maximize cohesion)
+
+Coupling - want to reduce coupling
+
+
+----------
+10/29/2010
+----------
+
+Exam Thursday
+
+QT: CH 1, 2, and 5
+UML: CH 3 (1 is optional)
+
+OO Decomposition:
+
+OOA - analysis (what we are going to be applying code to)
+OOD - design (what code we will be adding)
+OOP - programming (implementation)
+
+Find:
+	Objects (classes)
+	interfaces
+	relationships
+
+CRC  (class, responsibilities (usually an interface), collaborators)
+	cards:  contains the above info per card?
+
+Considerations for what objects to have in their system:
+	encapsulation - hide the internal detail
+	granularity
+	dependency
+	flexibility
+	performance
+	evolution
+	reusability
+
+
+types of programs:
+	application
+	tool kit - set of classes, reusable, implement some feature. 
+		Ex: TCP/IP tool kit, data structure, 
+	framework - large set of classes
+
+
+----------
+10/26/2010
+----------
+
+Design Patterns
+Frameworks
+OOP features
+Large collab project
+
+interaction diagram 
+
+see pg 36 in UML book
+
+QT:  v4.7 is latest
+Grab LGPL
+run QT demo
+
+Apprise - UML diagrammer
+
+Note coding guidelines
+
+"QT reference documentation"
+
+todo for next class:  run Qt demo.  select interesting demo and bring it to class 
+	- bring in on piece of paper -> must relate to uml app
+
+
+----------
+10/28/2010
+----------
+
+ArgoUML is competition
+
+QT:
+
+Run a program called qmake to make project...
+
+	qmake -project    <-- creates qthello.pro
+
+	...  command created makefile (missed how to do this) - probably qmake -[something]
+
+coding:  use Hungarian notation
+
+QT ideas:
+	print graphics out
+	open/save files
+	network collaberation
+	reverse engineer code/database?
+	generate source code from diagram
+
+QT stuff:
+	Q_OBJECT  <-- macro
+
+----------
+11/02/2010
+----------
+
+Find a feature from the demo and hack it to show.  Need a readme file and tell what 
+was changed.
+
+----------
+11/04/2010
+----------
+
+Go over patterns
+
+MOC = meta-object compiler
+
+----------
+11/09/2010
+----------
+
+Design Patterns:  Structural:  Proxy
+
+	Proxy
+	A structural pattern that approximates others
+
+The situation:  
+
+  Client Class  - - - ->  Subject   ** Weakest relationship
+                          -----------
+						  getState()
+						  login()
+						  caching()
+                          ** This class is not very cohesive (can't stick in a new cache mech)
+
+Proxy pattern:
+  
+  Client Class  - - - ->  <<interface>>
+                          Subject
+						  -------------
+						  DoAction()
+
+  Proxy  --------------------^---------  Real Subject
+  --------         delegate -v           -------------
+  Subject ---------------------------->
+  --------                               -------------
+  DoAction()                              DoAction()
+
+
+Benefits:
+	caching
+	security
+	logging
+
+
+Object Model
+------------
+
+	C++
+		support OOP
+		efficient
+		native executables
+
+
+Native executable
+
+void f() {   <-- free function not belonging to a class
+  ____
+}
+
+f is a memory address where the code is at
+
+struct {
+	int n;
+	double x;
+} data;
+
+"data" has n and x within memory of data
+
+
+C++
+
+class Data {
+public:
+	void f() { }
+	static void g() { } <-- maps to memory just like a free function
+	virtual void h() { } <-- polymorphism! 
+private:
+	int n;
+	double x;
+};
+
+we think of f() as Data::f <-- this has the chunk of code in memory
+But to get access to the private members, we add a hidden parameter:
+Data::f(Data *) where Data * is usually called "this"
+
+can do struct Data { int n; double x; }; to store data
+
+Data::h(Data *this) - code is at a fixed place in memory
+
+Client might look like:
+
+Data d;
+d.f();
+d.g();
+d.h();
+
+
+----------
+11/11/2010
+----------
+
+Executable:
+
+struct Data {
+	int n;
+	double x;
+};
+
+void f() {
+
+}
+
+class Data {
+public:
+	virtual void h();
+private:
+	int n;
+	double x;
+};
+
+
+executable view:
+
+Data::h(Data *this)
+{
+}
+
+Data vtable
+one virtual table, then this table will have one entry - a pointer to our code at line 699
+
+Data d;
+d:  in a box is int n and double x memory alloc.  Included in this is a pointer to h()
+
+
+----------
+11/16/2010
+----------
+
+Add readme to features
+
+Contributions:  add changes to the code.  Add pages to the wiki (optional, but valued)
+Tickets and discussion - history (check in often)
+
+Feel free to clean up the garbage.
+
+composite design pattern - handy for file/directory system
+ - compose objects into tree structures to represent whole-part hierarchies
+ in a manner that lets clients treat objects and composition uniformly
+
+
+
+----------
+11/18/2010
+----------
+
+Client  - - - ->  ConcreteProduct
+
+
+Went over factory pattern and strategy pattern
+
+
+----------
+11/23/2010
+----------
+
+may think about removing const from writer because can't return error value
+
+
+----------
+11/30/2010
+----------
+
+----------
+12/02/2010
+----------
+
+see exam notes online - remember to do essay BEFORE exam
