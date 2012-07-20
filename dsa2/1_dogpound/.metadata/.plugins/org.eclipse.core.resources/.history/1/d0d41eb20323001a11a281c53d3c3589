@@ -1,0 +1,10 @@
+package DogPoundBreakout;
+
+import java.util.Vector;
+
+public class VectorTools extends Vector {
+	public static String testMe() {
+		return "Yo";
+	}
+	
+}

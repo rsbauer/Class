@@ -1,0 +1,515 @@
+import java.util.*;
+
+/**
+ * COPYRIGHT (C) 2005 Rob Bauer.  All Rights Reserved.
+ * <br> <br>
+ * An object to represent a game castle and the rooms it contains.  This object will behave 
+ * (hopefully) as a graph.  The rooms will be nodes of the graph.  The paths from room to room will 
+ * be the edges between the nodes.
+ * 
+ * @author Rob Bauer
+ * @version 1.0  2005-NOV-08
+ */
+public class Castle 
+{
+	/**
+	 * Contain a list of rooms.
+	 */
+	private Room[] rooms;
+	
+	/**
+	 * Contain a list of the arcs that connect the rooms.  Using an ArrayList because rooms will 
+	 * have a many-to-many relationship and the ArrayList will be able to grow to meet the demand. 
+	 */
+	private ArrayList<Arc> arcs;
+	
+	/**
+	 * Max number of rooms we'll need to keep track of.
+	 */
+	private final static int MAXNUMROOMS = 99;
+	
+	
+	/**
+	 * Keep track of the number of rooms 
+	 */
+	private int roomcount;
+	
+	/**
+	 * Adjacency matrix to keep track of which rooms are adjacent to the other rooms. 
+	 */
+	private byte[][] adjacency;
+	
+	
+	/**
+	 * Keep track of the entrance hall - which turns out to be the first node in the graph 
+	 */
+	private Room entranceHall;
+	
+	
+	/**
+	 * Set up a number that has a value higher than any possible weight to be calculated for this 
+	 * graph/castle 
+	 */
+	private final static int INFINITY = 99999;
+	
+	
+
+	/**
+	 * Enum used to associate direction letters to their full names.  
+	 */
+	private enum Direction
+	{
+		N("North"),										// the direction letter and its full name
+		E("East"),
+		S("South"),
+		W("West");
+		
+		private final String fullName;					// keep track of the full name
+		
+		/**
+		 * Specify the direction's full name
+		 *  
+		 * @param name full name of the given direction
+		 */
+		private Direction(String name)					// initialize the enum
+		{
+			// create the association of the letter to the name
+			fullName = name;							
+		}  // end public Direction(String name)
+	};  // end public enum Direction
+	
+	
+	/**
+	 * Initialize the castle variables. 
+	 */
+	public Castle()
+	{
+		// Initialize the vector to the max number of rooms - if a really large number of rooms,  
+		// then this plan may need rethinking
+		rooms = new Room[MAXNUMROOMS];
+		arcs = new ArrayList<Arc>();
+		roomcount = 0;
+		adjacency = null;
+	}  // end public Castle()
+	
+	
+	/**
+	 * Add a room to the castle.  
+	 * 
+	 * @param roomNumber int the room number 
+	 * @param roomName String the room's name
+	 * @return new room which was created
+	 */
+	public Room addRoom(int roomNumber, String roomName)
+	{
+		Room room = new Room(roomNumber, roomName);
+
+		try
+		{
+			rooms[roomNumber] =  room;			// assign the room to the vector via its room ID number
+		}  // end try
+		catch(Exception e)
+		{
+			System.out.println("Failed to add room " + roomName + " (" + roomNumber + "): " + e);
+			return null;
+		}  // end catch(Exception e)
+		
+		roomcount++;
+		return room;
+	}  // end public void addRoom(String roomID, String roomName)
+	
+	
+	/**
+	 * Add an arc to the castle.  One arc describes a connection between two rooms.
+	 * 
+	 * @param roomSource int specifies the index location of the source room
+	 * @param roomDestination int specifies the index location of the destination room
+	 * @param arcLabel String containing the arc label (which turns out to be the direction of the arc)
+	 */
+	public void addArc(String arcLabel, int roomSource, int roomDestination)
+	{
+		Arc arc = new Arc(arcLabel, rooms[roomSource], rooms[roomDestination]);
+		arcs.add(arc);
+	}  // end public void addArc(int roomSource, int roomDestination, String arcLabel)
+	
+	
+	/**
+	 * Return the number of rooms currently in the castle.
+	 * 
+	 * @return int number of rooms
+	 */
+	public int roomCount()
+	{
+		return roomcount;
+	}  // end public int roomCount()
+	
+	
+	/**
+	 * Set the entrance hall to the supplied value.
+	 * 
+	 * @param room Room to set the entrance hall to.
+	 */
+	public void setEntrance(Room room)
+	{
+		entranceHall = room;
+	}  // end public void setEntrance(Room room)
+	
+	
+	/**
+	 * Get the reference to the entrance hall.
+	 * 
+	 * @return Room referencing the entrance hall
+	 */
+	public Room getEntrance()
+	{
+		return entranceHall;
+	}  // end public void setEntrance(Room room)
+
+	/**
+	 * Build the adjacency matrix.  Before doing so, the castle must have some rooms. 
+	 */
+	public void buildMatrix()
+	{
+		adjacency = new byte[roomcount][roomcount];						// define a new matrix
+//		adjacency = clearMatrix(new byte[roomcount][roomcount]);		// clear the matrix and set the values to 0
+		Arc arc = null;
+		int source;
+		int destination;
+			
+		// loop through the arcs and for each connection, make the association in the adjacency matrix
+		for(int a = 0; a < arcs.size(); a++)
+		{
+			arc = (Arc) arcs.get(a);								// unpack the arc from the list
+			source = arc.getSource().getRoomID();
+			destination = arc.getDestination().getRoomID();
+			
+			adjacency[source][destination] = 1;
+		}  // end for(int a = 0; a < arcs.size(); a++)
+		
+		// printAdjacency();										// for troubleshooting
+	}  // end public void buildMatrix()
+	
+	
+	/**
+	 * Reset the given matrix items to 0
+	 * 
+	 * @param matrix matrix to reset
+	 * @return new matrix
+	 */
+	private byte[][] clearMatrix(byte[][] matrix)
+	{
+		int count = matrix.length;
+		for(int a = 0; a < count; a++)
+			for(int b = 0; b < count; b++)
+				matrix[a][b] = 0;
+		return matrix;
+	}  // end private void clearMatrix(byte[][] matrix)
+	
+	
+	/**
+	 * Print the adjacency matrix to the console.  This is for testing to validate the loading of the file and the 
+	 * success (or lack thereof) of  
+	 */
+	private void printAdjacency()
+	{
+		StringBuffer output = new StringBuffer();
+		int count = adjacency.length;
+		for(int a = 0; a < count; a++)
+		{
+			for(int b = 0; b < count; b++)
+				output.append(adjacency[a][b] + " ");
+			System.out.println(output.toString());
+			output = new StringBuffer();
+		}  // end for(int a = 0; a < count; a++)
+	}  // end private void printAdjacency()
+	
+	
+	
+	/**
+	 * Provide debug output to the user interface.  To be used to verify the quality of the castle/rooms (aka: graph).
+	 * 
+	 * List rooms and their connections to other rooms.
+	 */
+	public String debug()
+	{
+		StringBuffer output = new StringBuffer();				// setup the string buffer to contain the output
+		String roomname = new String();							// keep track of the current room
+		int roomid = 0;											// keep track of the source's room ID
+		Arc arc;												// the arc connecting the two rooms
+		clearVisists();											// clear all visits
+		
+		// for each room, list all arcs
+		for(int a = 0; a < roomcount; a++)
+		{
+			roomname = rooms[a].getName();						// this room's name
+			roomid = rooms[a].getRoomID();						// this room's ID
+			
+			for(int b = 0; b < roomcount; b++)
+			{
+				if(adjacency[roomid][b] != 0)
+				{
+					arc = findArc(rooms[a], rooms[b]);
+					// Direction.valueOf(arc.getLabel()).fullName <-- handles swapping the 1 character direction to 
+					// the full name of the direction - for printing and making it look pretty.
+					output.append(roomname + " " + Direction.valueOf(arc.getLabel()).fullName + " to " + 
+							rooms[b].getName() + "\n");
+				}  // end if(adjacency[a][b] != 0)
+			}  // end for(int b = 0; b < roomcount; b++)
+		}  // end for(int a = 0; a < roomcount; a++)
+		
+		return output.toString();
+	}  // end public void debug()
+	
+	
+	/**
+	 * Find the arc connecting the source and destination rooms
+	 * 
+	 * @param source room 
+	 * @param destination room
+	 * @return Arc containing the connection between the two given rooms
+	 */
+	public Arc findArc(Room source, Room destination)
+	{
+		Arc arc = null;
+		
+		for(int a = 0; a < arcs.size(); a++)
+		{
+			arc = (Arc) arcs.get(a);
+			if(arc.getDestination() == destination && arc.getSource() == source)
+				return arc;
+		}  // end for(int a = 0; a < arcs.size(); a++)
+		
+		return arc;
+	}  // end private Arc findArc(Room source, Room destination)
+	
+
+	/**
+	 * Find the arcs belonging to a room
+	 * 
+	 * @param source source room to look for connecting arcs to
+	 * @return list of arcs
+	 */
+	public ArrayList<Arc> findArc(Room source)
+	{
+		ArrayList<Arc> arclist = new ArrayList<Arc>();
+		Arc arc = null;
+		
+		for(int a = 0; a < arcs.size(); a++)
+		{
+			arc = (Arc) arcs.get(a);
+			if(arc.getSource() == source)
+				arclist.add(arc);
+		}  // end for(int a = 0; a < arcs.size(); a++)
+		
+		return arclist;
+	}  // end public Arc[] findArc(Room source)
+	
+	
+	/**
+	 * Reset all visists to rooms and arcs. 
+	 */
+	private void clearVisists()
+	{
+		for(int a = 0; a < roomcount; a++)
+		{
+			rooms[a].clearVisit();
+		}  // end for(int a = 0; a < roomcount; a++)
+		
+		for(int a = 0; a < arcs.size(); a++)
+		{
+			((Arc) arcs.get(a)).clearTraversed();
+		}  // end for(int a = 0; a < arcs.size(); a++)
+	}  // end private void clearVisists()
+	
+	
+	/**
+	 * Convert a letter specifying a direction to its full name.
+	 * 
+	 * @param shortname string containing the short direction name
+	 * @return String contaning the direction's full name
+	 */
+	public String getDirectionFullName(String shortname)
+	{
+		return Direction.valueOf(shortname).fullName;			// map the short name to the full name
+	}  // end public Direction getDirection()
+	
+	
+	/**
+	 * Test if a player can go in a specified direction.
+	 * 
+	 * @param currentroom Current room the player is in.
+	 * @param direction Direction the player is trying to go in
+	 * @return Room containing the new room
+	 */
+	public Room testMove(int currentroom, char direction)
+	{
+		Arc arc;
+		for(int a = 0; a < arcs.size(); a++)
+		{
+			arc = (Arc) arcs.get(a);							// get the direction info
+			// test if the room equals the current room and if the arc is going in the direction the user wanted
+			if(arc.getSource().getRoomID() == currentroom && arc.getLabel().equals("" + direction))		
+				return arc.getDestination();					// yup!  Return a reference to the room
+		}  // end for(int a = 0; a < arcs.size(); a++)
+		
+		return null;											// nope, user can't go anywhere
+	}  // end public Room move(char direction)
+	
+	
+	
+	/**
+	 * Using Dijkstra's shortest path algorithm, find the shortest path between the current room the user is in back
+	 * to the entrance hall.
+	 * 
+	 * Dijkstra's algorithm was built using class notes and referencing 
+	 * <a href="http://www.math.grin.edu/~rebelsky/Courses/CS152/98S/Outlines/outline.50.html">
+	 * http://www.math.grin.edu/~rebelsky/Courses/CS152/98S/Outlines/outline.50.html</a>.  The algorithm built doesn't
+	 * match the one's presented the class notes or the link.  The algorithm built uses an adjacency matrix to locate
+	 * locate the neighbors and to update their distance from the starting node/room.  Before finding its neighbors,
+	 * the shortest distance node/room is found and placed in the found list and removed from the search list.  With the
+	 * new node, find its neighbors, update their weight/cost and return the updated hash map.  Keep repeating until
+	 * the search hash map is empty or we've found the destination room.
+	 * 
+	 * @param currentroom Room the user is currently in (this is the starting point)
+	 * @param destinationroom Room the user is wishing to go to in the shortest distance 
+	 */
+	public ArrayList<DSPRoomSet> shortestPath(Room currentroom, Room destinationroom)
+	{
+		// keep track of we're done - false means the destination room is not in the found list (yet)
+		boolean done = false;											
+		
+		
+		ArrayList<DSPRoomSet> shortestpath = new ArrayList<DSPRoomSet>();	// keep track of the found nodes/rooms
+		Map<Integer, DSPRoomSet> search = new HashMap<Integer, DSPRoomSet>();// hash containing all rooms, at the start
+
+		
+		for(int a = 0; a < roomcount; a++)								// initialize the search map - load up the rooms	
+		{
+			if(rooms[a] == currentroom)									// check if source room
+				search.put((int) a, new DSPRoomSet(rooms[a], 0));		// yup, assign 0 cost
+			else
+				search.put((int) a, new DSPRoomSet(rooms[a], INFINITY));	// nope, infinity
+		}  // end for(int a = 0; a < roomcount; a++)
+		
+		// start traversing
+		
+		DSPRoomSet smallest = null;							// object to keep track of the smallest distance node/room
+		while(!search.isEmpty() && !done)								// loop until empty or done
+		{
+			smallest = (DSPRoomSet) findSmallest(search);				// find the smallest distance node/room
+			
+			search = findNeighbors(search, smallest);					// find neighbors, update their paths
+
+			shortestpath.add(smallest);									// add the smallest path node to the list
+
+			if(smallest.getRoom() == destinationroom)					// check if this is the destination room
+				done = true;											// yup!  we're done!  Whoo-hoo!
+
+			search.remove((int) smallest.getRoom().getRoomID());		// remove from the search list
+		
+		}  // end while(!search.isEmpty())
+
+		return shortestpath;
+	}  // end public void shortestPath()
+	
+	
+	/**
+	 * Locate a nodes neighbors.  Loop through the number of rooms.  Check the adjacency list for a 1.  If there's a one
+	 * then the index value a represents an adjacent room.  Calculate the room's distance/weight.  Once updated, 
+	 * update the search hash map with the new information.
+	 * 
+	 * @param search hash map containing all the current rooms/nodes
+	 * @param root The current room we're traversing
+	 * @return Map containing an updated search hash map
+	 */
+	private Map<Integer, DSPRoomSet> findNeighbors(Map<Integer, DSPRoomSet> search, DSPRoomSet root)
+	{
+		for(int a = 0; a < roomcount; a++)									// loop all rooms
+		{
+			if(adjacency[root.getRoom().getRoomID()][a] == 1)				// check if adjacent
+			{
+				// found an adjacent room!
+				if(search.containsKey(a))									// check if this key is still available
+				{
+					DSPRoomSet set = (DSPRoomSet) search.get(a);			// get the cost/room combo object
+					Arc arc = findArc(root.getRoom(), set.getRoom());		// find the arc from root to this room
+
+					// check if the previous node's cost + weight is less than the current cost
+					if(root.getCost() + arc.getWeight() < set.getCost())	
+					{														// yup, it is
+						set.setCost(root.getCost() + arc.getWeight());		// update the cost/room combo object
+						set.setRoomConnects(root.getRoom());				// update the roomConnects value
+						set.setLabel(arc.getLabel());						// set the arc info
+						search.put(a, set);									// update the search hash map
+					}  // end if(root.getCost() + set.getCost() < arc.getWeight())
+		
+				}  // end if(search.containsKey(a))
+			}  // end if(adjacency[root.getRoom().getRoomID()][a] == 1)
+		}  // end for(int a = 0; a < roomcount; a++)
+		
+		return search;														// return the updated hash map
+	}  // end private Map updateNeighbors(Map search, DSPRoomSet root)
+	
+
+	
+	/**
+	 * Find the smallest cost/weight for a distance from a collection of rooms/nodes.    
+	 * 
+	 * @param search Map containing a list of nodes/rooms to test
+	 * @return DSPRoomSet object containing a reference of the matching room and its cost/weight information
+	 */
+	private DSPRoomSet findSmallest(Map search)
+	{
+		DSPRoomSet smallest = new DSPRoomSet();									// setup a new room/cost combo object
+		smallest.setCost(INFINITY + 1);											// set the cost to infinity plus 1
+		
+		Set keys = search.keySet();												// get a list of keys
+		Iterator keyiterator = keys.iterator();									// setup an iterator
+		while(keyiterator.hasNext())											// loop through the keys
+		{
+			Object id = keyiterator.next();										// get the next object
+			DSPRoomSet roomset = (DSPRoomSet) search.get(id);					// get an object from the hash map
+			
+			if(roomset.getCost() < smallest.getCost())							// check if this object's cost is lower
+				smallest = roomset;												// yup! make it the smallest
+		}  // end while(keyiterator.hasNext())
+		
+		return smallest;														// return the smallest cost node/room
+	}  // end private DSPRoomSet findSmallest(ArrayList search)
+	
+	
+	/**
+	 * Clear the entrance hall of any doors. 
+	 */
+	public void clearEntranceHallDoors()
+	{
+		Room entrance = getEntrance();
+		int roomid = entrance.getRoomID();
+		// reset adjacency matrix so the entrance hall has no doors leading out
+		for(int a = 0; a < arcs.size(); a++)
+		{
+			// check if the arc refers to the entrance hall
+			if(((Arc) arcs.get(a)).getSource().getRoomID() == roomid)			
+				arcs.remove(a);													// it does, remove the arc
+		}  // end for(int a = 0; a < roomcount; a++)
+	}  // end public void clearEntranceHallDoors()
+	
+	
+	
+	/**
+	 * Add an item to a room.  The item MUST be in the enumerated RoomItem list.  If not, the item will not be added.
+	 * 
+	 * @param roomid Room ID to add the item to
+	 * @param itemname Item name
+	 */
+	public void addRoomItem(int roomid, String itemname)
+	{
+		// make sure the room actually exists before adding items to it
+		if(rooms[roomid] != null)			
+		{
+			rooms[roomid].addItem(itemname);
+		}  // end if(rooms[roomid] != null)
+	}  // end public void addRoomItem(int roomid, String itemname)
+	
+}  // end public class Castle
+

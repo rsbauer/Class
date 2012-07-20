@@ -1,0 +1,198 @@
+import java.awt.Graphics2D;
+
+public class BinaryTree 
+{
+	private BinaryNode root;
+	
+	public BinaryTree()
+	{
+		root = null;
+	}  // end public BinaryTree()
+	
+	
+	public BinaryTree(BinaryNode node)
+	{
+		root = node;
+	}  // end public BinaryTree(BinaryNode node)
+	
+	
+	public BinaryTree(char character, BinaryTree left, BinaryTree right)
+	{
+		root = new BinaryNode(character);
+		if(left != null)
+			root.setLeftNode(left.getRoot());
+		else
+			root.setLeftNode(null);
+		
+		if(right != null)
+			root.setRightNode(right.getRoot());
+		else
+			root.setRightNode(null);
+	}  // end public BinaryTree(char character, BinaryTree left, BinaryTree right)
+	
+	
+	public BinaryTree getLeftTree()
+	{
+		return new BinaryTree(root.getLeftNode());
+	}  // end public BinaryTree getLeftTree()
+
+	public BinaryTree getRightTree()
+	{
+		return new BinaryTree(root.getRightNode());
+	}  // end public BinaryTree getRightTree()
+
+	
+	public int getDepth()
+	{
+		if(root == null)
+			return 0;
+		
+		int left = 0;
+		int right = 0;
+		if(root.getLeftNode() != null)
+			left = getLeftTree().getDepth();
+		if(root.getRightNode() != null)
+			right = getRightTree().getDepth();
+		if(left > right)
+			return left + 1;
+		return right + 1;
+	}  // end public int getDepth()
+	
+	
+	public int getNodeCount()
+	{
+		if(root == null)
+			return 0;
+		int left = 0;
+		int right = 0;
+		
+		left = getLeftTree().getNodeCount();
+		right = getRightTree().getNodeCount();
+		return right + left + 1;		
+	}  // end public int getNodeCount()
+
+	
+	public void setRoot(BinaryNode node)
+	{
+		root = node;
+	}  // end public void setRoot(BinaryNode node)
+	
+	
+	public BinaryNode getRoot()
+	{
+		return root;
+	}  // end public BinaryNode getRoot()
+	
+	
+	public String postorderTraversal()
+	{
+		return traverseOrder(2);
+	}  // end public String preorderTraversal()
+
+	public String inorderTraversal()
+	{
+		return traverseOrder(1);
+	}  // end public void inorderTraversal()
+	
+	
+	public String preorderTraversal()
+	{
+		return traverseOrder(0);
+	}  // end public String preorderTraversal()
+
+	
+	public String traverseOrder(int mode)
+	{
+		StringBuffer sBuffer = new StringBuffer();
+		traverse(mode, root, sBuffer);
+		return sBuffer.toString();
+	}  // end public String traverseOrder(String mode)
+	
+	
+
+	private void traverse(int mode, BinaryNode node, StringBuffer sBuffer)
+	{
+		if(node == null)
+			return;
+		
+		if(mode == 0)															// preorder traversal
+			sBuffer.append(node.getData());										// root node data - add to string buffer
+		
+		traverse(mode, node.getLeftNode(), sBuffer);							// traverse the left side of the tree
+		
+		if(mode == 1)															// inorder traversal
+			sBuffer.append(node.getData());										// root node data - add to string buffer
+		
+		traverse(mode, node.getRightNode(), sBuffer);							// traverse the right side of the tree
+		
+		if(mode == 2)															// postorder traversal
+			sBuffer.append(node.getData());										// root node data - add to string buffer
+		
+	}  // end private void traverse(int mode, BinaryNode node, StringBuffer sBuffer)
+	
+	
+	public void drawTree(Graphics2D g, int left, int bottom, int boxsize, int x_spacing, int y_spacing)
+	{
+		drawNode(g, left, bottom, boxsize, x_spacing, y_spacing, root);
+	}  // end public void drawTree(int top, int left)
+	
+	
+	private int drawNode(Graphics2D g, int left, int bottom, int boxsize, int x_spacing, int y_spacing, BinaryNode node)
+	{
+		int position = 0;
+		if(node == null)
+			return;
+		position = drawNode(g, left, bottom, boxsize, x_spacing, y_spacing, node.getLeftNode());
+		position++;
+		
+		
+		BinaryTree thistree = new BinaryTree(node);
+		int depth = thistree.getDepth();
+		
+		int x = left + (x_spacing * position);
+		int y = (bottom) - (y_spacing * depth);
+
+		g.drawRect(x, y, boxsize, boxsize);
+		
+		g.drawString("NV:" + position, x, y + 10);
+		g.drawString("" + node.getData(), x + (boxsize / 2) - 2, y + (boxsize / 2) + 2);
+
+		position = drawNode(g, left, bottom, boxsize, x_spacing, y_spacing, node.getRightNode());
+
+	}  // end private void drawNode(int top, int left, BinaryNode node)
+	
+	
+
+	public void loadTree(String plan)
+	{
+		BinaryTree tree = loadTreeNodes(new StringBuffer(plan));
+		root = tree.getRoot();
+	}  // end public void loadTree(String plan)
+
+	
+	public BinaryTree loadTreeNodes(StringBuffer plan)
+	{
+		if(plan.length() > 0)
+		{
+			char character = plan.charAt(0);
+			plan.deleteCharAt(0);
+			if(character == '-' || character == '|')
+			{
+				BinaryTree left = loadTreeNodes(plan);
+				BinaryTree right = loadTreeNodes(plan);
+				return new BinaryTree(character, left, right);
+			}  // end if(character != '-' && character != '|')
+			return new BinaryTree(character, null, null);
+
+		}  // end if(plan.length() > 0)
+		return null;
+	}  // end public BinaryTree loadTreeNodes2(String plan)
+
+	
+	
+	public String toString()
+	{
+		return inorderTraversal();
+	}  // end public String toString()
+	
+}  // end public class BinaryTree

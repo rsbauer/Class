@@ -1,0 +1,1041 @@
+import java.awt.*;
+import java.awt.event.*;
+
+import javax.swing.*;
+
+import java.io.*;
+import java.util.Scanner;
+import java.util.ArrayList;
+
+
+/**
+ * COPYRIGHT (C) 2005 Rob Bauer.  All Rights Reserved.
+ * <br> <br>
+ * Handles game play, game rules, and setting up and maintaining the graph of rooms.   
+ * 
+ * @author Rob Bauer
+ * @version 1.0  2005-NOV-08
+ */
+public class AdventureGame extends JPanel implements KeyListener
+
+{
+	
+	/**
+	 * Default version ID 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	
+	/**
+	 * Game castle (mimics a graph) 
+	 */
+	private Castle castle;
+	
+	
+	/**
+	 * Keep track of the player's information 
+	 */
+	private Player player;
+	
+	
+	/**
+	 * Editor pane to display the game text 
+	 */
+	private JTextArea editorPane;
+	
+	
+	/**
+	 * Variable to keep track of the status bar health label so it can be updated later on. 
+	 */
+	private JLabel statusbarHealth;
+	
+	/**
+	 * Variable to keep track of the status bar room label so it can be updated later on. 
+	 */
+	private JLabel statusbarRoom;
+	
+	/**
+	 * Cursor prompt to display 
+	 */
+	private static final String CURSOR = ">> ";
+	
+	/**
+	 * Keep track of which room will be the starting room (this allows the room to appear anywhere in the castle.dat 
+	 * file or get renamed to something new. 
+	 */
+	private static final String STARTROOM = "Gatehouse";  // "Entrance Hall";
+	
+	/**
+	 * Need a way to remember the direction the player wanted to go in before the hag grabs something.
+	 */
+	private int hagMoveDirection;
+
+
+	/**
+	 * Keep track of the numeric select mode we are currently in.  This may be to specify if the player is selecting
+	 * an item to pick up, remove, or use. 
+	 * 
+	 * 0 = do nothing
+	 * 1 = take
+	 * 2 = remove
+	 * 3 = use
+	 * 4 = hag takes something
+	 */
+	private int selectmode;		
+	
+	/**
+	 * Identify the start of the game - this allows the check in roomInfo() to not kill the player at the very beginning 
+	 * of the game.
+	 */
+	private boolean gamestart;
+	
+	
+	private ArrayList<RoomItem> itemused;
+	
+	/**
+	 * Welcome message text.  This is displayed to the user when they start the game. 
+	 */
+	private static final String WELCOMEMSG = "Welcome to Adventure!\n\nFor " +
+			"help, press H\n\nThe king has requested your help.  You must retrieve his crown from the castle.  Only " +
+			"return to the entrance hallway when you have the crown.  Watch" +
+			" out for treasures and evil-doers.\n";  
+	
+
+	/**
+	 * Setup a new adventure game. 
+	 */
+	public AdventureGame()
+	{
+		castle = null;
+		player = new Player();
+		selectmode = 0;							// user not selecting anything right now
+		gamestart = true;
+		itemused = new ArrayList<RoomItem>();
+		
+		// paint the GUI
+		setupPanel();							// setup the window
+		printMessage(WELCOMEMSG);				// display the welcome message
+	}  // end public AdventureGame()
+	
+
+	
+	/**
+	 * Setup the window pane. 
+	 * http://java.sun.com/docs/books/tutorial/uiswing/layout/gridbag.html
+	 */
+	private void setupPanel()
+	{
+		setOpaque(true);						// handy for clearing the panel successfully (otherwise get artifacts)
+
+	    GridBagLayout gridbag = new GridBagLayout();				// define the layout - using gridbaglayout
+	    GridBagConstraints c = new GridBagConstraints();			// initialize the constraints for this layout
+	    		
+		setLayout(gridbag);											// set the layout
+
+        c.fill = GridBagConstraints.VERTICAL;						// fill only the vertical space
+        c.weightx = 0;												// don't use all horizontal grid space
+        c.weighty = 1;												// use all vertical grid space
+        c.gridx = 1;												// position at the right column
+        c.gridy = 0;												// position in the first row
+		c.ipady = 0;												// reset veritical padding
+
+/*		
+		JPanel gamedisplay = new JPanel();
+		gamedisplay.add(new Label("Game Info"));
+		add(gamedisplay, c);
+*/		
+		
+		// TODO:  display the available doors and other nifty info
+		
+		JPanel viewport = new JPanel();								// setup a new panel
+		viewport.setLayout(new BorderLayout());						// set the layout for the panel
+
+		JPanel statusbar = new JPanel();							// setup a panel for the status bar
+		statusbar.setLayout(gridbag);								// use gridbag layout
+		c.ipady = 2;												// some vertical padding
+		statusbarHealth = new JLabel("Health:"); 					// create the label to go into the status bar 
+		statusbarRoom = new JLabel("Room:"); 						// create the label to go into the status bar 
+		JLabel spacerlabel = new JLabel("       "); 				// create the label to go into the status bar 
+		statusbar.add(statusbarHealth);								// add the label to the bar
+		statusbar.add(spacerlabel);
+		statusbar.add(statusbarRoom);								// add the label to the bar
+		
+		editorPane = createJEditorPane();								// create an editor pane
+		JScrollPane editorScrollPane = new JScrollPane(editorPane);		// setup scroll bars for the editor pane
+        editorScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);	// turn on vert. scrollbar
+        viewport.add(editorScrollPane);									// add the editor to the panel
+        
+        c.fill = GridBagConstraints.BOTH;			// fill both vertical and horizontal spaces
+        c.weightx = 1;								// use all horizontal grid space
+        c.weighty = 1;								// use all vertical grid space
+        c.gridx = 0;								// position at the left column
+        c.gridy = 0;								// position in the first row
+		c.ipady = 0;								// reset veritical padding
+		
+		add(viewport, c);							// add the panel to the current panel
+        
+		c.fill = GridBagConstraints.NONE;			// set to horizontal to align center and fill both sides
+        c.anchor = GridBagConstraints.WEST;
+        c.gridx = 0;								// position this in the first column of the grid
+        c.gridy = 1;								// locate this item at row 2 of the grid
+        c.weighty = 0;								// no vertical weight
+        add(statusbar, c);							// add the status bar to the panel
+
+		validate();									// validate the contents
+        
+        editorPane.setFocusable(true);				// setup the editor to receive focus
+        editorPane.addKeyListener(this);			// add the keyboard listener
+        
+        /*
+         * Had problems setting up a JTextPane (be it JTextPane, JTextArea, or JEditorPane) to receive focus using
+         * [object].requestFocus().  Found a comment here about the problem: 
+         * http://www.codecomments.com/archive250-2004-8-262667.html
+         * 
+         * It provided clues, but didn't specify how to setup the Runnable class.  So I went here:
+         * http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Runnable.html and setup the run() method.  Success!
+         * 
+         * The purpose of all of this is to direct the focus to the editor so the keyboard listener could start and
+         * the user's commands would be processed.   
+         */
+        SwingUtilities.invokeLater(new Runnable() 	// setup another thread to run some commands
+	        { 
+	        	public void run() { editorPane.requestFocus(); }	// code to run:  set the focus back to the editor
+	        });												
+         
+
+	}  // end private void setupPanel()
+	
+	
+
+	/**
+	 * Setup the editor pane.  This pane is to simulate a console window.
+	 * 
+	 * @return JTextArea containing a prepared editor pane
+	 */
+	private JTextArea createJEditorPane() 
+	{
+		JTextArea editorPane = new JTextArea();
+        editorPane.setBackground(Color.BLACK);
+        editorPane.setForeground(Color.LIGHT_GRAY);
+        editorPane.setEditable(false);
+//        editorPane.setContentType("text/html"); // text/html
+        
+        // enable word wrapping: http://javaalmanac.com/egs/javax.swing.text/ta_Wrap.html
+        editorPane.setLineWrap(true);
+        editorPane.setWrapStyleWord(true);
+        return editorPane;
+    }  // end private JEditorPane createEditorPane()
+	
+	
+	/**
+	 * Load the specified file and parse it.  While parsing, populate a graph.  The graph will represent the game's 
+	 * rooms.  Each room will contain an array of edges which will also be determined from the specified file.
+	 * @param filename
+	 */
+	public void loadFile(String filename)
+	{
+		Room room;												// keep track of the current room loaded
+		castle = new Castle();									// load a new castle
+		String line = new String();								// keep track of the line we're reading from the file
+		int task = 0;											// keep track of the current task we're on
+		String[] field;											// used for parsing the text file input
+		
+    	try
+    	{
+		    FileReader reader = new FileReader(filename);		// setup a file reader object
+		    Scanner in = new Scanner(reader);					// setup a scanner to read the file
+		    while(in.hasNext())									// process all the lines in the file
+		    {
+		    	line = in.nextLine();							// read in one line
+		    	if(line.equals("99"))							// 99 is the delimiter for each section
+		    		task++;										// time to start the next task
+		    	
+    			if(!line.equals("99"))
+    			{
+			    	switch(task)
+			    	{
+			    		case 0:										// room number and room name
+			    			field = line.split(" ", 2);	// split the line
+			    			room = castle.addRoom(Integer.parseInt(field[0]) - 1, field[1]);			// add a room
+			    			if(field[1].equals(STARTROOM))
+			    			{
+			    				castle.setEntrance(room);
+			    				player.setCurrentRoom(room);
+			    			}  // end if(field[1].equals("Entrance Hall"))
+			    			break;
+			    		
+			    		case 1:
+			    			field = line.split(" ");		// split the line
+			    			// add the arc
+			    			castle.addArc(field[2], Integer.parseInt(field[0]) - 1, Integer.parseInt(field[1]) - 1);	
+			    			break;
+
+			    		case 2:
+			    			field = line.split(" ");		// split the line
+			    			
+			    			for(int a = 2; a < field.length; a++)			// loop through all the fields
+			    			{
+			    				// add the item to the specified room
+			    				castle.addRoomItem(Integer.parseInt(field[0]) - 1, field[a]);	
+			    			}  // end for(int a = 2; a < field.length; a++)
+			    			break;
+			    	}  // end switch(task)
+    			}  // end if(line != "99")
+		    }  // end while(line = in.nextLine())
+		    
+		    // if we got this far, then the file is done
+		    // build the adjacency matrix (build now since we know how many rooms we have)
+		    castle.buildMatrix();
+		    
+    	}  // end try
+    	catch (IOException exception)							// check if there was a problem
+    	{
+    	    System.out.println ("Error processing file: " + exception);		
+    	}  // end catch (IOException exception)		
+	}  // end public void loadFile(String filename)
+	
+	
+	
+	/**
+	 * Print a string to the display.  Add a carriage return after it.
+	 * 
+	 * @param sText String containing the message to display.
+	 */
+	public void printMessage(String sText)
+	{
+		editorPane.setText(editorPane.getText() + sText + "\n");
+//		editorPane.setText(editorPane.getText() + sText + "\n" + CURSOR);
+	}  // end private void printMessage()
+
+	
+	/**
+	 * Provide debug output to the user interface.  To be used to verify the quality of the castle/rooms (aka: graph). 
+	 */
+	private void debug()
+	{
+		printMessage(castle.debug());
+	}  // end private void debug()
+	
+
+	/**
+	 * Monitor for key typed.  This actually is looking for special keys like the Window key and such.
+	 * 
+	 * @see java.awt.event.KeyListener#keyTyped(java.awt.event.KeyEvent)
+	 */
+	public void keyTyped(KeyEvent e) 
+	{
+		// do nothing
+	}  // end public void keyTyped(KeyEvent e)
+
+	/**
+	 * Handles key presses.  Upon receiving notice of a key press, figure out which key was pressed and take action
+	 * if necessary.
+	 * 
+	 * @see java.awt.event.KeyListener#keyPressed(java.awt.event.KeyEvent)
+	 */
+	public void keyPressed(KeyEvent e) 
+	{
+		if(player.getHealth() <= 0)										// check if player is dead
+			return;														// yup, cancel keyboard processing
+		
+		int key = e.getKeyCode();										// get the keyboard input
+		
+		editorPane.setText(editorPane.getText() + e.getKeyChar() + "\n");	// display the key pressed
+		
+		if(key > 64 && key < 91)										// key is in A-Z (uppercase) range
+		{
+			selectmode = 0;												// reset the select mode
+			hagMoveDirection = key;
+			
+			switch(key)													// Monitor the integer ASCII keyed value
+			{
+				case 67:												// C - Contents of backpack
+					printMessage(player.listContents());				// list contents
+					roomInfo();
+					break;
+					
+				case 70:												// F - flee
+					flee();												// flee!
+					break;
+
+				case 81:												// Q - Quit
+					// TODO: Confirm desire to exit w/dialog box
+					System.exit(0);										// exit!  
+					break;
+
+				case 82:												// R - remove item
+					removeItem();										// show a list of items which can be removed
+					showCursor();
+					break;
+
+				case 84:												// T - Take an item
+					take();												// show list of items to remove
+					showCursor();
+					break;
+									
+				case 85:												// U - use an item
+					selectUseItem();									// find out which item the player wants to use
+					showCursor();
+					break;
+					
+				case 68:												// D - debug
+					debug();											// do debug
+					showCursor();
+					break;
+								
+				case 78:												// N - north
+				case 69:												// E - east
+				case 83:												// S - south
+				case 87:												// W - west
+					makeMove((char) key);								// perform the move, if possible
+					break;
+					
+				default:												// key press wasn't found.  
+					System.out.println("Pressed: [" + key + "] " + e.getKeyChar());
+					printMessage("Didn't understand your request.  Please try again.\n");
+					roomInfo();
+					break;
+			}  // end switch(key)
+		}  // end if(key > 64 && key < 91)
+		
+		if(key > 47 && key < 58 && selectmode > 0)					// key is between 0-9 and user is to select an item
+		{
+			switch(selectmode)										// switch based on the mode we're in
+			{
+				case 1:												// selecting an item to take
+					// grab the room item (subtract 48 to convert the ASCII value to the integer value					
+					takeRoomItem(key - 48);							
+					break;
+					
+				case 2:
+					// remove the desired item from the backpack and place back into the current room
+					removeBackpackItem(key - 48);					// convert ASCII value to index value 
+					break;
+					
+				case 3:
+					useItem(key - 48);								// player is going to use this item
+					break;
+					
+				case 4:												// player is giving something to the hag
+
+					if(key - 48 == 0)								// check if the user selected "0 - Nothing" to give
+					{
+						player.addHealth(RoomItem.hag.health);		// let the hag beatup the player!
+						printMessage("You didn't give anything to the hag?  She beats you severely with a " +
+								"big stick.\n");
+					}  // end if(key - 48 == 0)
+					else
+					{
+						// remove this item from the backpack
+						// TODO:  put the item BACK in the room!
+						RoomItem packitem = player.getBackpack().get(key - 49);
+						player.removeBackpackItem(packitem);
+						selectmode = 0;											// reset the mode
+						printMessage("The old hag takes your " + packitem.fullname.toLowerCase() + " and spares you " +
+								"a beating.\n");
+					}  // end else
+					
+					makeMove((char) key);							// perform move
+					// roomInfo();
+					break;
+			}  // end switch(selectmode)
+		}  // end if(key > 48 && key < 58) 
+	}  // end public void keyPressed(KeyEvent e)
+
+	/**
+	 * Handles key releases.
+	 * 
+	 * @see java.awt.event.KeyListener#keyReleased(java.awt.event.KeyEvent)
+	 */
+	public void keyReleased(KeyEvent e) 
+	{
+		// do nothing
+	}  // end public void keyReleased(KeyEvent e)
+	
+	
+	/**
+	 * Displays current room info as well as the cursor.  Also performs a check if the user returned to the entrance
+	 * hall and determines if they won the game or not. 
+	 */
+	public void roomInfo()
+	{
+		// check if the player is back at the entrance or not
+		if(player.getCurrentRoom() == castle.getEntrance() && gamestart == false)
+		{
+			// does the player have the crown?  If so, they win!  If not, they're dead!
+			if(player.hasCrown() == true)
+				printMessage("You found the crown and returned it to the king!  You WIN!");
+			else
+			{
+				printMessage("You have returned without the crown!  Off with your head!\n\nYou have died a horrible " +
+						"death.\n\nG A M E   O V E R");
+				player.setHealth(0);						// kill the player
+			}  // end else
+		}  // end if(player.getCurrentRoom() == castle.getEntrance())
+		else
+		{
+			if(player.getHealth() <= 0)
+				printMessage("\n\nYour health has failed you and you've failed to return the crown.  " +
+						"You have died without honor.\n\nG A M E   O V E R");
+			else
+			{
+				printMessage(currentRoomInfo());			// let the user know what room they're in and what's in it
+				showCursor();
+			}  // end else 
+		}  // end else
+		
+		statusbarHealth.setText("Health: " + player.getHealth() + "%");	// update the status bar with the players health
+		statusbarRoom.setText("Room: " + player.getCurrentRoom().getName());
+	}  // end public void startGame()
+	
+
+	/**
+	 * Get the current room and format the the information to let the user know where they are and what doors are
+	 * available.
+	 * 
+	 * @return String containing the room info
+	 */
+	private String currentRoomInfo()
+	{
+		StringBuffer output = new StringBuffer();					// string buffer for holding the output string 
+		Room room = player.getCurrentRoom();						// get the current room
+		ArrayList<Arc> arcs = castle.findArc(room);						// find all the arcs for this room
+
+		output.append("You are in the " + room.getName() + ".\n");	// get the room name
+		
+		if(arcs.size() > 0)											// check the number of arcs
+		{
+			if(arcs.size() > 1)										// plural
+				output.append("There are doors located on the ");
+			else													// just one arc
+				output.append("There is a door located on the ");
+		}  // end if(arcs.size() > 0)								
+		else														// no doors!
+			output.append("There's no doors in this room.  You have been locked out.\n");
+			
+		for(int a = 0; a < arcs.size(); a++)						// get the arc labels (directions)
+		{															// handy for showing the user where the doors are 
+			if(a > 0)												// see if we're looping more than once										
+				output.append(", ");								// seperate the doors with a comma
+			
+			output.append(castle.getDirectionFullName(((Arc) arcs.get(a)).getLabel()));	// full name of the direction
+		}  // end for(int a = 0; a < arcs.length; a++)
+		
+		if(arcs.size() > 0)											// check if there were arcs
+		{
+			output.append(" side");									// complete the sentence
+			if(arcs.size() > 1)										// check if there were more than 1 arc
+				output.append("s");									// yup, make it plural
+				
+			output.append(".\n");										// complete the sentence
+		}  // end if(arcs.size > 0)
+		
+		// list the items in this room (if any available)
+		String itemlist = listItems(room);							// get the item list
+		if(!itemlist.equals(""))									// make sure there's some items
+			output.append("After looking around, you find " + itemlist + ".");	// yup, let user know.
+		else
+			output.append("There's nothing in this room.");		// nope, there's none.  Let user know.
+		
+		return output.toString();								// assemble the string buffer into a string & return it
+	}  // end private currentRoomInfo()
+	
+	
+	/**
+	 * Show the cursor on the display 
+	 */
+	public void showCursor()
+	{
+		if(player.getHealth() > 0)
+			editorPane.setText(editorPane.getText() + CURSOR);			// display cursor
+	}  // end public void showCursor()
+	
+	
+	
+	/**
+	 * Make a move.  The direction specifies the direction.  Make sure this is a valid direction the player can go in.
+	 * If it is, set the player's current room to the new room.
+	 *  
+	 * @param direction char direction to go in (N, E, S, W)
+	 */
+	private void makeMove(char direction)
+	{
+		// is there a door to the north?  if so, set it as the current door, & update the display
+		Room room = player.getCurrentRoom();						// get the current room
+		Room newroom = castle.testMove(room.getRoomID(), direction);
+		if(newroom != null)
+		{
+			// game now in play - trick here is the player may select the wrong door and bounce back to the entrance
+			// hall without having left.  In this case, don't kill the player yet. 
+			gamestart = false;
+			
+			playCharacters(room);								// play any characters who are in the room
+
+			if(room.hagInRoom())								// check if the hag is here
+				return;											// yup, go no further!
+			
+			player.setCurrentRoom(newroom);						// put the player in the new room
+			itemused = new ArrayList<RoomItem>();				// reset the list of items used
+			
+		}  // end if(newroom != null)
+		else
+			printMessage("Try as you might, there's no door there.\n");
+		
+		roomInfo();										// let the user know what room they're in and what's in it
+	}  // end private void makeMove(char direction)
+	
+	
+	private void flee()
+	{
+		ArrayList<DSPRoomSet> fleepath = castle.shortestPath(player.getCurrentRoom(), castle.getEntrance());
+		String fleed = fleepath2String(fleepath);
+		
+		printMessage("Flee! ");
+		printMessage(fleed);
+		showCursor();
+		
+		castle.clearEntranceHallDoors();					// clear entrance doors - lock the player out!
+
+		if(fleepath.size() > 1)								// check if player is in a room with no doors 
+		{
+			player.setCurrentRoom(castle.getEntrance());	// nope, move player to entrance
+			roomInfo();
+		}  // end if(fleepath.size() > 1)								
+		
+	}  // end private void flee()
+	
+	
+	/**
+	 * Convert the fleepath array list to a string suitable for output to the user.  Work backwords on the fleepath
+	 * array list.  By doing so, we can traverse the array from the entrance way and find matching rooms which will 
+	 * adventually lead back to our current room.  Trick is to build the output string just right so the rooms appear in
+	 * logical order (display the current room first, then the next room is the room the user would go to next to make
+	 * their way to the entrance).
+	 * 
+	 * @param fleepath the array list containing the flee path to take.  It is an array of DSPRoomSet objects.
+	 * @return String with a user-friendly flee path description
+	 */
+	private String fleepath2String(ArrayList<DSPRoomSet> fleepath)
+	{
+		// work backwards on the fleepath and list the rooms travelled
+		String output = "";
+		String name = "";
+		String direction = "";
+
+		Room lastRoom = castle.getEntrance();
+		for(int a = fleepath.size() - 1; a >= 0; a--)
+		{
+			if(fleepath.get(a).getRoomConnects() != null)		// check if connecting room is null
+			{																	// nope!
+				// check if last room connects to this room
+				if(lastRoom.getRoomID() == fleepath.get(a).getRoom().getRoomID())	
+				{
+					// get the room name
+					name = fleepath.get(a).getRoom().getName();
+					
+					// get the direction's full name
+					direction = castle.getDirectionFullName(fleepath.get(a).getLabel());
+					
+					// build the output string
+					output = ("\nWent " + direction + " to the " + name + ".").concat(output);
+					
+					// make a note of this room's connection and set it up as the last room
+					lastRoom = fleepath.get(a).getRoomConnects();
+				}  // end if(lastRoom.getRoomID() == ((DSPRoomSet) fleepath.get(a)).getRoomConnects().getRoomID())
+			}  // end if(((DSPRoomSet) fleepath.get(a)).getRoomConnects() != null)
+		}  // end for(int a = fleepath.size() - 1; a >= 0; a--)
+		
+		if(output.equals(""))
+			output = "You are stuck in the " + player.getCurrentRoom().getName() + ".  There's no where to flee.";
+		else
+			output = "You fleed from the " + player.getCurrentRoom().getName() + "." + output;
+		return output;
+	}  // end private String fleepath2String(ArrayList fleepath)
+	
+	
+	
+	/**
+	 * Create a user-friendly string containing the list of items found in a room.
+	 * 
+	 * @param room Room to check for items
+	 * @return string containing the list of items, formatted and ready for output to the user
+	 */
+	public String listItems(Room room)
+	{
+		ArrayList<RoomItem> items = room.getAllItems();							// list the items in the room
+		StringBuffer output = new StringBuffer();
+		String itemname = "";
+		
+		for(int a = 0; a < items.size(); a++)
+		{
+			// itemname = ((Item) items.get(a)).getName().toLowerCase();
+			itemname = items.get(a).fullname.toLowerCase();
+			if(a > 0)
+				output.append(", ");
+
+			if(a == items.size() -1 && items.size() > 1)
+				output.append("and ");
+			
+			// sounds funny to say "I found a nothing" so change it to "I found nothing" and drop the a
+			if(!itemname.equals("nothing"))
+				output.append("a");
+			
+			// check for a vowel so the "a" becomes "an"
+			if(itemname.charAt(0) == 'a' || itemname.charAt(0) == 'e' || itemname.charAt(0) == 'i' || 
+					itemname.charAt(0) == 'o' || itemname.charAt(0) == 'u')
+				output.append("n");
+			
+			output.append(" " + itemname);
+		}  // end for(int a = 0; a < items.size(); a++)
+		
+		return output.toString();
+	}  // end public String listItems(Room room)
+	
+	
+	/**
+	 * If possible, take a room item and place in the backpack.  If there's only one item and its moveable, then 
+	 * automatically take it.  Otherwise, present a choice to the user and allow them to select which item to take. 
+	 */
+	public void take()
+	{		
+		// get the room's items
+		ArrayList<RoomItem> moveable = player.getCurrentRoom().getMoveableItems();
+		if(moveable.size() > 0)
+		{
+			selectmode = 1;											// specify the user is wishes to take something
+			printMessage("\nPress the number for the item you wish to take:");
+//			for(int a = 0; a < moveable.size(); a++)
+//				printMessage((a + 1) + ". " + ((Item) moveable.get(a)).getName());
+			printMessage(displayList(moveable));
+		}  // end if(moveable.size() > 0)
+		else
+			printMessage("Sorry, there's nothing here you can take.");
+	}  // end public void take()
+
+	
+	
+	/**
+	 * Take the the item the player selected and remove it from the room and add it to the player's backpack (as long
+	 * as the backpack has room).
+	 * 
+	 * @param item index of the item to take
+	 */
+	public void takeRoomItem(int item)
+	{
+		if(item == 0)
+		{
+			abortItemSelect("taken");
+			return;
+		}  // end if(index == 0)
+		
+		if(player.backpackHasRoom() == true)
+		{
+			ArrayList<RoomItem> moveable = player.getCurrentRoom().getMoveableItems();
+			if((item - 1) < moveable.size())
+			{
+				RoomItem roomitem = moveable.get(item - 1);
+				player.addBackpackItem(roomitem);
+				player.getCurrentRoom().removeItem(roomitem);
+				
+				printMessage(roomitem.fullname + " added to your backpack.\n");
+			}  // end if((item - 1) < moveable.size())
+			else
+			{
+				printMessage("Your selection is out of range.  Try again!\n");
+				showCursor();
+				return;
+			}  // end else
+		}  // end if(player.backpackHasRoom() == true)
+		else
+			printMessage("Your backpack is full!  (R)emove an item before adding additional items.\n");
+		
+		selectmode = 0;												// reset the select mode 
+		printMessage(player.listContents());						// list contents
+		roomInfo();
+	}  // end public void takeRoomItem(int item)
+	
+	
+	
+	/**
+	 * Remove an item from the player's backpack - first show a list of items available to be removed. 
+	 */
+	public void removeItem()
+	{
+		ArrayList<RoomItem> backpack = player.getBackpack();
+		if(backpack.size() > 0)
+		{
+			selectmode = 2;											// change the mode to remove an item 
+			StringBuffer output = new StringBuffer();
+			output.append("Select the item to remove:\n");
+			output.append(displayList(backpack));
+			printMessage(output.toString());
+		}  // end if(backpack.size() > 0)
+		else
+			printMessage("Your backpack is empty.  There's nothing to remove.\n");
+		
+	}  // end public void removeItem()
+	
+	
+	
+	
+	/**
+	 * Remove an item from the player's backpack.
+	 * 
+	 * @param index Index value of the item to remove from the backpack (its 1 based, will need to subtract one to make
+	 * it zero based)
+	 */
+	public void removeBackpackItem(int index)
+	{
+		if(index == 0)
+		{
+			abortItemSelect("removed");
+			return; 
+		}  // end if(index == 0)
+		
+		ArrayList<RoomItem> backpack = player.getBackpack();						// get the backpack
+
+		// check and make sure the item requested to be removed is in range
+		if(index - 1 < backpack.size())
+		{	
+			RoomItem backpackItem = backpack.get(index - 1);			// get the item to work with
+			player.removeBackpackItem(backpackItem);					// remove this item from the backpack
+			player.getCurrentRoom().addItem(backpackItem);				// add this item to the room
+			selectmode = 0;												// reset the mode
+			printMessage(backpackItem.fullname + " removed.\n");
+			printMessage(player.listContents());						// list contents
+			roomInfo();
+		}  // end
+		else
+		{
+			printMessage("Couldn't find the item you selected in your pack.  Please try again!");
+			showCursor();
+		}  // end else
+	}  // end public void removeBackpackItem(int index)
+	
+	
+	
+	/**
+	 * Use an item - remove the item from the player's backpack. 
+	 */
+	public void selectUseItem()
+	{
+		ArrayList<RoomItem> backpack = player.getBackpack();					// get the backpack
+		
+		if(backpack.size() > 0)
+		{
+			selectmode = 3;											// change the mode to use an item 
+			StringBuffer output = new StringBuffer();
+			output.append("Select the item to use:\n");				// remind the user what they're doing
+			output.append(displayList(backpack));					// list the items in their pack
+			printMessage(output.toString());						// show the messages to the user
+		}  // end if(backpack.size() > 0)
+		else
+			printMessage("Your backpack is empty.\n");				// the pack is empty!
+
+	}  // end public void useItem()
+	
+	
+	
+	public void useItem(int index)
+	{
+		if(index == 0)
+		{
+			abortItemSelect("used");
+			return; 
+		}  // end if(index == 0)
+		
+		ArrayList<RoomItem> backpack = player.getBackpack();			// get the backpack
+
+		// check and make sure the item requested to be removed is in range
+		if(index - 1 < backpack.size())
+		{	
+			// TODO:  put some funny stuff in here when the player uses a club against a character
+			
+			RoomItem backpackItem = backpack.get(index - 1);			// get the item to work with
+			if(!backpackItem.reuseable)
+				player.removeBackpackItem(backpackItem);				// remove this item from the backpack
+			player.addHealth(backpackItem.health);						// add/subtract player's health
+			selectmode = 0;												// reset the mode
+			
+			itemused.add(backpackItem);									// keep track of the item used
+			
+			printMessage(backpackItem.fullname + " used.\n");
+
+			charactersAlive(backpackItem);								// check if any characters get killed off
+			
+			printMessage(player.listContents());						// list contents
+			roomInfo();
+		}  // end
+		else
+		{
+			printMessage("Couldn't find the item you selected in your pack.  Please try again!");
+			showCursor();
+		}  // end else
+		
+	}  // end 
+	
+	
+	/**
+	 * Loop through all the items in the backpack and format the item name for output to the user as a selection item.
+	 * 
+	 * @param backpack backpack of items to display
+	 * @return string formatted and ready for display
+	 */
+	public String displayList(ArrayList<RoomItem> backpack)
+	{
+		StringBuffer output = new StringBuffer();
+		output.append("0. Nothing\n");									// let the user abort the selection process
+		for(int a = 0; a < backpack.size(); a++)						// loop all items
+			output.append((a + 1) + ". " + backpack.get(a).fullname + "\n");		// build a list
+//			output.append((a + 1) + ". " + ((Item) backpack.get(a)).getName() + "\n");		// build a list
+		
+		return output.toString();										// convert to string and return the list
+	}  // end public String displayBackpack(ArrayList backpack)
+
+	
+	/**
+	 * Abort the item select and reset the selection mode.
+	 * 
+	 * @param mode text to display to the user to specify the mode they were in
+	 */
+	public void abortItemSelect(String mode)
+	{
+		selectmode = 0;
+		printMessage("No items " + mode + ".\n");
+		roomInfo();
+	}  // end public void abortItemSelect(String mode)
+	
+	
+	/**
+	 * Play any characters in the room (add/subtract health, etc).
+	 * 
+	 * @param room Room to check for characters
+	 */
+	private void playCharacters(Room room)
+	{
+		boolean addhealth = false;
+		
+		// check if there was a bad guy in the last room - update stats as necessary
+		for(int a = 0; a < room.getCharacters().size(); a++)
+		{
+			RoomItem character = room.getCharacters().get(a);			// get the character
+				
+			switch(character)
+			{
+				case vampire:
+					// vampire wasn't killed 
+					if(!itemWasUsed(RoomItem.garlic))
+					{
+						addhealth = true;
+						printMessage("The vampire has sucked your blood!");
+					}  // end if(!itemWasUsed(RoomItem.garlic))
+					break;
+				
+				case troll:
+					if(!itemWasUsed(RoomItem.spell) && !itemWasUsed(RoomItem.club))
+					{
+						addhealth = true;
+						printMessage("The troll has beaten you up!\n");
+					}  // end if(!itemWasUsed(RoomItem.spell) && !itemWasUsed(RoomItem.club))
+					break;
+
+				case hag:
+					// present the user the option of giving something to the hag.  If they don't, then take away some 
+					// health points
+					selectmode = 4;									// the backpack item selection mode is for the hag
+					printMessage("The hag holds out her hand.  She's expecting you to give her an item.\nSelect the " +
+							"item to give her:");
+					printMessage(displayList(player.getBackpack()));				// show the messages to the user
+					showCursor();
+					break;
+					
+				
+				case wizard:
+					// add a spell to the pack, if there's room
+					if(player.backpackHasRoom())
+					{
+						player.addBackpackItem(RoomItem.spell);
+						printMessage("\nThe wizard has given you a spell!");
+						printMessage(player.listContents());						// list contents
+					}  // end if(player.backpackHasRoom())
+					
+					addhealth = true;
+					break;
+					
+				case werewolf:
+					// the werewolf is still alive, check if the player used a spell.  If not, kill the player
+					if(!itemWasUsed(RoomItem.spell))
+					{
+						addhealth = true;
+						printMessage("The werewolf has bitten you!");
+					}  // end if(!itemWasUsed(RoomItem.spell))
+					break;
+				
+				case hunchback:
+					// no health taken/added
+					if(player.getBackpack().size() > 0)
+					{
+						RoomItem stolen = player.randomRemoveBackpackItem();
+						printMessage("\nUh oh!  The hunchback just swiped " + stolen.fullname.toLowerCase() + 
+								" from your pack.\n");
+						
+						// list the conents of the backpack
+						printMessage(player.listContents());						// list contents
+					}  // end if(player.getBackpack().size() > 0)
+					
+					break;
+			
+			}  // end if(((Item) room.getItems().get(a)).isCharacter() == true)
+			
+			if(addhealth)										// check if we need to update the player's health
+			{
+				player.addHealth(character.health);				// yup, get the characters health adder and add it
+				addhealth = false;								// reset the addhealth flag
+			}  // end if(addhealth)		
+		}  // end for(int a = 0; a < room.getCharacters().size(); a++)
+
+	}  // end private void playCharacters()
+
+	
+	/**
+	 * Check if a given item was used in the current room
+	 * 
+	 * @param item item to check if it was used
+	 * @return true if item was used, otherwise false
+	 */
+	private boolean itemWasUsed(RoomItem item)
+	{
+		for(int a = 0; a < itemused.size(); a++)
+		{
+			if(itemused.get(a) == item)
+				return true;
+		}  // end for(int a = 0; a < itemused.size(); a++)
+		
+		return false;
+	}  // end private boolean itemWasUsed()
+	
+	
+	/**
+	 * Check the item used and if the right item is used, remove (kill) the associated character in the room, if it 
+	 * exists.
+	 * 
+	 * @param item Item the player used
+	 */
+	private void charactersAlive(RoomItem item)
+	{
+		switch(item)
+		{
+			case silverbullet:
+				if(player.getCurrentRoom().removeWerewolf())
+					printMessage("You load your gun up with a single silver bullet.\nAim...  Fire!\n" +
+							"You killed the werewolf.  Whew!\n");
+				break;
+			
+			case woodenstake:
+				if(player.getCurrentRoom().removeVampire())
+					printMessage("Using your wooden stake you manage to drive it through the vampire's heart.  " +
+							"You killed the vampire!\n");
+				break;
+		}  // end switch(item)
+	}  // end private void charactersAlive(RoomItem item)
+}  // end public class AdventureGame extends JPanel

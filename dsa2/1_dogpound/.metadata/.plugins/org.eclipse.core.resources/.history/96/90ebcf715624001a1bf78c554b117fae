@@ -1,0 +1,86 @@
+
+package DogPoundBreakout;
+import java.util.Vector;
+import java.util.Enumeration;
+
+/**
+ * @author Rob Bauer
+ * <br>
+ * Date: 11 SEP 2005
+ * <br>
+ * Assignment 1: Dog Pound Breakout
+ */
+
+
+public class Main {
+
+	/**
+	 * @param args command line arguments
+	 */
+	public static void main(String[] args) {
+		
+		String sMessage = validateInput(args);			// test the command line arguments
+		
+		if(sMessage != "") {							// if there was a problem, the problem will be in the string sMessage
+			System.out.println(sMessage);				// there was a problem, let the user know
+			return;										// exit out of the program
+		}  //  end if(sMessage != "") 
+		
+		String[] aName = new String[args.length - 1];
+		String sJumble = args[0];						// first argument contains the jumble;
+		for(int c = 1; c < args.length; c++)			// make a copy of the arguments, minus the first one which contains the jumble
+			aName[c-1] = args[c];						// assign the test name
+		
+		Permutate vJumble = new Permutate(sJumble);		// setup the jumble and find and assign all its permutations
+		Vector vName = findMatches(vJumble, aName);		// find the name matches
+		
+		if(vName.size() > 0)							// check  if there were any matches
+			System.out.println("The following names were found in \"" + sJumble + "\":");		// yup, let the user know
+		else
+			System.out.println("The supplied names were not found in \"" + sJumble + "\".");	// none were found
+		
+		for(Enumeration e = vName.elements(); e.hasMoreElements();) {	// display the results
+			System.out.println(e.nextElement());		// display to the standard output
+		}  // end for(Enumeration e = vName.elements(); e.hasMoreElements();) {
+		
+//		System.out.println(vJumble.toString());
+		System.out.println("\nTotal permutations found: " + Permutate.calculatePermutation(sJumble));		// calculate total permutations
+	}  // end public static void main(String[] args) {
+
+	
+	/**
+	 * @param vJumble a vector containing all the permutations of the jumble
+	 * @param aName names to test
+	 * @return vector containing a list of the matching names
+	 */
+	public static Vector findMatches(Permutate vJumble, String[] aName) {
+		boolean bFound = false;
+		Vector vName = new Vector();										// setup the vector to hold the found names
+		for(int c = 0; c < aName.length; c++) {								// loop all the test names
+			for(Enumeration e = vJumble.elements(); e.hasMoreElements();) {	// loop all the permutations of the jumble
+				if(e.nextElement().toString().indexOf(aName[c]) != -1)		// check if the test name can be found in any of the permutations
+					if(!vName.contains(aName[c])) {							// found a match - now check if its been found before
+						vName.add(aName[c]);								// hasn't been found before - add it to the vector
+						bFound = true;
+					}  // end if(!vName.contains(aName[c])) {
+			}  // end for(Enumeration e = vJumble.elements(); e.hasMoreElements();) {
+		}  // end for(int c = 0; c < aName.length; c++)
+		return vName;														// return the list of found names
+	}  // end public static Vector findMatches(Permutate vJumble, String[] aName) {
+	
+	
+	/**
+	 * Test an array of strings - make sure there's at least two strings in the array. 
+	 * @param vars an array of strings to test
+	 * @return String containing the error message, if there were any errors.
+	 */
+	public static String validateInput(String[] vars) {
+		String sMessage = "";
+		if(vars.length < 2) 
+			sMessage = "You must enter at least 2 parameters:\nThe fist parameter is the jumble and the second (and additionanal parameters) the dog suspects";
+		return sMessage;
+	}  // end public static String validateInput(String[] vars) {
+
+	
+}  // end public class Main {
+

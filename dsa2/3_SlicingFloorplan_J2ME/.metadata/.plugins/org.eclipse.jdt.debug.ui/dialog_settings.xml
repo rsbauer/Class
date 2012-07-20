@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<item key="org.eclipse.jdt.debug.ui.jre_preference_page_context.sortColumn" value="1"/>
+	<item key="org.eclipse.jdt.debug.ui.jre_preference_page_context.column0" value="0.275"/>
+	<item key="org.eclipse.jdt.debug.ui.jre_preference_page_context.column1" value="0.6875"/>
+	<section name="ADD_VM_DIALOG_SECTION">
+		<item key="org.eclipse.debug.ui.DIALOG_HEIGHT" value="411"/>
+		<item key="org.eclipse.debug.ui.DIALOG_WIDTH" value="524"/>
+		<item key="org.eclipse.debug.ui.DIALOG_ORIGIN_Y" value="150"/>
+		<item key="org.eclipse.debug.ui.DIALOG_ORIGIN_X" value="378"/>
+	</section>
+</section>

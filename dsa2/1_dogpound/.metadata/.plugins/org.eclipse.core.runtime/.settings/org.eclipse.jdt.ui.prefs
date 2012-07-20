@@ -1,0 +1,19 @@
+#Mon Sep 12 05:14:20 EDT 2005
+spelling_locale=en_US
+smart_semicolon=true
+handleTemporaryProblems=false
+command=C\:\\Program Files\\Java\\jdk1.5.0_04\\bin\\javadoc.exe
+org.eclipse.jdt.ui.text.templates_migrated=true
+useAnnotationsPrefPage=true
+eclipse.preferences.version=1
+org.eclipse.jface.textfont=1|Bitstream Vera Sans Mono|8|0|WINDOWS|1|-11|0|0|0|400|0|0|0|0|3|2|1|49|Bitstream Vera Sans Mono;
+tabWidthPropagated=true
+org.eclipse.jdt.ui.editor.tab.width=
+fontPropagated=true
+org.eclipse.jdt.ui.text.custom_code_templates=<?xml version\="1.0" encoding\="UTF-8"?><templates/>
+org.eclipse.jdt.ui.javadoclocations.migrated=true
+org.eclipse.jdt.ui.formatterprofiles.version=8
+useQuickDiffPrefPage=true
+org.eclipse.jdt.ui.text.custom_templates=<?xml version\="1.0" encoding\="UTF-8"?><templates><template autoinsert\="true" context\="java" deleted\="false" description\="public method" enabled\="true" id\="org.eclipse.jdt.ui.templates.public_method" name\="public_method">public ${return_type} ${name}(${}) {\r\n\t${cursor}\r\n}  // end public ${return_type} ${name}(${}) {</template></templates>
+internal.default.compliance=default
+org.eclipse.jdt.ui.text.code_templates_migrated=true

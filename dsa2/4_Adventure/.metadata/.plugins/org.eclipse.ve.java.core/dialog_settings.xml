@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="NewClassWizardPage">
+		<item key="create_main" value="false"/>
+		<item key="create_unimplemented" value="true"/>
+		<item key="create_constructor" value="false"/>
+	</section>
+</section>

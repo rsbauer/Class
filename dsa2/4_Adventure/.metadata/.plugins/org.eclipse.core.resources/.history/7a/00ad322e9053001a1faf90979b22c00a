@@ -1,0 +1,235 @@
+import java.awt.*;
+import java.awt.event.*;
+
+import javax.swing.*;
+
+import java.io.*;
+import java.util.Scanner;
+
+
+/**
+ * COPYRIGHT (C) 2005 Rob Bauer.  All Rights Reserved.
+ * <br> <br>
+ * Handles game play, game rules, and setting up and maintaining the graph of rooms.
+ * 
+ * @author Rob Bauer
+ * @version 1.0  2005-NOV-08
+ */
+public class AdventureGame extends JPanel
+
+{
+	
+	/**
+	 * Default version ID 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	
+	/**
+	 * Game castle 
+	 */
+	private Castle castle;
+	
+	
+	/**
+	 * Editor pane to display the game text 
+	 */
+	private JEditorPane editorPane;
+	
+	private JLabel statusbarlabel;
+	
+	private KeyEventDispatcher eventdispatcher;
+	
+	private static final String WELCOMEMSG = "Welcome to Adventure!\n\nFor " +
+			"help, press H\n\nThe king has requested your help.  You must retrieve his crown from the castle.  Watch" +
+			" out for treasures and evil-doers.\n\nYou find yourself at the entrance hallway of the castle.";
+	
+
+	public AdventureGame()
+	{
+		// paint the GUI
+		setupPanel();							// setup the window
+		validate();								// validate the contents
+		
+		
+		// http://forum.java.sun.com/thread.jspa?threadID=590754&messageID=3075556
+        eventdispatcher = getKeyEventDispatcher();						// setup an event listener
+        // listen for key presses and act on them
+      		
+		printMessage(WELCOMEMSG);			// display the welcome message
+		
+	}  // end public AdventureGame()
+	
+	/**
+	 * Setup the window pane. 
+	 * http://java.sun.com/docs/books/tutorial/uiswing/layout/gridbag.html
+	 */
+	private void setupPanel()
+	{
+		setOpaque(true);						// handy for clearing the panel successfully (otherwise get artifacts)
+
+	    GridBagLayout gridbag = new GridBagLayout();					// define the layout - using gridbaglayout
+	    GridBagConstraints c = new GridBagConstraints();				// initialize the constraints for this layout
+	    		
+		setLayout(gridbag);												// set the layout
+		JPanel viewport = new JPanel();									// setup a new panel
+		viewport.setLayout(new BorderLayout());							// set the layout for the panel
+		
+		JPanel statusbar = new JPanel();								// setup a panel for the status bar
+		statusbar.setLayout(gridbag);									// use gridbag layout
+		c.ipady = 2;													// some vertical padding
+		statusbarlabel = new JLabel("Health:"); 						// create the label to go into the status bar 
+		statusbar.add(statusbarlabel, c);								// add the label to the bar
+		
+		editorPane = createEditorPane();								// create an editor pane
+		JScrollPane editorScrollPane = new JScrollPane(editorPane);		// setup scroll bars for the editor pane
+        editorScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);	// turn on vert. scrollbar
+        viewport.add(editorScrollPane);									// add the editor to the panel
+        
+        c.fill = GridBagConstraints.BOTH;			// fill both vertical and horizontal spaces
+        c.weightx = 1;								// use all horizontal grid space
+        c.weighty = 1;								// use all vertical grid space
+        c.gridx = 0;								// position at the left column
+        c.gridy = 0;								// position in the first row
+		c.ipady = 0;								// reset veritical padding
+		
+		add(viewport, c);							// add the panel to the current panel
+        
+		c.fill = GridBagConstraints.NONE;			// set to horizontal to align center and fill both sides
+        c.anchor = GridBagConstraints.WEST;
+        c.gridx = 0;								// position this in the first column of the grid
+        c.gridy = 1;								// locate this item at row 2 of the grid
+        c.weighty = 0;								// no vertical weight
+        add(statusbar, c);							// add the status bar to the panel
+
+	}  // end private void setupPanel()
+	
+	
+	private JEditorPane createEditorPane() 
+	{
+        JEditorPane editorPane = new JEditorPane();
+        editorPane.setBackground(Color.BLACK);
+        editorPane.setForeground(Color.LIGHT_GRAY);
+        editorPane.setEditable(false);
+        return editorPane;
+    }  // end private JEditorPane createEditorPane()
+	
+	
+	/**
+	 * Load the specified file and parse it.  While parsing, populate a graph.  The graph will represent the game's 
+	 * rooms.  Each room will contain an array of edges which will also be determined from the specified file.
+	 * @param filename
+	 */
+	public void loadFile(String filename)
+	{
+		castle = new Castle();									// load a new castle
+		String line = new String();								// keep track of the line we're reading from the file
+		int task = 0;											// keep track of the current task we're on
+		String[] field;											// used for parsing the text file input
+		
+    	try
+    	{
+		    FileReader reader = new FileReader(filename);		// setup a file reader object
+		    Scanner in = new Scanner(reader);					// setup a scanner to read the file
+		    while(in.hasNext())									// process all the lines in the file
+		    {
+		    	line = in.nextLine();							// read in one line
+		    	if(line.equals("99"))							// 99 is the delimiter for each section
+		    		task++;										// time to start the next task
+		    	
+    			if(!line.equals("99"))
+    			{
+			    	switch(task)
+			    	{
+			    		case 0:										// room number and room name
+			    			field = line.split(" ", 2);	// split the line
+			    			castle.addRoom(Integer.parseInt(field[0]) - 1, field[1]);						// add a room
+			    			break;
+			    		case 1:
+			    			field = line.split(" ");		// split the line
+			    			// add the arc
+			    			castle.addArc(field[2], Integer.parseInt(field[0]) - 1, Integer.parseInt(field[1]) - 1);	
+			    			break;
+			    		case 2:
+			    			// TODO:  Add code to load up the items for the rooms!
+			    			break;
+			    	}  // end switch(task)
+    			}  // end if(line != "99")
+		    }  // end while(line = in.nextLine())
+		    
+		    // if we got this far, then the file is done
+		    // build the adjacency matrix (build now since we know how many rooms we have)
+		    castle.buildMatrix();
+		    
+    	}  // end try
+    	catch (IOException exception)							// check if there was a problem
+    	{
+    	    System.out.println ("Error processing file: " + exception);		
+    	}  // end catch (IOException exception)		
+	}  // end public void loadFile(String filename)
+	
+	
+	/**
+	 * Need to be able to turn key event dispatching off so we can retrieve the castle data file name from the user. 
+	 */
+	public void cancelEvents()
+	{
+//		KeyboardFocusManager.getCurrentKeyboardFocusManager().removeKeyEventDispatcher(eventdispatcher);
+	}  // end public cancelEvents()
+
+
+	/**
+	 * Listen for key presses and respond accordingly.  I was unable to persuade KeyListener to work because it needed
+	 * focus plus I could only get it to work with the text box.  This approach worked for the entire application, if 
+	 * need be.  The method used was found at 
+	 * <a href="http://forum.java.sun.com/thread.jspa?threadID=590754&messageID=3075556">
+	 * http://forum.java.sun.com/thread.jspa?threadID=590754&messageID=3075556</a>
+	 * 
+	 * @return KeyEventDispatcher defining the actions to take when keys are pressed
+	 */
+	private KeyEventDispatcher getKeyEventDispatcher()
+	{
+		KeyEventDispatcher keyevent = new KeyEventDispatcher()				// define a new dispatcher 
+		{ 
+			public boolean dispatchKeyEvent(KeyEvent e)  					// define the event and the actions to take
+			{
+				System.out.println(e.getSource());
+				
+//				Component prop = e.getComponent();
+//				System.out.println("" + prop.);
+				
+//				if(e.KEY_RELEASED == e.getID())								// act only when the key was released
+				if(e.KEY_PRESSED == e.getID())	// act only when the key was pressed 
+				{
+		    		int keychar = e.getKeyCode();
+		    		System.out.println("Keypress: " + keychar);				// for testing
+//					String key = KeyEvent.getKeyText(e.getKeyCode());
+	 
+					switch(keychar)											// switched based on uppercase ASCII value
+					{
+						case 65:											// A  (ASCII value)
+							printMessage("Test");
+							break;
+					}  // end switch(key):
+				}  // end if(e.KEY_PRESSED == e.getID())
+				  		
+				return false;												// key wasn't processed
+	      	}  // end public boolean dispatchKeyEvent( KeyEvent e )
+	    };  // end KeyEventDispatcher keyevent = new KeyEventDispatcher()
+	    
+	    return keyevent;
+	}  // end private KeyEventDispatcher getKeyEventDispatcher()
+	
+	
+	public void printMessage(String sText)
+	{
+		editorPane.setText(editorPane.getText() + sText + "\n");
+		System.out.println("Output to editor");
+	}  // end private void printMessage()
+
+	
+	public KeyEventDispatcher getDispatcher()
+	{
+		return eventdispatcher;
+	}  // end 
+}  // end public class AdventureGame extends JPanel

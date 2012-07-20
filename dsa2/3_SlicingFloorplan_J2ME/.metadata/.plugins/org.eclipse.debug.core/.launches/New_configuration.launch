@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launchConfiguration type="EclipseME.emulatorLaunchConfigurationType">
+<stringAttribute key="eclipseme.security_domain" value="None"/>
+<stringAttribute key="eclipseme.emulated_class" value=""/>
+<stringAttribute key="eolipseme.emulation_platform_def_id" value="Series 60 MIDP SDK 2.1 Platform"/>
+<booleanAttribute key="eclipseme.do_ota" value="true"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="FloorPlan"/>
+<stringAttribute key="eolipseme.emulation_platform_def" value=""/>
+<booleanAttribute key="eclipseme.use_project_platform_def" value="false"/>
+<stringAttribute key="eclipseme.launch_params" value="-?"/>
+<stringAttribute key="eclipseme.emulated_device" value="Series_60_MIDP_SDK_2_1"/>
+</launchConfiguration>

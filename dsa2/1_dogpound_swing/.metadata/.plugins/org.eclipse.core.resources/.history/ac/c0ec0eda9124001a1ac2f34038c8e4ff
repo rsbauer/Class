@@ -1,0 +1,91 @@
+/**
+ * 
+ */
+import java.awt.*;
+import javax.swing.JPanel;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+
+/**
+ * @author rbauer
+ *
+ */
+public class MenuFrame extends JFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public MenuFrame() {
+		super("Dog Pound Breakout");
+		setLayout(new BorderLayout());
+
+		JTextField textJumble = new JTextField(10);
+		JLabel textJumbleLabel = new JLabel("Jumble: ");
+		textJumbleLabel.setLabelFor(textJumble);
+
+		JTextField textNames = new JTextField(10);
+		JLabel textNamesLabel = new JLabel("Names: ");
+		textJumbleLabel.setLabelFor(textNames);
+
+		JPanel textControlsPane = new JPanel();
+        GridBagLayout gridbag = new GridBagLayout();
+        GridBagConstraints c = new GridBagConstraints();
+        
+        textControlsPane.setLayout(gridbag);		
+
+        c.anchor = GridBagConstraints.WEST;
+		c.gridwidth = GridBagConstraints.REMAINDER;     //end row
+		c.weighty = 1.0;
+        JLabel textMsgLabel = new JLabel("Enter the jumble and then the names delimited by spaces");
+        textControlsPane.add(textMsgLabel, c);
+        
+        
+        JLabel[] labels = {textJumbleLabel, textNamesLabel};
+        JTextField[] textFields = {textJumble, textNames};
+        addLabelTextRows(labels, textFields, gridbag, textControlsPane);
+
+
+        c.gridwidth = GridBagConstraints.REMAINDER; //last
+        c.anchor = GridBagConstraints.WEST;
+        c.weightx = 1.0;
+        textControlsPane.setBorder(
+                BorderFactory.createCompoundBorder(
+                                BorderFactory.createTitledBorder("Jumble"),
+                                BorderFactory.createEmptyBorder(5,5,5,5)));
+        
+        // setup the button
+        c.anchor = GridBagConstraints.CENTER;
+        JButton buttonSubmit = new JButton("Submit");
+        textControlsPane.add(buttonSubmit, c);
+        
+        // setup the listener for the button
+        buttonSubmit.addActionListener(this);)
+        
+        add(textControlsPane, BorderLayout.PAGE_START);
+        
+	}  // end public MenuFrame() {
+
+    private void addLabelTextRows(JLabel[] labels, JTextField[] textFields, 
+    		GridBagLayout gridbag, Container container) {
+		GridBagConstraints c = new GridBagConstraints();
+		c.anchor = GridBagConstraints.EAST;
+		int numLabels = labels.length;
+		
+		for (int i = 0; i < numLabels; i++) {
+		c.gridwidth = GridBagConstraints.RELATIVE; 		//next-to-last
+		c.fill = GridBagConstraints.NONE;      			//reset to default
+		c.weightx = 0.0;                       			//reset to default
+		container.add(labels[i], c);
+		
+		c.gridwidth = GridBagConstraints.REMAINDER;     //end row
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.weightx = 1.0;
+		container.add(textFields[i], c);
+		}
+	}  // end private void addLabelTextRows(JLabel[] labels, JTextField[] textFields, GridBagLayout gridbag, Container container) {
+	
+}  // end public class MenuFrame

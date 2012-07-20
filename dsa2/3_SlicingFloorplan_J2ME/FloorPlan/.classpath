@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry excluding="deployed/|verified/" kind="src" path=""/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/com.nokia.phone.tools.sdk.plugin.eclipse.UEIEmulatorType/Series_60_MIDP_SDK_2_1"/>
+	<classpathentry kind="output" path=""/>
+</classpath>

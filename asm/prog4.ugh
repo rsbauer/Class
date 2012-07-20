@@ -1,0 +1,157 @@
+; Rob Bauer
+; 20 March 98
+
+; Program 4
+; Procedure scans array and removes duplicates.  When done, procedure returns
+; number of duplicates removed in AX.  Procedure expects the array's address
+; and the number of items in the array.
+
+
+.MODEL SMALL
+.STACK 100H
+.DATA
+
+        array1 db 1,2,2,4
+;        array1 db 4,1,6,4,6,3,6
+        array1_size dw ($-array1)
+        array1_size2 dw ($-array1)/2
+
+.CODE
+        MAIN PROC
+                                ; Initialize DS register
+        MOV  AX,@DATA           ; Grab data segment address
+        MOV  DS,AX              ; Store data segment in DS
+
+        MOV AX,ARRAY1_SIZE      ; store array size
+        PUSH AX                 ; toss array size on stack
+        LEA AX,ARRAY1           ; store address in AX
+        PUSH AX                 ; toss onto stack
+
+        CALL ELIM               ; eliminate duplicates
+
+        CALL SHOWSTUFF          ; show AX and array
+
+        MOV  AX,4C00H           ; Initialize AX register
+        INT  21H                ; Tell DOS program is complete and return to
+                                ; system
+        MAIN ENDP
+
+
+        SHOWSTUFF PROC
+
+        LEA BX,ARRAY1
+        MOV CX,AX
+        ADD CX,'0'
+        MOV AH,2
+        MOV DL,CL
+        INT 21H
+
+        SUB CX,'0'
+        MOV SI,0
+    THELOOP:
+        MOV DL,[BX+SI]
+        ADD DL,'0'
+        INT 21H
+        ADD SI,1
+        LOOP THELOOP
+
+        RET
+        SHOWSTUFF ENDP
+
+;----------------------------------------------------------------------------
+        ELIM PROC
+        ; Eliminate all duplicates and return in AX the total removed
+
+        PUSH BP                 ; store current register values on stack
+        PUSH BX     
+        PUSH CX
+        PUSH DX
+        PUSH SI
+        PUSH DI
+        MOV BP,SP               ; set base pointer to current stack pointer
+
+;-- Test if array has only 0 or 1 elements ----------------------------------
+        MOV AX,[BP+16]          ; Grab off stack the size of array
+        MOV CX,[BP+16]          ; Grab off stack the size of array
+        DEC CX                  ; Want items-1 iterations
+        JLE DONE                ; Check if size is <=0 = items <= 2 -> done
+;-- End Test if array has only 0 or 1 elements ------------------------------
+
+        MOV BX,[BP+14]           ; point to base of array
+
+;        MOV AH,2
+;        MOV DX,[BX+4]
+;        ADD DL,'0'
+;        INT 21H
+
+        MOV DI,0    
+    NEXT_PASS:
+        MOV AL,[BX+DI]
+        MOV SI,0
+        INC DI
+        PUSH CX
+
+    NEXT_ITEM:
+        INC SI
+        CMP AL,[BX+SI]
+        JBE TOSS
+        LOOP NEXT_ITEM
+        JMP HOLD
+
+    TOSS:
+        CMP DI,SI
+        JBE SKIP
+
+        MOV DL,0
+        MOV [BX+SI+2],DL
+        PUSH CX
+        PUSH SI
+        PUSH DX
+
+
+;        MOV CX,[BP+16]
+;        SUB CX,DI
+;        MOV SI,DI
+
+    DA_LOOP:
+;        MOV DL,[BX+SI+1]
+;        MOV DH,[BX+SI+1]
+;        MOV [BX+SI+2],DL
+;        MOV [BX+SI+0],DH
+
+;        ADD DL,'0'
+;        MOV AH,2
+;        INT 21H
+;        MOV DL,DH
+;        ADD DL,'0'
+;        INT 21H
+
+        INC SI
+        LOOP DA_LOOP
+
+        DEC AX
+        POP DX
+        POP SI
+        POP CX
+
+    SKIP:
+        LOOP NEXT_ITEM    
+
+    HOLD:
+        POP CX
+        LOOP NEXT_PASS
+
+;        MOV AX,[BP+16]          ; Grab off stack the size of array
+;        INC AX
+    DONE:
+        POP DI                  ; restore register values
+        POP SI                  
+        POP DX
+        POP CX                  
+        POP BX
+        POP BP
+        RET 4                   ; pop 4 bytes (function call info) & return
+
+        ELIM ENDP
+;----------------------------------------------------------------------------
+END MAIN

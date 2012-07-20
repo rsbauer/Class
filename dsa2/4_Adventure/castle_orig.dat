@@ -1,0 +1,20 @@
+1 Kitchen
+2 Dining Room
+3 Living Room
+4 Entrance Hall
+5 Dungeon
+99
+1 3 N
+1 2 E
+1 4 S
+3 1 N
+2 1 W
+4 1 N
+3 4 W
+4 5 S
+99
+1 1 nothing
+2 3 crown wizard jewel
+3 4 vampire candle club crown
+4 2 table elixir
+5 2 werewolf tome

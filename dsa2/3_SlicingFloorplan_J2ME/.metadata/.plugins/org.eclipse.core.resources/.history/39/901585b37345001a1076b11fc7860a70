@@ -1,0 +1,29 @@
+import javax.microedition.midlet.*;
+import javax.microedition.lcdui.*;
+import javax.microedition.midlet.MIDletStateChangeException;
+
+public class DrawTree extends Canvas implements CommandListener
+{
+	private Command exit;
+	
+	public DrawTree() 
+	{
+		exit
+	}  // end public DrawTree()
+
+	protected void destroyApp(boolean arg0) throws MIDletStateChangeException {
+		// TODO Auto-generated method stub
+
+	}
+
+	protected void startApp() throws MIDletStateChangeException {
+		// TODO Auto-generated method stub
+
+	}
+
+	protected void pauseApp() {
+		// TODO Auto-generated method stub
+
+	}
+
+}  // end public class DrawTree extends MIDlet

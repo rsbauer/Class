@@ -1,0 +1,158 @@
+import javax.swing.*;
+import java.awt.*;
+
+/**
+ * Draw a binary tree with in a JPanel pane.  This pane may be displayed in its own window or within a split pane.  The 
+ * actual binary tree drawing takes place in the binary tree class.  This class is responsible for defining the 
+ * window parameters and launching the binary tree drawing process. 
+ * 
+ * @author Rob Bauer
+ * @version 1.0  2005-OCT-21
+ */
+public class DrawBinaryTree extends JPanel
+{
+	/**
+	 * Status bar height 
+	 */
+	private static final int STATUSBARHEIGHT = 12;
+	
+	/**
+	 * Box size minimum size.  This doesn't end up being the true actual size but a factor in determining the size. 
+	 */
+	private static final int BOXSIZE = 15;				// box size minimum size 
+	
+	/**
+	 * Window border padding in pixels.  This controls how much white space is available around the drawing and the 
+	 * window.  
+	 */
+	private static final int BORDERPADDING = 10;		// border padding in pixels 
+	
+	/**
+	 * Serial version ID 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	/**
+	 * Keep track of the window dimension 
+	 */
+	private Dimension dimension;
+	
+	/**
+	 * The binary tree floor plan in pre-order order. 
+	 */
+	private String floorplan;
+	
+	/**
+	 * The binary tree floor plan in in-order order. 
+	 */
+	private String inorderFloorplan;
+	
+	/**
+	 * The tree's depth 
+	 */
+	private int depth;
+	
+	/**
+	 * The tree's node count 
+	 */
+	private int nodecount;
+	
+	/**
+	 * The tree to be drawn 
+	 */
+	private BinaryTree tree;
+	
+	
+	/**
+	 * A generic constructor.  At least setup the window pane. 
+	 */
+	public DrawBinaryTree()
+	{
+		setupPanel();
+	}  // end public DrawBinaryTree()
+
+	
+	public DrawBinaryTree(String givenfloorplan)
+	{
+		setupPanel();
+		floorplan = givenfloorplan;
+		tree = new BinaryTree();
+		tree.loadTree(floorplan);
+		
+		depth = tree.getDepth();
+		nodecount = tree.getNodeCount();
+		
+		inorderFloorplan = tree.inorderTraversal();
+	}  // end public DrawBinaryTree(String givenfloorplan)
+	
+	
+	private void setupPanel()
+	{
+		setOpaque(true);	// handy for clearing the panel successfully (otherwise get artifacts) 
+		setBackground(Color.WHITE);				// set the background color
+	}  // end private void setupPanel()
+	
+	public void paintComponent(Graphics g)
+	{
+		super.paintComponent(g);		// call super's paint method
+		Graphics2D g2 = (Graphics2D) g;
+		// turn on anti-aliasing
+	    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, 
+	    		RenderingHints.VALUE_ANTIALIAS_ON);
+
+		dimension = getSize();
+		
+		drawTree(g2, tree);
+		drawStatusBar(g2);
+	}  // end public void paintComponent(Garphics g)
+	
+	
+	private void drawStatusBar(Graphics2D g)
+	{
+		
+		g.setColor(new Color(225, 235, 244));		// set the status bar color (light blue)
+		// clear the bottom of the screen
+		g.fillRect(0, dimension.height - STATUSBARHEIGHT, dimension.width, dimension.height);	
+		g.setColor(Color.BLACK);									// color for the text
+		// status bar text (let the user know the dimension and level used/entered
+		String statusText = new String("In-order: " + inorderFloorplan);  //  + "In-order: " + inorderFloorplan);
+		g.drawString(statusText, 2, dimension.height - 2);	// draw the string (place it at the bottom)		
+				
+//		statusText = new String("In-order: " + inorderFloorplan);
+//		g.drawString(statusText, dimension.width - (statusText.length() * 6), dimension.height - 2);	// draw the string (place it at the bottom)		
+		
+	}  // end private void drawStatusBar()
+	
+	
+	private void drawTree(Graphics2D g, BinaryTree drawtree)
+	{
+		// find center
+		Point center = getCenterPoint();
+		int x_spacing = ((dimension.width - (BORDERPADDING * 2)) / nodecount) ; 
+		int y_spacing = ((dimension.height - (BORDERPADDING * 2) - STATUSBARHEIGHT) / depth);
+		
+		int x_left = center.x - ((x_spacing * nodecount) / 2);
+		int y_top = center.y - ((y_spacing * depth) / 2);
+		
+		int boxDimension = getBoxDimension(x_spacing, y_spacing);
+		
+		x_left += (boxDimension / 4);
+		tree.drawTree(g, x_left, y_top, boxDimension, x_spacing, y_spacing);
+	}  // end private void drawTree(Graphics2D g, BinaryTree drawtree)
+	
+	
+	// take x spacing and y spacing and figure out which one is the smaller, then divide in 2 or something similar
+	private int getBoxDimension(int x, int y)
+	{
+		int size = x;
+		if(x > y)
+			size = y;
+		size += BOXSIZE;
+		return (int) Math.round(size / 2);
+	}  // end private int boxDimension(int x, int y)
+	
+	private Point getCenterPoint()
+	{
+		return new Point(dimension.width / 2, dimension.height / 2);
+	}  // end private Point getCenterPoint()
+}  // end public class DrawBinaryTree

@@ -1,0 +1,73 @@
+import javax.microedition.lcdui.*;
+import javax.microedition.midlet.MIDletStateChangeException;
+
+public class DrawTree extends Canvas implements CommandListener 
+{	
+	private Command exit;
+	private Command back;
+	private FloorPlan floorplanform;
+	private BinaryTree tree;
+	private int depth;
+	private int nodecount;
+	private String inorderFloorplan;
+	private static final int BORDERPADDING = 2; 
+	private static final int BOXSIZE = 10; 
+	private static final int STATUSBARHEIGHT = 12; 
+	
+	public DrawTree() 
+	{
+		// TODO Auto-generated constructor stub
+	}  // end public DrawTree()
+	
+	public DrawTree(String floorplan, FloorPlan fpobject)
+	{
+		
+		exit = new Command("Exit", Command.EXIT, 1);
+		back = new Command("Back", Command.BACK, 1);
+		addCommand(back);
+		addCommand(exit);
+		setCommandListener(this);
+		floorplanform = fpobject;
+		
+		tree = new BinaryTree();									// create a new tree
+		tree.loadTree(floorplan);									// load the tree nodes using the given floor plan
+		depth = tree.getDepth();									// find the depth
+		nodecount = tree.getNodeCount();							// find the node count
+		inorderFloorplan = tree.inorderTraversal();					// create the in-order floor plan string
+	}  // end public DrawTree(String floorplan)
+	
+	public void paint(Graphics g)
+	{
+		g.setColor(17, 185, 255);
+		g.drawRect(0, 0, 10, 10);
+	}  // end public paint(Graphics g)
+
+
+	protected void destroyApp(boolean arg0) throws MIDletStateChangeException {
+		// TODO Auto-generated method stub
+
+	}
+
+	protected void startApp() throws MIDletStateChangeException {
+		// TODO Auto-generated method stub
+
+	}
+
+	protected void pauseApp() {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void commandAction(Command command, Displayable displayable)
+	{
+		if(command == back)
+		{
+			floorplanform.showForm();
+		}  // end if(command == back)
+		
+		if(command == exit)
+		{
+			floorplanform.exitMIDlet();
+		}  // end if(command == exit)
+	}  // end public void commandAction(Command command, Displayable displayable)
+}

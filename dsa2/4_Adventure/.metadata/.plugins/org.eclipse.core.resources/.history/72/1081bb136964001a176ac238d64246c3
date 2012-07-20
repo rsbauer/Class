@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Modelistic Software Ltd. (http://www.modelistic.com) -->
+<jme>
+	<diagram style="defaultProfile.diagramStyle.default" version="1.3.5">
+		<class yLocation="1500" xLocation="1030" project="Adventure" className="Arc"/>
+		<class yLocation="1328" xLocation="1795" project="Adventure" className="DSPRoomSet"/>
+		<class yLocation="838" xLocation="2699" project="Adventure" className="Adventure"/>
+		<class yLocation="766" xLocation="2146" project="Adventure" className="NavFrame"/>
+		<class yLocation="766" xLocation="3133" project="Adventure" className="RoomItem"/>
+		<class yLocation="-282" xLocation="1509" project="Adventure" className="AdventureGame"/>
+		<class yLocation="-52" xLocation="702" project="Adventure" className="Castle"/>
+		<class yLocation="854" xLocation="988" project="Adventure" className="Room"/>
+		<class yLocation="116" xLocation="2162" project="Adventure" className="InputFrame"/>
+		<class yLocation="720" xLocation="1583" project="Adventure" className="Player"/>
+	</diagram>
+</jme>

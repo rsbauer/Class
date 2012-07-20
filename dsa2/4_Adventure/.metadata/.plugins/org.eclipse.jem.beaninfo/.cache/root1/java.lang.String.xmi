@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<change:ChangeDescription xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:change="http://www.eclipse.org/emf/2003/Change" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:org.eclipse.jem.internal.beaninfo.beaninfo="http:///org/eclipse/jem/internal/beaninfo/beaninfo.ecore" xmlns:org.eclipse.jem.internal.java="java.xmi">
+  <objectChanges key="org.eclipse.jem.internal.java:JavaClass java:/java.lang#String">
+    <value featureName="eAnnotations">
+      <listChanges referenceValues="#//@objectsToAttach.0"/>
+    </value>
+  </objectChanges>
+  <objectChanges key="ecore:EReference java:/java.lang#String/bytes">
+    <value featureName="eAnnotations">
+      <listChanges referenceValues="#//@objectsToAttach.1"/>
+    </value>
+    <value featureName="name" dataValue="bytes"/>
+    <value featureName="transient" dataValue="false"/>
+    <value featureName="volatile" dataValue="false"/>
+    <value featureName="changeable" dataValue="false"/>
+    <value featureName="eType" referenceValue="org.eclipse.jem.internal.java:ArrayType java:/#byte[]"/>
+    <value featureName="lowerBound" dataValue="0"/>
+    <value featureName="upperBound" dataValue="1"/>
+  </objectChanges>
+  <objectsToAttach xsi:type="org.eclipse.jem.internal.beaninfo.beaninfo:BeanDecorator" implicitDecoratorFlag="IMPLICIT_DECORATOR"/>
+  <objectsToAttach xsi:type="org.eclipse.jem.internal.beaninfo.beaninfo:PropertyDecorator" implicitlySetBits="52" implicitDecoratorFlag="IMPLICIT_DECORATOR" readMethod="java:/java.lang#String.getBytes("/>
+</change:ChangeDescription>

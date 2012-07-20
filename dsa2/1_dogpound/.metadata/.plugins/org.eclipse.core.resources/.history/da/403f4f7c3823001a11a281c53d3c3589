@@ -1,0 +1,107 @@
+/**
+ * @author Rob Bauer
+ * Date: 11 SEP 2005
+ * Assignment 1: Dog Pound Breakout
+ */
+package DogPoundBreakout;
+import java.util.Vector;
+import java.util.Enumeration;
+
+// javadoc comment tags: http://java.sun.com/j2se/javadoc/writingdoccomments/index.html
+
+public class Main {
+
+	/**
+	 * @param args command line arguments
+	 */
+	public static void main(String[] args) {
+		
+		String sMessage = validateInput(args);			// test the command line arguments
+		
+		if(sMessage != "") {							// if there was a problem, the problem will be in the string sMessage
+			System.out.println(sMessage);				// there was a problem, let the user know
+			return;										// exit out of the program
+		}  //  end if(sMessage != "") 
+		
+		String[] aName = new String[args.length - 1];
+		String sJumble = args[0];						// first argument contains the jumble;
+		for(int c = 1; c < args.length; c++)
+			aName[c-1] = args[c];
+		
+		Permutate vJumble = new Permutate(sJumble);
+		Vector vName = findMatches(vJumble, aName);
+		for(Enumeration e = vName.elements(); e.hasMoreElements();) {
+//			System.out.println(e.nextElement());
+		}  // end for(Enumeration e = vName.elements(); e.hasMoreElements();) {
+		
+		System.out.println(vJumble.toString());
+//		System.out.println(calculatePermuation(sJumble));
+	}  // end public static void main(String[] args) {
+
+	
+	/**
+	 * @param vJumble a vector containing all the permutations of the jumble
+	 * @param aName names to test
+	 * @return vector containing a list of the matching names
+	 */
+	public static Vector findMatches(Permutate vJumble, String[] aName) {
+		Vector vName = new Vector();
+		for(Enumeration e = vJumble.elements(); e.hasMoreElements();) {
+			for(int c = 0; c < aName.length; c++) {
+				if(e.nextElement().toString().indexOf(aName[c]) != -1)
+					vName.add(aName[c]);
+			}  // end for(int c = 0; c < aName.length; c++)
+				
+		}  // end for(Enumeration e = vJumble.elements(); e.hasMoreElements();) {
+		return vName;
+	}  // end public static Vector findMatches(Permutate vJumble, String[] aName) {
+	
+	
+	/**
+	 * Test an array of strings - make sure the length is 2 or more
+	 * @param vars an array of strings to test
+	 * @return String contains the error message, if there was any errors
+	 */
+	public static String validateInput(String[] vars) {
+		String sMessage = "";
+		if(vars.length < 2) 
+			sMessage = "You must enter at least 2 parameters:\nThe fist parameter is the jumble and the second (and additionanal parameters) the dog suspects";
+		return sMessage;
+	}  // end public static String validateInput(String[] vars) {
+	
+	
+	/**
+	 * Test a name against a jumble
+	 * @param vJumble the jumble
+	 * @param sTest the name to test on the jumble
+	 * @return String contains the test name if it was successfully found in the supplied jumble, otherwise null
+	 */
+	public static String testJumbleName(Vector vJumble, String sTest) {
+		for(int c = 0; c < sTest.length(); c++) {			// test each char in the test string		
+			if(vJumble.indexOf(sTest.charAt(c)) == -1)		// see if the char can be found in the vector
+				return "";									// not found, then this string is not valid
+			vJumble.removeElementAt(vJumble.indexOf(sTest.charAt(c)));		// remove this element in the vector so its not found again
+		}  // end for(int c = 0; c < sText.length(); c++) {
+		
+		// if we made it this far, then sTest was found in its entirety in vJumble
+		return sTest;			
+	}  // end public static String testJumpleName(String sJumble, String sTest) {
+	
+
+	/**
+	 * Convert a string to a vector
+	 * @param sString string to convert to a vector
+	 * @return the vector containing elements made up of characters from the given string
+	 */
+	public static Vector vectorizeString(String sString) {
+		Vector vVector = new Vector(sString.length());
+		for(int c = 0; c < sString.length(); c++) {
+			vVector.add(sString.charAt(c));
+		}  // end for(int c = 0; c < sTest.length(); c++) {
+		
+		return vVector;
+	}  // end public static Vector vectorizeString(String sString) {
+	
+	
+}  // end public class Main {
+

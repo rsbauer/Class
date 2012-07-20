@@ -1,0 +1,14 @@
+package DogPoundBreakout;
+
+import java.util.Vector;
+
+public class VectorTools extends Vector {
+	public static VectorTools(int nSize) {
+		return new Vector(nSize);
+	}  // end public static VectorTools(int nSize) {
+	
+	public static String testMe() {
+		return "Yo";
+	}
+	
+}

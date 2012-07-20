@@ -1,0 +1,260 @@
+import java.util.ArrayList;
+
+/**
+ * COPYRIGHT (C) 2005 Rob Bauer.  All Rights Reserved.
+ * <br> <br>
+ * An object to represent a castle room.  This object will behave (hopefully) as a node of a graph.  
+ * 
+ * @author Rob Bauer
+ * @version 1.0  2005-NOV-08
+ */
+public class Room {
+
+	/**
+	 * Room ID (usually the room number) 
+	 */
+	private int roomID;
+	
+	/**
+	 * Room name 
+	 */
+	private String name;
+	
+	/**
+	 * Keep track if this room has been visited or not. 
+	 */
+	private boolean visited;
+
+	
+	/**
+	 * Keep track of the items in the room 
+	 */
+	private ArrayList<RoomItem> roomitems;
+
+	/**
+	 * Keep track of the characters in the room 
+	 */
+	private ArrayList<RoomItem> characters;
+	
+	/**
+	 * Simple constructor to make a new room.
+	 */
+	public Room()
+	{
+		roomID = 0;
+		name = "";
+		visited = false;
+		roomitems = new ArrayList<RoomItem>();
+		characters = new ArrayList<RoomItem>();
+	}  // end public Room()
+	
+
+	/**
+	 * Constructor to make a new room.
+	 * 
+	 * @param number int of the room's ID
+	 * @param roomname String of the room's name
+	 */
+	public Room(int number, String roomname)
+	{
+		roomID = number;
+		name = roomname;
+		visited = false;
+		roomitems = new ArrayList<RoomItem>();
+		characters = new ArrayList<RoomItem>();
+	}  // end public Room(int number, String roomname)
+	
+	
+	/**
+	 * Return the room's ID
+	 * 
+	 * @return int containing the room's id
+	 */
+	public int getRoomID()
+	{
+		return roomID;
+	}  // end public int getRoomID()
+	
+	
+	/**
+	 * Return the room's name.
+	 * 
+	 * @return String containing the room's name
+	 */
+	public String getName()
+	{
+		return name;
+	}  // end public String getName()
+
+	
+	/**
+	 * Clear the visit flag. 
+	 */
+	public void clearVisit()
+	{
+		visited = false;
+	}  // end public void clearVisit()
+	
+	
+	public boolean haveVisisted()
+	{
+		return visited;
+	}  // end public boolean hasVisisted()
+	
+	
+	/**
+	 * Output room information in a string format for debugging.
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	public String toString()
+	{
+		return "(" + roomID + ") " + name + ", v: " + visited; 
+	}  // end public String toString()
+	
+	
+	
+	/**
+	 * Add an item to the room
+	 * 
+	 * @param Item to add to this room
+	 */
+	public void addItem(RoomItem item)
+	{
+		if(item.character == true)
+			characters.add(item);
+		else
+			roomitems.add(item);
+	}  // end public void addItem()
+	
+	
+	/**
+	 * Add an item to the room based on an item name.
+	 * 
+	 * @param itemname string containing the item name.
+	 */
+	public void addItem(String itemname)
+	{
+		itemname = itemname.replace("-", "");
+		if(itemname.equals("elixir"))										// check for misspelled elixer
+			itemname = "elixer";
+		
+		try
+		{
+			RoomItem roomitem = RoomItem.valueOf(itemname);
+			if(roomitem.character == true)
+				characters.add(roomitem);
+			else
+				roomitems.add(roomitem);
+		}  // end try
+		catch(Exception e)
+		{
+			System.out.println("Failed to add " + itemname + " to a room.");
+		}  // end catch(Exception e)
+	}  // end public void addItem(String itemname)
+	
+	
+	/**
+	 * Remove an item from the item list.
+	 * 
+	 * @param item Item to remove
+	 */
+	public void removeItem(RoomItem item)
+	{
+		roomitems.remove(item);
+	}  // end public void removeItem(Item item)
+	
+	
+	/**
+	 * Return a list of all the items in the room - the items and characters will be combined.
+	 * 
+	 * @return a list of all items including characters in the room
+	 */
+	public ArrayList<RoomItem> getAllItems()
+	{
+		ArrayList<RoomItem> allitems = new ArrayList<RoomItem>(characters.size() + roomitems.size());
+		
+		for(int a = 0; a < characters.size(); a++)				// add the list of characters 
+			allitems.add(characters.get(a));
+				
+		for(int a = 0; a < roomitems.size(); a++)				// add the list of room items
+			allitems.add(roomitems.get(a));
+		
+		return allitems;										// return all the items
+	}  // end public ArrayList<RoomItem> getAllItems()
+	
+	
+	/**
+	 * Return the list of room items.
+	 * 
+	 * @return ArrayList containing all the items in the room
+	 */
+	public ArrayList<RoomItem> getItems()
+	{
+		return roomitems;
+	}  // end public ArrayList getItems()
+	
+	
+	/**
+	 * Return the list of characters
+	 * @return
+	 */
+	public ArrayList<RoomItem> getCharacters()
+	{
+		return characters;		
+	}  // end public ArrayList<RoomItem> getCharacters() 
+	
+	
+	/**
+	 * Return a list of items in the room which can be moved.
+	 * 
+	 * @return array list containing the list of items which are moveable
+	 */
+	public ArrayList<RoomItem> getMoveableItems()
+	{
+		ArrayList<RoomItem> moveable = new ArrayList<RoomItem>(roomitems.size());			// setup the list to keep track of items found
+		for(int a = 0; a < roomitems.size(); a++)
+		{
+			if(((RoomItem) roomitems.get(a)).moveable == true)
+				moveable.add((RoomItem) roomitems.get(a));
+		}  // end for(int a = 0; a < roomitems.size(); a++)
+		
+		return moveable;
+	}  // end public ArrayList getMoveableItems()
+	
+	
+	/**
+	 * If a vampire exists in this room, then remove (kill) it.
+	 * 
+	 * @return true if the vampire was found and removed, otherwise false
+	 */
+	public boolean removeVampire()
+	{
+		return characters.remove(RoomItem.vampire);
+	}  // end public void removeVampire()
+	
+	
+	/**
+	 * If a werewolf exists in this room, then remove (kill) it.
+	 * 
+	 * @return true if the werewolf was found and removed, otherwise false
+	 */
+	public boolean removeWerewolf()
+	{
+		return characters.remove(RoomItem.werewolf);
+	}  // end public void removeWerewolf()
+	
+	
+	/**
+	 * Check if the hag is in this room.  Return true if so, otherwise false.
+	 * 
+	 * @return true if the hag is in the room, otherwise false.
+	 */
+	public boolean hagInRoom()
+	{
+		return characters.contains(RoomItem.hag);
+	}  // end public boolean hagInRoom()
+}  // end public class Room {
+
+
+

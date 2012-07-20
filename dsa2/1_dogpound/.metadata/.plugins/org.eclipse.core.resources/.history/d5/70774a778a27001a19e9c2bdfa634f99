@@ -1,0 +1,110 @@
+
+package DogPoundBreakout;
+import java.util.Vector;
+import java.util.Enumeration;
+
+/**
+ * COPYRIGHT (C) 2005 Rob Bauer.  All Rights Reserved.
+ * Collect input from the command line, create a jumble, its permutations, 
+ * and find matches based on the supplied input.  Then show the results.
+ * @author Rob Bauer
+ * @version 1.0  2005-09-11
+ */
+
+
+public class Main {
+
+	/**
+	 * Check the input parameters and make sure the proper number exist 
+	 * (at least 2).
+	 * <br>
+	 * Find the jumble and then all of its permutations.
+	 * <br>
+	 * Then find the matches.  Once done, display the results.
+	 * @param args command line arguments
+	 */
+	public static void main(String[] args) {
+		// test the command line arguments
+		String sMessage = validateInput(args);			
+		
+		// if there was a problem, the problem will be in the string sMessage
+		if(sMessage != "") {				
+			// there was a problem, let the user know
+			System.out.println(sMessage);	
+			return;									// exit out of the program
+		}  //  end if(sMessage != "") 
+		
+		String[] aName = new String[args.length - 1];
+		String sJumble = args[0];				// first arg contains the jumble
+		// make a copy of the args, minus the first one 
+		for(int c = 1; c < args.length; c++)			
+			aName[c-1] = args[c];					// assign the test name
+		
+		// setup the jumble and find and assign all its permutations
+		Permutate vJumble = new Permutate(sJumble);		
+		Vector vName = findMatches(vJumble, aName);	// find the name matches
+		
+		if(vName.size() > 0)						// any matches?
+			System.out.println("The following names were found in \"" 
+					+ sJumble + "\":");				// yup, let the user know
+		else
+			System.out.println("The supplied names were not found in \"" 
+					+ sJumble + "\".");				// none were found
+
+		// display the results
+		for(Enumeration e = vName.elements(); e.hasMoreElements();) {	
+			System.out.println(e.nextElement());	
+		}  // end for(Enumeration e = vName.elements(); e.hasMoreElements();) {
+		
+		// display total permutations
+		System.out.println("\nTotal permutations found: " + vJumble.size());		
+	}  // end public static void main(String[] args) {
+
+	
+	/**
+	 * @param vJumble a vector containing all the permutations of the jumble
+	 * @param aName names to test
+	 * @return vector containing a list of the matching names
+	 */
+	public static Vector findMatches(Permutate vJumble, String[] aName) {
+		boolean bFound = false;												// flag to keep track if we found a name or not
+		Vector vName = new Vector();										// setup the vector to hold the found names
+		
+		for(int c = 0; c < aName.length; c++) {								// loop all the test names
+			bFound = false;
+
+			// loop all the permutations of the jumble - stop looping if we find a match
+			for(Enumeration e = vJumble.elements(); e.hasMoreElements() && bFound == false;) {	
+
+				// check if the test name can be found in any of the permutations
+				if(e.nextElement().toString().indexOf(aName[c]) != -1)		
+				
+					if(!vName.contains(aName[c])) {						// found a match - now check if its been found before
+						boolean b = vName.add(aName[c]);				// hasn't been found before - add it to the vector
+						if(b == true)
+							bFound = true;								// could have used break here instead - set the flag to true
+					}  // end if(!vName.contains(aName[c])) {
+			
+			}  // end for(Enumeration e = vJumble.elements(); e.hasMoreElements();) {
+		
+		}  // end for(int c = 0; c < aName.length; c++)
+		
+		return vName;														// return the list of found names
+	}  // end public static Vector findMatches(Permutate vJumble, String[] aName) {
+	
+	
+	/**
+	 * Test an array of strings - make sure there's at least two strings in the array. 
+	 * @param vars an array of strings to test
+	 * @return String containing the error message, if there were any errors.
+	 */
+	public static String validateInput(String[] vars) {
+		String sMessage = "";
+		if(vars.length < 2) 
+			sMessage = "You must enter at least 2 parameters:\nThe fist parameter is the jumble and the second (and additionanal parameters) the dog suspects";
+		return sMessage;
+	}  // end public static String validateInput(String[] vars) {
+
+	
+}  // end public class Main {
+

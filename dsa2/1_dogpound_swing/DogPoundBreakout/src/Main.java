@@ -1,0 +1,22 @@
+/**
+ * 
+ */
+import javax.swing.JFrame;
+
+/**
+ * @author rbauer
+ *
+ */
+public class Main {
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+        MenuFrame menuFrame = new MenuFrame(args);
+        menuFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        menuFrame.setSize(500, 400);
+        menuFrame.setVisible(true);		
+	}  // end public static void main(String[] args) {
+	
+}  // end public class Main {

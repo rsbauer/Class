@@ -1,0 +1,249 @@
+1 Gatehouse
+2 Theater
+3 Nursery
+4 Barracks
+5 BeauchampTower
+6 BellTower
+7 BrickTower
+8 BrickTower
+9 BrickTower
+10 BleakTower
+11 Courtyard
+12 Reserve
+13 Causeway
+14 Causeway
+15 Chapel
+16 CardinalGuards
+17 Dungeon
+18 Dragonsville
+19 MailRoom
+20 GuestTower
+21 GrtTower
+22 GuardRoom
+23 GuardRoom
+24 GuardRoom
+25 GuardRoom
+26 GuardRoom
+27 GuardRoom
+28 GuardRoom
+29 GuardRoom
+30 HawkFalcons
+31 Kitchen
+32 KingsChamber
+33 Kennels
+34 LucyTower
+35 SherwoodRooms
+36 Library
+37 MiddleTower
+38 Maidergoles
+39 MuskeeterRoom
+40 Pantry
+41 Queenhouse
+42 RoyalApt
+43 StThomasTower
+44 Stable
+45 TortureChamber
+46 Turret
+47 Turret
+48 WardrobeTower
+49 WakefieldTower
+50 WaterlooTower
+51 ExhibitHall
+52 LibraryTerrace
+53 PlayRoom
+54 BallRoom
+55 MusicRoom
+56 Nursery
+57 MagicChamber
+58 Lobby
+59 MasonaryChamber
+60 GuestTower
+61 CloakRoom
+62 ServantParlor
+63 CraftsmenChamber
+64 RoyalArmory
+99
+1 5 N
+5 4 W
+5 49 N
+49 44 E
+44 14 N
+44 47 E
+18 17 N
+17 10 W
+10 39 S
+10 6 N
+6 60 N
+60 43 N
+43 45 W
+43 57 N
+57 50 N
+57 40 S
+40 26 S
+40 11 W
+11 25 W
+25 31 S
+31 54 S
+54 27 S
+27 49 E
+27 51 W
+27 54 N
+54 16 W
+16 22 W
+16 30 E
+30 7 W
+7 32 N
+57 24 W
+24 12 N
+12 50 E
+50 43 S
+12 37 S
+37 55 S
+55 11 S
+25 34 W
+34 58 S
+34 24 N
+24 38 S
+38 48 W
+38 34 S
+48 41 S
+41 21 N
+21 38 S
+41 58 S
+22 58 N
+58 32 E
+47 45 E
+45 46 N
+46 64 E
+64 8 N
+8 20 N
+20 42 W
+20 8 S
+8 60 W
+42 8 E
+64 60 W
+6 13 S
+13 40 W
+14 13 N
+39 14 S
+39 45 E
+50 37 W
+54 31 E
+26 13 E
+4 51 N
+51 31 N
+8 19 E
+19 61 N
+61 20 W
+63 19 N
+63 17 E
+17 62 N
+62 63 N
+18 9 S
+9 18 N
+47 29 S
+29 14 N
+5 33 S
+33 5 N
+33 30 W
+33 28 S
+28 52 W
+23 7 N
+28 23 S
+36 12 N
+56 36 S
+36 2 S
+2 52 W
+52 32 W
+52 2 E
+41 35 W
+35 48 E
+3 21 N
+21 3 N
+35 32 S
+15 6 S
+15 11 W
+20 59 N
+59 50 W
+53 36 W
+4 27 E
+13 6 N
+29 44 W
+49 26 N
+26 40 N
+62 46 W
+39 10 N
+21 56 E
+12 56 W
+53 25 S
+25 53 N
+32 7 S
+7 30 W
+30 33 E
+28 1 E
+44 1 S
+99
+1 1 nothing
+2 1 vampire
+3 1 hag
+4 2 troll jewel
+5 1 club hag
+6 1 wizard
+7 1 werewolf
+8 2 hag table
+9 1 nothing
+10 3 hag elixir bread
+11 2 table jewel
+12 1 reserve
+13 2 hag werewolf
+14 1 troll
+15 3 wizard bread candle
+16 1 nothing
+17 1 werewolf
+18 2 vampire hag
+19 1 goblet
+20 1 bread
+21 2 troll jewel
+22 1 nothing
+23 2 bread hag
+24 1 nothing
+25 1 hag
+26 1 goblet
+27 1 hag
+28 1 bread
+29 2 goblet table
+30 1 vampire
+31 1 bread
+32 2 crown jewel
+33 1 hag
+34 2 vampire woodenstake
+35 3 jewel tome goblet
+36 1 troll
+37 1 hag
+38 2 hag wizard
+39 1 hag
+40 2 bread tome
+41 2 jewel goblet
+42 1 elixir
+43 3 bread candle silverbullet
+44 1 woodenstake
+45 1 torture
+46 4 troll wizard jewel bread
+47 3 silverbullet goblet wizard
+48 2 candle tome
+49 1 hag
+50 1 jewel
+51 2 hunchback wizard
+52 1 nothing
+53 1 hunchback
+54 2 tome vampire
+55 1 nothing
+56 1 nothing
+57 2 wizard club
+58 2 hag troll
+59 1 werewolf
+60 2 bread garlic
+61 3 werewolf bread hag
+62 2 troll vampire
+63 2 hunchback elixir
+64 1 bread

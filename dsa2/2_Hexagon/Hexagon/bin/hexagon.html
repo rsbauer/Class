@@ -1,0 +1,34 @@
+<html>
+<head>
+<title>Hexagon Fractal by Rob Bauer</title>
+</head>
+<body height="100%" style="font-family: arial; font-size: 12px;">
+<applet code ="HexagonFractal.class" width ="75%" height ="100%" style="float: right; margin-left: 10px;"></applet>
+<div style="font-family: arial; font-size: 18px; font-weight: bold; color: #7A8A99; padding-bottom: 20px;" align="center">Hexagon Fractal</div>
+
+<div style="color: #7A8A99; font-weight: bold; text-decoration: underline; padding-bottom: 5px;">Getting Started</div>
+<div style="text-align: justify; padding-bottom: 20px;">
+Enter the pixel dimension (in pixels) of the level 0 hexagon you wish to draw.  Then enter the highest level you wish to draw (with 0 being the first level).  Select the draw object, color option, and draw mode as you prefer.  Click Draw!  To return to the menu, click anywhere on the image.
+</div>
+
+<div style="color: #7A8A99; font-weight: bold; text-decoration: underline; padding-bottom: 5px;">Notes</div>
+<div style="text-align: justify; padding-bottom: 20px;">
+<u>Draw Object</u>:  A hexagon is to fit inside a circle.  The circle can be selected along with the hexagon to validate the fractal.  Or simply select the circle to view the hexagon fractal as circles.
+<br> <br>
+<u>Colors</u>:  Several color modes are available.  Although colors are <i>not</i> available when using the Graphics2D draw mode.  
+<br> <br>
+<u>Draw Mode</u>:  Graphics2D and Graphics classes were used.  Graphics2D class is able to render with more precision using doubles versus integers.  At first glance, both appear to render the same, but select both, and see the differences.  
+<br> <br>
+<u>Performance</u>:  Performance will vary.  The rendering is buffered and then displayed at once.  Its usually very quick for lower fractal levels and will require patience if you select a fractal level of 7 or higher.  Use the Graphics draw mode for speed.  Use Graphics2D for accuracy.  This applet will resize itself to fit in the browser window (maximizing the browser window is highly recommended).
+</div>
+
+<div style="color: #7A8A99; font-weight: bold; text-decoration: underline; padding-bottom: 5px;">About</div>
+<div style="text-align: justify; padding-bottom: 20px;">
+View the <a href="http://www.rsbauer.com/class/dsa2/hexagon/Hexagon/doc/">JavaDocs</a> or the <a href="http://www.rsbauer.com/class/dsa2/hexagon/Hexagon/src/">source code</a> (or get it in color: <a href="http://www.rsbauer.com/school.php?Action=shownotes&file=dsa2/hexagon/Hexagon/src/HexagonFractal.java&title=HexagonFractal.java">HexagonFractal.java</a> and <a href="http://www.rsbauer.com/school.php?Action=shownotes&file=dsa2/hexagon/Hexagon/src/HexPaint.java&title=HexPaint.java">HexPaint.java</a>) or learn more about the <a href="http://www.rsbauer.com/about.php">author</a>.
+</div>
+<br>
+
+<div style="font-size: 10px; color: #7A8A99; font-weight: bold;" align="center">COPYRIGHT (C) 2005 Rob Bauer.  All Rights Reserved.</div>
+<!-- http://forum.java.sun.com/thread.jspa?forumID=57&threadID=285110 -->
+</body>
+</html>

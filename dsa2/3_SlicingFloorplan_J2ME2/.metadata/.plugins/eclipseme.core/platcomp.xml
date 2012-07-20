@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<platformComponents version="1.0.1">
+   <javadocAttachments/>
+   <sourceAttachments/>
+   <component componentID="uei.Series_60_MIDP_SDK_2_1" delegate="eclipseme.core.model.impl.WirelessToolkit$WirelessToolkitPersistenceDelegate" pluginID="eclipseme.core" root="C:\nokia_sdk\Series_60_MIDP_SDK_2_1" toolkitTypeId="eclipseme.core.model.impl.GenericUEIToolkitType"/>
+</platformComponents>

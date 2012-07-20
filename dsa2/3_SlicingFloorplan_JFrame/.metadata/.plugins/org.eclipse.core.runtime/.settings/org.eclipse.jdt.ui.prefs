@@ -1,0 +1,17 @@
+#Sun Oct 23 11:45:11 EDT 2005
+useQuickDiffPrefPage=true
+org.eclipse.jdt.ui.text.templates_migrated=true
+tabWidthPropagated=true
+org.eclipse.jdt.ui.javadoclocations.migrated=true
+org.eclipse.jdt.ui.text.code_templates_migrated=true
+org.eclipse.jdt.ui.text.custom_code_templates=<?xml version\="1.0" encoding\="UTF-8"?><templates/>
+useAnnotationsPrefPage=true
+spelling_locale=en_US
+command=C\:\\Program Files\\Java\\jdk1.5.0_04\\bin\\javadoc.exe
+org.eclipse.jface.textfont=1|Bitstream Vera Sans Mono|8|0|WINDOWS|1|-11|0|0|0|400|0|0|0|0|3|2|1|49|Bitstream Vera Sans Mono;
+org.eclipse.jdt.ui.editor.tab.width=
+org.eclipse.jdt.ui.formatterprofiles.version=8
+org.eclipse.jdt.ui.text.custom_templates=<?xml version\="1.0" encoding\="UTF-8"?><templates/>
+editor_folding_enabled=false
+eclipse.preferences.version=1
+fontPropagated=true

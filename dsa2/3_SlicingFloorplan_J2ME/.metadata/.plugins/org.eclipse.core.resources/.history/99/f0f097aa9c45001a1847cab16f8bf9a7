@@ -1,0 +1,103 @@
+import javax.microedition.lcdui.*;
+import javax.microedition.midlet.MIDletStateChangeException;
+
+public class DrawTree extends Canvas implements CommandListener 
+{	
+	private Command exit;
+	private Command back;
+	private FloorPlan floorplanform;
+	private BinaryTree tree;
+	private int depth;
+	private int nodecount;
+	private String inorderFloorplan;
+	
+	public DrawTree() 
+	{
+		super();
+		// TODO Auto-generated constructor stub
+	}  // end public DrawTree()
+	
+	public DrawTree(String floorplan, FloorPlan fpobject)
+	{
+		exit = new Command("Exit", Command.EXIT, 1);
+		back = new Command("Back", Command.BACK, 1);
+		addCommand(back);
+		addCommand(exit);
+		setCommandListener(this);
+		floorplanform = fpobject;
+		
+		tree = new BinaryTree();									// create a new tree
+		tree.loadTree(floorplan);									// load the tree nodes using the given floor plan
+
+		depth = tree.getDepth();									// find the depth
+		nodecount = tree.getNodeCount();							// find the node count
+		inorderFloorplan = tree.inorderTraversal();					// create the in-order floor plan string 
+	}  // end public DrawTree(String floorplan)
+	
+	public void paint(Graphics g)
+	{
+		g.setColor(17, 185, 255);
+		dimension = getSize();					// get the window size we're drawing in
+		drawTree(g, tree);						// draw the tree!  
+//		drawStatusBar(g);						// draw the status bar
+	}  // end public paint(Graphics g)
+	
+	/**
+	 * Draw the given binary tree.  Defines the center of the window as well as what the horizontal and vertical spacing
+	 * is available to fit all the nodes in the window.  This code allows the tree to grow and shrink when the window
+	 * is resized.  Horizontal space is determined by the number of nodes needed to draw and the available 
+	 * horizontal space.  The vertical space is determined by the depth of the tree and the amount of avaialble 
+	 * vertical space.  Also take into account the border space between the window itself and the drawing of the tree.
+	 * 
+	 * @param g Graphics2D to draw with 
+	 * @param drawtree BinaryTree to draw
+	 */
+	private void drawTree(Graphics2D g, BinaryTree drawtree)
+	{
+		Point center = getCenterPoint();						// find center
+		
+		// horizontal spacing between nodes
+		int x_spacing = ((dimension.width - (BORDERPADDING * 2)) / nodecount);					  
+
+		// vertical spacing between nodes (takes into account the status bar)
+		int y_spacing = ((dimension.height - (BORDERPADDING * 2) - STATUSBARHEIGHT) / depth);
+		
+		int x_left = center.x - ((x_spacing * nodecount) / 2);	// the left most pixel to start drawing from
+		int y_top = center.y - ((y_spacing * depth) / 2);		// the top most pixel to start drawing from
+		
+		int boxDimension = getBoxDimension(x_spacing, y_spacing);	// calculate the box dimension
+		
+		x_left += (boxDimension / 4);							// shift the tree to center it in the window
+		tree.drawTree(g, x_left, y_top, boxDimension, x_spacing, y_spacing);	// draw the tree recursively!
+	}  // end private void drawTree(Graphics2D g, BinaryTree drawtree)
+	
+		
+
+	protected void destroyApp(boolean arg0) throws MIDletStateChangeException {
+		// TODO Auto-generated method stub
+
+	}
+
+	protected void startApp() throws MIDletStateChangeException {
+		// TODO Auto-generated method stub
+
+	}
+
+	protected void pauseApp() {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void commandAction(Command command, Displayable displayable)
+	{
+		if(command == back)
+		{
+			floorplanform.showForm();
+		}  // end if(command == back)
+		
+		if(command == exit)
+		{
+			floorplanform.exitMIDlet();
+		}  // end if(command == exit)
+	}  // end public void commandAction(Command command, Displayable displayable)
+}

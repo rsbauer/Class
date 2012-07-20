@@ -1,0 +1,20 @@
+package DogPoundBreakout;
+
+import java.util.Vector;
+
+/**
+ * Additional vector tools and utilities
+ * @author Rob Bauer
+ *
+ */
+public class VectorTools extends Vector {
+	
+	/**
+	 * @param nSize initial vector size
+	 */
+	public VectorTools(int nSize) {
+		super(nSize);								// initialize the vector via the super constructor
+	}  // end public static VectorTools(int nSize) {
+	
+	
+}  // end public class VectorTools extends Vector

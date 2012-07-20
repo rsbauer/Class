@@ -1,0 +1,255 @@
+import javax.swing.*;
+
+import java.awt.KeyEventDispatcher;
+import java.awt.KeyboardFocusManager;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+
+
+/**
+ * COPYRIGHT (C) 2005 Rob Bauer.  All Rights Reserved.
+ * <br> <br>
+ * Initialize and display the main application frame.  This frame contains a menu bar which is present 
+ * throughout the application.  The NavFrame class starts the game GUI. 
+ * <br> <br>
+ * This class modelled after the same one used for the Slicing Floor Plan.
+ *  
+ * @author Rob Bauer
+ * @version 1.0  2005-NOV-08
+ */
+public class NavFrame extends JFrame
+{
+	/**
+	 * Default version ID 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	/**
+	 * Application title 
+	 */
+	private static final String TITLE = "Adventure!";
+
+	/**
+	 * A pane to display the input options 
+	 */
+	private InputFrame inputframe;
+	
+	/**
+	 * A way to reference back to this frame. 
+	 */
+	private JFrame controlPane;
+
+	private KeyEventDispatcher eventdispatcher;
+
+	
+	/**
+	 * Initialize the frame, set the title, setup the menu bar, and display the first frame.  This frame will be the 
+	 * floor plan input frame.  
+	 */
+	public NavFrame()
+	{
+		super(TITLE);								// set the application title
+		controlPane = this;
+		
+        setJMenuBar(createMenu());					// create menu and add to menu bar, then add to the frame
+		
+        inputframe = new InputFrame();				// initialize the input frame
+		setContentPane(inputframe);					// add the input frame to this content pane (below the menu bar)
+		
+		// http://forum.java.sun.com/thread.jspa?threadID=590754&messageID=3075556
+        eventdispatcher = getKeyEventDispatcher();						// setup an event listener
+	}  // end public NavFrame()
+	
+	
+	/**
+	 * Build the menus and add them to a menu bar.  Then return the new menu bar.
+	 * <br> <br>
+	 * Menu and menu bar code was developed from Sun's Java Component tutorials <a 
+	 * href="http://java.sun.com/docs/books/tutorial/uiswing/components/components.html">
+	 * http://java.sun.com/docs/books/tutorial/uiswing/components/components.html</a>. 
+	 *  
+	 * @return JMenuBar containing a complete menu bar
+	 */
+	public JMenuBar createMenu()
+	{
+		// build the file menu (if adding additional menus, do so after this line)
+		JMenu fileMenu = createFileMenu();		
+        JMenuBar bar = new JMenuBar();			// initialize the menu bar 
+        bar.add(fileMenu);						// add the menu to the menu bar
+        return bar;								// return the finished menu bar
+	}  // end public JMenuBar createMenu()
+	
+	
+	/** 
+	 * Build a file menu.  This file menu currently only gives the option to select a new floor plan or to exit the 
+	 * program.  Code developed for the menu was modelled from Sun's Java Menu Component tutorials <a 
+	 * href="http://java.sun.com/docs/books/tutorial/uiswing/components/components.html">
+	 * http://java.sun.com/docs/books/tutorial/uiswing/components/components.html</a>.
+	 * 
+	 * @return JMenu containing the file menu options
+	 */
+	public JMenu createFileMenu()
+	{
+	    JMenu fileMenu = new JMenu("File");     			// create file menu
+	    fileMenu.setMnemonic('F');              			// set mnemonic to F
+	    
+	    JMenuItem newitem = new JMenuItem("New Game"); 		// create a menu item
+	    newitem.setMnemonic('N');							// set the mnemonic to N
+	    fileMenu.add(newitem);								// add the menu item to the menu object
+
+        newitem.addActionListener(returnToInputFrame());	// setup the action listener for the "New" menu item
+	    
+        fileMenu.addSeparator();							// a menu seperator (to make the menu look pretty)
+
+        JMenuItem about = new JMenuItem("About");			// create a menu item for "about"
+        about.setMnemonic('A');								// set the mnemonic to A
+        fileMenu.add(about);								// add about to menu
+        about.addActionListener(aboutBox());							// show about dialog 
+        
+        fileMenu.addSeparator();							// a menu seperator (to make the menu look pretty)
+        
+	    JMenuItem exititem = new JMenuItem("Exit");			// to be nice, give the user the option to exit 
+	    exititem.setMnemonic('x');							// set mnemonic for exit
+	    fileMenu.add(exititem);								// add the exit item to the menu
+	    exititem.addActionListener(							// add an exit action listener
+                new ActionListener()						// create a new listener
+                {
+                    public void actionPerformed(ActionEvent event)		// if someone clicks on exit
+                    {
+                        System.exit(0);     							// exit application			
+                    }  // end public void actionPeformed(ActionEvent event)
+                }  // end new ActionListener()
+            );  // end exitItem.addActionListener(
+
+	    return fileMenu;									// return the new file menu
+	}  // end public JMenu createFileMenu()
+	
+
+	/**
+	 * Defines a new action listener which switches the content pane to remove the drawings and to show the floor plan
+	 * input frame (to allow the user to specify a new floor plan).  
+	 * 
+	 * @return ActionListener provides instructions on what to do when the user clicks on the file menu item
+	 */
+	public ActionListener returnToInputFrame()
+	{
+        return(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent event)
+            {
+                // listen for key presses and act on them
+                // enableEvents();
+
+            	cancelEvents();					// turn off keyboard event handling
+            	// inputframe.removeAll();
+            	validate();
+        		InputFrame inputframe = new InputFrame();	// Input frame for a floor plan
+        		setContentPane(inputframe);					// assign the input frame to the content pane
+        		validate();									// repaint the window with the new frame
+            }  // end public void actionPerformed(ActionEvent event)
+        }  // end new ActionListener()
+        );  // end return(new ActionListener()
+	}  // end public ActionListener getActionListener()
+
+
+	/**
+	 * Defines a new action listener to show the about box  
+	 * 
+	 * @return ActionListener provides instructions on what to do when the user clicks on the file menu item
+	 */
+	public ActionListener aboutBox()
+	{
+        return(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent event)
+            {
+            	String sMsg = "Adventure!\n\nVersion: 1.0\n\nCOPYRIGHT (C) 2005 Rob Bauer.  All Rights " +
+            			"Reserved.";
+            	JOptionPane.showMessageDialog(controlPane, sMsg);
+            }  // end public void actionPerformed(ActionEvent event)
+        }  // end new ActionListener()
+        );  // end return(new ActionListener()
+	}  // end public ActionListener aboutBox()
+	
+	
+	
+	/**
+	 * Start the adventure game.
+	 * 
+	 * @param filename String file name to load the castle from
+	 */
+	public void startAdventure(String filename)
+	{
+		AdventureGame adventure = new AdventureGame();
+		adventure.loadFile(textInFile.getText());
+		setContentPane(adventure);
+	}  // end public void startAdventure()
+	
+	
+	/**
+	 * Need to be able to turn key event dispatching off so we can retrieve the castle data file name from the user. 
+	 */
+	public void cancelEvents()
+	{
+		KeyboardFocusManager.getCurrentKeyboardFocusManager().removeKeyEventDispatcher(eventdispatcher);
+	}  // end public cancelEvents()
+
+	
+	/**
+	 * Need to be able to turn on key event dispatching.
+	 */
+	public void enableEvents()
+	{
+		KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(eventdispatcher);
+	}  // end public void enableEvents()
+
+	/**
+	 * Listen for key presses and respond accordingly.  I was unable to persuade KeyListener to work because it needed
+	 * focus plus I could only get it to work with the text box.  This approach worked for the entire application, if 
+	 * need be.  The method used was found at 
+	 * <a href="http://forum.java.sun.com/thread.jspa?threadID=590754&messageID=3075556">
+	 * http://forum.java.sun.com/thread.jspa?threadID=590754&messageID=3075556</a>
+	 * 
+	 * @return KeyEventDispatcher defining the actions to take when keys are pressed
+	 */
+	private KeyEventDispatcher getKeyEventDispatcher()
+	{
+		KeyEventDispatcher keyevent = new KeyEventDispatcher()				// define a new dispatcher 
+		{ 
+			public boolean dispatchKeyEvent(KeyEvent e)  					// define the event and the actions to take
+			{
+				System.out.println(e.getSource());
+				
+//				Component prop = e.getComponent();
+//				System.out.println("" + prop.);
+				
+//				if(e.KEY_RELEASED == e.getID())								// act only when the key was released
+				if(e.KEY_PRESSED == e.getID())	// act only when the key was pressed 
+				{
+		    		int keychar = e.getKeyCode();
+		    		System.out.println("Keypress: " + keychar);				// for testing
+//					String key = KeyEvent.getKeyText(e.getKeyCode());
+	 
+					switch(keychar)											// switched based on uppercase ASCII value
+					{
+						case 65:											// A  (ASCII value)
+							adventure.printMessage("Test");
+							break;
+					}  // end switch(key):
+				}  // end if(e.KEY_PRESSED == e.getID())
+				  		
+				return false;												// key wasn't processed
+	      	}  // end public boolean dispatchKeyEvent( KeyEvent e )
+	    };  // end KeyEventDispatcher keyevent = new KeyEventDispatcher()
+	    
+	    return keyevent;
+	}  // end private KeyEventDispatcher getKeyEventDispatcher()
+	
+
+	public KeyEventDispatcher getDispatcher()
+	{
+		return eventdispatcher;
+	}  // end public KeyEventDispatcher getDispatcher()
+	
+}  // end public class NavFrame

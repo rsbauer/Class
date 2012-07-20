@@ -1,0 +1,16 @@
+11:58:18.640 EVENT  [Worker-5]org.mortbay.http.HttpServer.start(HttpServer.java:639)15> Starting Jetty/4.2.x
+11:58:18.656 EVENT  [Worker-5]org.mortbay.http.HttpContext.start(HttpContext.java:1901)16> Started HttpContext[/ota]
+11:58:18.656 EVENT  [Worker-5]org.mortbay.http.SocketListener.start(SocketListener.java:155)16> Started SocketListener on 0.0.0.0:4071
+11:58:18.656 EVENT  [Worker-5]org.mortbay.http.HttpServer.start(HttpServer.java:675)15> Started org.mortbay.http.HttpServer@c9b4d1
+15:38:13.890 EVENT  [Worker-1]org.mortbay.http.HttpServer.start(HttpServer.java:639)15> Starting Jetty/4.2.x
+15:38:13.906 EVENT  [Worker-1]org.mortbay.http.HttpContext.start(HttpContext.java:1901)16> Started HttpContext[/ota]
+15:38:13.906 EVENT  [Worker-1]org.mortbay.http.SocketListener.start(SocketListener.java:155)16> Started SocketListener on 0.0.0.0:4710
+15:38:13.906 EVENT  [Worker-1]org.mortbay.http.HttpServer.start(HttpServer.java:675)15> Started org.mortbay.http.HttpServer@160983a
+16:04:05.015 EVENT  [Worker-8]org.mortbay.http.HttpServer.start(HttpServer.java:639)15> Starting Jetty/4.2.x
+16:04:05.031 EVENT  [Worker-8]org.mortbay.http.HttpContext.start(HttpContext.java:1901)16> Started HttpContext[/ota]
+16:04:05.031 EVENT  [Worker-8]org.mortbay.http.SocketListener.start(SocketListener.java:155)16> Started SocketListener on 0.0.0.0:4824
+16:04:05.031 EVENT  [Worker-8]org.mortbay.http.HttpServer.start(HttpServer.java:675)15> Started org.mortbay.http.HttpServer@d741c
+20:04:13.114 EVENT  [Worker-4]org.mortbay.http.HttpServer.start(HttpServer.java:639)15> Starting Jetty/4.2.x
+20:04:13.114 EVENT  [Worker-4]org.mortbay.http.HttpContext.start(HttpContext.java:1901)16> Started HttpContext[/ota]
+20:04:13.129 EVENT  [Worker-4]org.mortbay.http.SocketListener.start(SocketListener.java:155)16> Started SocketListener on 0.0.0.0:3180
+20:04:13.129 EVENT  [Worker-4]org.mortbay.http.HttpServer.start(HttpServer.java:675)15> Started org.mortbay.http.HttpServer@538773

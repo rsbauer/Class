@@ -1,0 +1,252 @@
+Microsoft (R) Macro Assembler Version 5.10                  3/24/98 00:40:22
+                                                             Page     1-1
+
+
+       1				; Rob Bauer
+       2				; 20 March 98
+       3				
+       4				; Program 4
+       5				; Procedure scans array and removes dup
+					licates.  When done, procedure returns
+       6				; number of duplicates removed in AX.  
+					Procedure expects the array's address
+       7				; and the number of items in the array.
+       8				
+       9				
+      10				.MODEL SMALL
+      11				.STACK 100H
+      12				.DATA
+      13				
+      14 0000  01 02 02 04		        array1 db 1,2,2,4
+      15				;        array1 db 4,1,6,4,6,3,6
+      16 0004  0004			        array1_size dw ($-array1)
+      17				
+      18				
+      19				.CODE
+      20 0000				        MAIN PROC
+      21				                                ; Initi
+					alize DS register
+      22 0000  B8 ---- R		        MOV  AX,@DATA           ; Grab 
+					data segment address
+      23 0003  8E D8			        MOV  DS,AX              ; Store
+					 data segment in DS
+      24				
+      25 0005  33 C0			        XOR AX,AX
+      26 0007  A1 0004 R		        MOV AX,ARRAY1_SIZE      ; store
+					 array size
+      27 000A  50			        PUSH AX                 ; toss 
+					array size on stack
+      28 000B  8D 06 0000 R		        LEA AX,ARRAY1           ; store
+					 address in AX
+      29 000F  50			        PUSH AX                 ; toss 
+					onto stack
+      30				
+      31 0010  E8 0042 R		        CALL ELIM               ; elimi
+					nate duplicates
+      32				
+      33 0013  E8 001B R		        CALL SHOWSTUFF          ; show 
+					AX and array
+      34				
+      35 0016  B8 4C00			        MOV  AX,4C00H           ; Initi
+					alize AX register
+      36 0019  CD 21			        INT  21H                ; Tell 
+					DOS program is complete and return to
+      37				                                ; syste
+					m
+      38 001B				        MAIN ENDP
+      39				
+      40				
+Microsoft (R) Macro Assembler Version 5.10                  3/24/98 00:40:22
+                                                             Page     1-2
+
+
+      41 001B				        SHOWSTUFF PROC
+      42				
+      43 001B  8D 1E 0000 R		        LEA BX,ARRAY1
+      44 001F  33 C9			        XOR CX,CX
+      45 0021  8B 0E 0004 R		        MOV CX,ARRAY1_SIZE
+      46 0025  83 C1 30			        ADD CX,'0'
+      47 0028  B4 02			        MOV AH,2
+      48 002A  8A D1			        MOV DL,CL
+      49 002C  CD 21			        INT 21H
+      50				
+      51 002E  8B 0E 0004 R		        MOV CX,ARRAY1_SIZE
+      52 0032  BE 0000			        MOV SI,0
+      53				
+      54 0035				    THELOOP:
+      55 0035  8A 10			        MOV DL,[BX+SI]
+      56 0037  80 C2 30			        ADD DL,'0'
+      57 003A  CD 21			        INT 21H
+      58 003C  83 C6 01			        ADD SI,1
+      59 003F  E2 F4			        LOOP THELOOP
+      60				
+      61 0041  C3			        RET
+      62 0042				        SHOWSTUFF ENDP
+      63				
+      64				;--------------------------------------
+					--------------------------------------
+      65 0042				        ELIM PROC
+      66				        ; Eliminate all duplicates and 
+					return in AX the total removed
+      67				
+      68 = WORD PTR [BP+6]		        NUM EQU <WORD PTR [BP+6]>
+      69				
+      70 0042  55			        PUSH BP                 ; store
+					 current register values on stack
+      71 0043  8B EC			        MOV BP,SP               ; set b
+					ase pointer to current stack pointer
+      72				
+      73 0045  53			        PUSH BX
+      74 0046  51			        PUSH CX
+      75 0047  52			        PUSH DX
+      76 0048  56			        PUSH SI
+      77 0049  57			        PUSH DI
+      78				
+      79				
+      80				;-- Test if array has only 0 or 1 eleme
+					nts ----------------------------------
+      81 004A  8B 4E 06			        MOV CX,[BP+6]          ; Grab o
+					ff stack the size of array
+      82 004D  49			        DEC CX                  ; Want 
+					items-1 iterations
+      83 004E  7E 3A			        JLE DONE                ; Check
+					 if size is <=0 = items <= 2 -> done
+      84				;-- End Test if array has only 0 or 1 e
+					lements ------------------------------
+      85				
+Microsoft (R) Macro Assembler Version 5.10                  3/24/98 00:40:22
+                                                             Page     1-3
+
+
+      86 0050  8B 5E 04			        MOV BX,[BP+4]           ; point
+					 to base of array
+      87 0053  BE 0000			        MOV SI,0
+      88 0056  BF 0000			        MOV DI,0
+      89				
+      90 0059				    LOOP_ONE:
+      91 0059  8B F7			    MOV SI,DI
+      92 005B  83 C6 01			    ADD SI,1
+      93				
+      94 005E				        LOOP_TWO:
+      95				
+      96 005E  8B 11			                MOV DX,[BX+DI]
+      97				
+      98 0060  3B 10			                CMP DX,[BX+SI]
+      99 0062  76 11			                JBE EQUAL
+     100				
+     101				
+     102 0064				        CONTINUE:
+     103 0064  83 C6 01			                ADD SI,1
+     104 0067  3B 76 06			                CMP SI,NUM
+     105 006A  7C F2			                JL LOOP_TWO
+     106				
+     107 006C  47			    INC DI
+     108 006D  3B 7E 06			    CMP DI,NUM
+     109 0070  7C E7			    JNGE LOOP_ONE
+     110 0072  EB 16 90			    JMP DONE
+     111				
+     112 0075				    EQUAL:
+     113 0075  50			        PUSH AX
+     114 0076  56			        PUSH SI
+     115				;        DEC SI
+     116 0077				                LOOP_THREE:
+     117				
+     118 0077  8B 40 01			                        MOV AX,[BX+SI+1
+					]
+     119 007A  89 00			                        MOV [BX+SI],AX
+     120				;                        MOV [BX+SI+1],
+					 WORD PTR 0
+     121 007C  46			                        INC SI
+     122				
+     123 007D  3B 76 06			                CMP SI,NUM
+     124 0080  7C F5			                JL LOOP_THREE
+     125 0082  83 6E 06 02		                SUB NUM,2
+     126				
+     127 0086  5E			        POP SI
+     128				;        SUB SI,1
+     129				;        DEC SI
+     130 0087  58			        POP AX
+     131 0088  EB DA			        JMP CONTINUE
+     132				
+     133 008A				    DONE:
+     134				
+     135				
+     136 008A  8B 46 06			        MOV AX,NUM
+Microsoft (R) Macro Assembler Version 5.10                  3/24/98 00:40:22
+                                                             Page     1-4
+
+
+     137				
+     138 008D  5F			        POP DI                  ; resto
+					re register values
+     139 008E  5E			        POP SI                  
+     140 008F  5A			        POP DX
+     141 0090  59			        POP CX                  
+     142 0091  5B			        POP BX
+     143 0092  5D			        POP BP
+     144 0093  C2 0004			        RET 4                   ; pop 4
+					 bytes (function call info) & return
+     145				
+     146 0096				        ELIM ENDP
+     147				;--------------------------------------
+					--------------------------------------
+     148				END MAIN
+Microsoft (R) Macro Assembler Version 5.10                  3/24/98 00:40:22
+                                                             Symbols-1
+
+
+Segments and Groups:
+
+                N a m e         	Length	 Align	Combine Class
+
+DGROUP . . . . . . . . . . . . .  	GROUP
+  _DATA  . . . . . . . . . . . .  	0006	WORD	PUBLIC	'DATA'
+  STACK  . . . . . . . . . . . .  	0100	PARA	STACK	'STACK'
+_TEXT  . . . . . . . . . . . . .  	0096	WORD	PUBLIC	'CODE'
+
+Symbols:            
+
+                N a m e         	Type	 Value	 Attr
+
+ARRAY1 . . . . . . . . . . . . .  	L BYTE	0000	_DATA
+ARRAY1_SIZE  . . . . . . . . . .  	L WORD	0004	_DATA
+
+CONTINUE . . . . . . . . . . . .  	L NEAR	0064	_TEXT
+
+DONE . . . . . . . . . . . . . .  	L NEAR	008A	_TEXT
+
+ELIM . . . . . . . . . . . . . .  	N PROC	0042	_TEXT	Length = 0054
+EQUAL  . . . . . . . . . . . . .  	L NEAR	0075	_TEXT
+
+LOOP_ONE . . . . . . . . . . . .  	L NEAR	0059	_TEXT
+LOOP_THREE . . . . . . . . . . .  	L NEAR	0077	_TEXT
+LOOP_TWO . . . . . . . . . . . .  	L NEAR	005E	_TEXT
+
+MAIN . . . . . . . . . . . . . .  	N PROC	0000	_TEXT	Length = 001B
+
+NUM  . . . . . . . . . . . . . .  	TEXT  WORD PTR [BP+6]		
+
+SHOWSTUFF  . . . . . . . . . . .  	N PROC	001B	_TEXT	Length = 0027
+
+THELOOP  . . . . . . . . . . . .  	L NEAR	0035	_TEXT
+
+@CODE  . . . . . . . . . . . . .  	TEXT  _TEXT		
+@CODESIZE  . . . . . . . . . . .  	TEXT  0		
+@CPU . . . . . . . . . . . . . .  	TEXT  0101h		
+@DATASIZE  . . . . . . . . . . .  	TEXT  0		
+@FILENAME  . . . . . . . . . . .  	TEXT  prog4		
+@VERSION . . . . . . . . . . . .  	TEXT  510		
+
+Microsoft (R) Macro Assembler Version 5.10                  3/24/98 00:40:22
+                                                             Symbols-2
+
+
+
+    148 Source  Lines
+    148 Total   Lines
+     30 Symbols
+
+  46642 + 403338 Bytes symbol space free
+
+      0 Warning Errors
+      0 Severe  Errors

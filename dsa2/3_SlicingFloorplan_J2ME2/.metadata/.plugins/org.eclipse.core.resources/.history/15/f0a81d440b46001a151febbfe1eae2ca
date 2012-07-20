@@ -1,0 +1,144 @@
+import javax.microedition.lcdui.*;
+import javax.microedition.midlet.MIDletStateChangeException;
+
+/**
+ * COPYRIGHT (C) 2005 Rob Bauer.  All Rights Reserved.
+ * <br> <br>
+ * Draw the floor plan based on the binary tree given.  This pane may be displayed in its own window or within a split 
+ * pane.  The actual binary tree drawing takes place in the binary tree class.  This class is responsible for defining 
+ * the window parameters and launching the floor plan drawing process.  The floor plan is split 50/50 between nodes.  
+ * 
+ * @author Rob Bauer
+ * @version 1.0  2005-OCT-21
+ */
+public class DrawFloorPlan extends Canvas implements CommandListener
+{
+	/**
+	 * Status bar height 
+	 */
+	private static final int STATUSBARHEIGHT = 12;
+	
+	/**
+	 * Window padding in pixels to use   
+	 */
+	private static final int BORDERPADDING = 20;		// border padding in pixels 
+	
+	/**
+	 * Serial version ID
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	/**
+	 * Window dimensions 
+	 */
+	private Dimension dimension;
+	
+	/**
+	 * Floor plan in pre-order order 
+	 */
+	private String floorplan;
+	
+	/**
+	 * Binary tree to use to generate the floor plan 
+	 */
+	private BinaryTree tree;
+	
+	
+	/**
+	 * Setup the window panel 
+	 */
+	public DrawFloorPlan()
+	{
+		setupPanel();							// setup the window
+	}  // end public DrawFloorPlan()
+
+	
+	/**
+	 * Specify the floor plan to be loaded in the tree.  
+	 * 
+	 * @param givenfloorplan String containing the floor plan in pre-order order.
+	 */
+	public DrawFloorPlan(String givenfloorplan)
+	{
+		setupPanel();							// setup the window
+		floorplan = givenfloorplan;				// assign the floor plan
+		tree = new BinaryTree();				// create a new tree
+		tree.loadTree(floorplan);				// load the tree with the given floor plan
+	}  // end public DrawBinaryTree(String givenfloorplan)
+		
+	
+	/**
+	 * Setup the window pane. 
+	 */
+	private void setupPanel()
+	{
+		setOpaque(true);						// handy for clearing the panel successfully (otherwise get artifacts) 
+		setBackground(Color.WHITE);				// set the background color
+	}  // end private void setupPanel()
+
+	
+	/** 
+	 * Perform the actual floor plan drawing on the panel.  Defines the drawing parameters and draws the plan as well as 
+	 * draws the status bar.  If the window gets resized or needs redrawing, this method will refresh the drawing.
+	 * 
+	 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
+	 */
+	public void paintComponent(Graphics g)
+	{
+		super.paintComponent(g);				// call super's paint method
+		Graphics2D g2 = (Graphics2D) g;			// let's use Graphics2D to use the antialiasing features
+
+		// turn on anti-aliasing
+	    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+		dimension = getSize();					// get the window size we're drawing in
+
+		drawFloorPlanFromTree(g2, tree);		// draw the floor plan!
+		drawStatusBar(g2);						// draw the status bar
+	}  // end public void paintComponent(Garphics g)
+	
+	
+	/**
+	 * Draw the status bar.  Paints a box at the bottom of the window and lets the user know about the floor plan used.
+	 * 
+	 * @param g Graphics2D to draw with
+	 */	
+	private void drawStatusBar(Graphics2D g)
+	{
+		
+		g.setColor(new Color(225, 235, 244));						// set the status bar color (light blue)
+		
+		// clear the bottom of the screen
+		g.fillRect(0, dimension.height - STATUSBARHEIGHT, dimension.width, dimension.height);	
+		
+		g.setColor(Color.BLACK);									// color for the text
+		
+		// status bar text - show the user the supplied floor plan used
+		String statusText = new String("Floorplan: " + floorplan);  
+		g.drawString(statusText, 2, dimension.height - 2);			// draw the string (place it at the bottom)		
+	}  // end private void drawStatusBar()
+	
+	
+	/**
+	 * Draw the floor plan.  Before doing so, define some parameters of the current drawing window.
+	 *   
+	 * @param g Graphics2D to draw on 
+	 * @param tree Tree to draw the floor plan from 
+	 */
+	private void drawFloorPlanFromTree(Graphics2D g, BinaryTree tree)
+	{
+		Point topleft = new Point(BORDERPADDING, BORDERPADDING);	// top left of the window
+
+		//  box dimensions to be drawing with in.  Takes into account white space padding (to make it look pretty!)
+		Point boxdim = new Point(dimension.width - (BORDERPADDING * 2), dimension.height - (BORDERPADDING * 2) 
+				- STATUSBARHEIGHT);
+		
+		// define the bottom right corner of the box
+		Point bottomright = new Point(topleft.x + boxdim.x, topleft.y + boxdim.y);
+		
+		// Note:  color is set as the default color here - should add code to change the color to the line color
+		g.drawRect(topleft.x, topleft.y, boxdim.x, boxdim.y);		// draw the box the floor plan will be within
+		tree.drawFloorplan(g, topleft, bottomright);				// recursively draw the floor plan!
+	}  // end private void drawFloorPlanFromTree(BinaryTree tree)
+
+}  // end public class DrawFloorPlan

@@ -1,0 +1,58 @@
+import javax.microedition.midlet.*;
+import javax.microedition.lcdui.*;
+
+
+public class FloorPlan extends MIDlet 
+{
+	private Display display;
+	private Form form;
+	private TextField floorplan;
+	private Command exit;
+
+	public FloorPlan() 
+	{
+		display = Display.getDisplay(this);
+		form = new Form("Slicing Floor Plan");
+		floorplan = new TextField("Floor Plan:", "|-AB-|C-EFD", 30, TextField.ANY);
+		form.append(floorplan);
+//		exit = new Command("Exit", Command.SCREEN, 1);
+//		form.addCommand(exit);
+//		form.setCommandListener((CommandListener) this);
+		
+		
+	}  // end public FloorPlan() {
+
+	protected void destroyApp(boolean arg0) throws MIDletStateChangeException 
+	{
+		// TODO Auto-generated method stub
+
+	}  // end protected void destroyApp(boolean arg0) throws MIDletStateChangeException
+
+	protected void startApp() throws MIDletStateChangeException 
+	{
+		display.setCurrent(form);
+	}  // end protected void startApp() throws MIDletStateChangeException
+
+	protected void pauseApp() 
+	{
+		// TODO Auto-generated method stub
+
+	}  // end protected void pauseApp()
+
+	public void commandAction(Command command, Displayable displayable)
+	{
+		if(command == exit)
+		{
+			try
+			{
+				destroyApp(false);
+				notifyDestroyed();
+			}  // end try
+			catch(Exception e)
+			{
+				return;
+			}  // end catch()
+		}  // end if(command == exit)
+	}  // end public void commandAction(Command command, Displayable displayable)
+	
+}  // end public class FloorPlan extends MIDlet

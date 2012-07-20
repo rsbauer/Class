@@ -1,0 +1,162 @@
+/**
+ * Permuation algorithm modelled after: 
+ * http://www.codeguru.com/Cpp/Cpp/algorithms/combinations/article.php/c7605/#more
+ * By srini_gct
+ * 
+ * Date: 11 SEP 2005
+ */
+
+import java.util.Vector;
+import java.util.Enumeration;
+
+/**
+ * 
+ * @author Rob Bauer
+ * 
+ */
+
+
+public class Permutate extends Vector {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private int position = 0;
+
+	/**
+	 * Supply the string and this constructor will build a vector containing all the permutations of the string   
+	 * @param sString string to permutate
+	 */
+	public Permutate(String sString) {
+		super();
+		position = 0;
+		int nSize = calculatePermutation(sString);
+		setSize(nSize);
+		String prefix = sString.substring(0, sString.length() - 1);					// generate the prefix by truncating the last character
+		String suffix = sString.substring(sString.length() - 1, sString.length());	// generate the suffix by taking only the last character 
+		permutateParts(prefix.toCharArray(), suffix.toCharArray());					// permutate the parts
+	}  // end public static void Permutate(String sString) {
+		
+	
+	/**
+	 * Recursively find the unique string patterns and rotate each of them<br>
+	 * for example: "123" is 1(23) which is a unique pattern of 123.<br>
+	 * and 1(32) is a unique pattern of 132.  These can be rotated:<br>
+	 * 123 rotates to:  231 and 312<br>
+	 * 132 rotates to: 321 and 213<br>
+	 * Function recursively finds 123 and 132 and then rotates the unique patterns to produce the permutations<br>
+	 * Permuation algorithm modelled after: 
+	 * <a href="http://www.codeguru.com/Cpp/Cpp/algorithms/combinations/article.php/c7605/#more">http://www.codeguru.com/Cpp/Cpp/algorithms/combinations/article.php/c7605/#more</a>
+	 * @param cprefix character array containing the string prefix
+	 * @param csuffix character array containing the string suffix
+	 */
+	private void permutateParts(char cprefix[], char csuffix[]) {
+		int prefix_len = cprefix.length;								// setup the string length
+		int suffix_len = csuffix.length;
+		
+		if(prefix_len > 0) {											// when the prefix length is 0, then a main pattern was found, otherwise, find the pattern
+			char[] newprefix = new String(cprefix).substring(0, prefix_len - 1).toCharArray();	// truncate the last character in prefix
+			char[] newsuffix = new char[csuffix.length + 1];			// allocate space for the new suffix, plus an additional character
+			
+			for(int c = 0; c < suffix_len; c++) {						// loop through all the character positions
+
+				newsuffix[0] = cprefix[prefix_len - 1];					// copy the truncated prefix's last character as the suffix's first character
+
+				for(int d = 0; d < suffix_len; d++) {					// loop through all the character positions
+					newsuffix[d + 1] = csuffix[(c + d) % suffix_len];			// rotate suffix characters and reassign
+				}  // end for(int d = 0; d < suffix_len; d++) {
+
+				permutateParts(newprefix, newsuffix);					// permutate the new prefix and suffix 
+		
+			}  // end for(int c = 0; c < suffix_len; c++) {
+
+		}  // end if(prefix_len) {
+		else {										// the prefix has a length of 0, csuffix contains a main pattern
+			rotateString(csuffix); 					// main pattern found, rotate its characters to produce the permutations
+		}  // end else
+	}  // end private static String permutateParts(char cprefix[], char csuffix[]) {
+	
+	
+	
+	/**
+	 * Rotate the string characters to produce all permutations of the supplied pattern
+	 * @param sString string pattern
+	 */
+	private void rotateString(char sString[]) {
+		int string_len = sString.length;								// string length
+		char[] newstring = new char [string_len];						// allocate the new string
+
+		for(int c = 0; c < string_len; c++) {							// loop the character positions
+
+			for(int d = 0; d < string_len; d++) {						// loop the character positions
+				newstring[d] = sString[(c + d) % string_len];			// perform the character rotation and assignment
+			}  // end for(int d = 0; d < sString.length; d++) {
+			
+			setElementAt(new String(newstring), position++);												// add the permutation to the vector
+			
+		}  // end for(int c = 0; c < sString.length; c++) {
+	
+	}  // end private static String rotateString(char sString[]) {
+	
+	/**
+	 * This function uses recursion to find the total number of permutations of a string
+	 * @param sTest string supplied to find the total number of permutations available
+	 * @return int number of permutations found for the supplied string
+	 */
+	public static int calculatePermutation(String sTest) {
+		
+		if(sTest.length() > 0)
+			return sTest.length() * calculatePermutation(sTest.substring(0, sTest.length() - 1));
+		
+		return 1;
+	}  // end public static int calculatePermuation(String sTest) {	
+	
+	
+	/**
+	 * Outputs the elements of the vector with a carriage return as the break instead of the Vector's default comma.
+	 * @see java.lang.Object#toString()
+	 */
+	public String toString() {
+		
+		String sOutput = "";
+		
+		for(Enumeration e = elements(); e.hasMoreElements();) {
+			if(sOutput != "")
+				sOutput += "\n";
+			sOutput += e.nextElement();
+		}  // end for(Enumeration e = vName.elements(); e.hasMoreElements();) {1
+		
+		return sOutput;
+	}  // end public static toString() {
+
+	/**
+	 * @param aName names to test
+	 * @return vector containing a list of the matching names
+	 */
+	public static Vector findMatches(String[] aName) {
+		boolean bFound = false;												// flag to keep track if we found a name or not
+		Vector vName = new Vector();										// setup the vector to hold the found names
+		
+		for(int c = 0; c < aName.length; c++) {								// loop all the test names
+			bFound = false;
+
+			// loop all the permutations of the jumble - stop looping if we find a match
+			for(Enumeration e = this.elements(); e.hasMoreElements() && bFound == false;) {	
+
+				// check if the test name can be found in any of the permutations
+				if(e.nextElement().toString().indexOf(aName[c]) != -1)		
+				
+					if(!vName.contains(aName[c])) {						// found a match - now check if its been found before
+						boolean b = vName.add(aName[c]);							// hasn't been found before - add it to the vector
+						if(b == true)
+							bFound = true;									// could have used break here instead - set the flag to true
+					}  // end if(!vName.contains(aName[c])) {
+			
+			}  // end for(Enumeration e = vJumble.elements(); e.hasMoreElements();) {
+		
+		}  // end for(int c = 0; c < aName.length; c++)
+		
+		return vName;														// return the list of found names
+	}  // end public static Vector findMatches(Permutate vJumble, String[] aName) {
+		
+}

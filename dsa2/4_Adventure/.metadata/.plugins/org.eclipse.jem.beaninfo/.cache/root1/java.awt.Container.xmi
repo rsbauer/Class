@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<change:ChangeDescription xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:change="http://www.eclipse.org/emf/2003/Change" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:org.eclipse.jem.internal.beaninfo.beaninfo="http:///org/eclipse/jem/internal/beaninfo/beaninfo.ecore" xmlns:org.eclipse.jem.internal.java="java.xmi">
+  <objectChanges key="org.eclipse.jem.internal.java:JavaClass java:/java.awt#Container">
+    <value featureName="eAnnotations">
+      <listChanges referenceValues="#//@objectsToAttach.0"/>
+    </value>
+    <value featureName="eStructuralFeatures">
+      <listChanges referenceValues="#//@objectsToAttach.2 #//@objectsToAttach.3 #//@objectsToAttach.4 #//@objectsToAttach.5"/>
+    </value>
+    <value featureName="events">
+      <listChanges referenceValues="#//@objectsToAttach.6"/>
+    </value>
+  </objectChanges>
+  <objectChanges key="ecore:EReference java:/java.awt#Container/layout">
+    <value featureName="eAnnotations">
+      <listChanges referenceValues="#//@objectsToAttach.1"/>
+    </value>
+    <value featureName="name" dataValue="layout"/>
+    <value featureName="transient" dataValue="false"/>
+    <value featureName="volatile" dataValue="false"/>
+    <value featureName="changeable" dataValue="true"/>
+    <value featureName="eType" referenceValue="org.eclipse.jem.internal.java:JavaClass java:/java.awt#LayoutManager"/>
+    <value featureName="lowerBound" dataValue="0"/>
+    <value featureName="upperBound" dataValue="1"/>
+  </objectChanges>
+  <objectsToAttach xsi:type="org.eclipse.jem.internal.beaninfo.beaninfo:BeanDecorator" shortDescription="Component that can contain other components" implicitlySetBits="6629298651489370126" implicitDecoratorFlag="IMPLICIT_DECORATOR" mergeSuperMethods="false"/>
+  <objectsToAttach xsi:type="org.eclipse.jem.internal.beaninfo.beaninfo:PropertyDecorator" shortDescription="Layout for container" implicitlySetBits="6629298651489370172" implicitDecoratorFlag="IMPLICIT_DECORATOR" readMethod="java:/java.awt#Container.getLayout(" writeMethod="java:/java.awt#Container.setLayout(java.awt.LayoutManager"/>
+  <objectsToAttach xsi:type="ecore:EReference" name="componentCount" eType="org.eclipse.jem.internal.java:JavaDataType java:/#int" changeable="false" unsettable="true">
+    <eAnnotations xsi:type="org.eclipse.jem.internal.beaninfo.beaninfo:PropertyDecorator" shortDescription="Number of components" expert="true" implicitlySetBits="6629298651489370164" implicitDecoratorFlag="IMPLICIT_DECORATOR_AND_FEATURE" readMethod="java:/java.awt#Container.getComponentCount("/>
+  </objectsToAttach>
+  <objectsToAttach xsi:type="ecore:EReference" name="focusTraversalPolicy" eType="org.eclipse.jem.internal.java:JavaClass java:/java.awt#FocusTraversalPolicy" unsettable="true">
+    <eAnnotations xsi:type="org.eclipse.jem.internal.beaninfo.beaninfo:PropertyDecorator" shortDescription="Container focus traversal policy" expert="true" implicitlySetBits="6629298651489370172" implicitDecoratorFlag="IMPLICIT_DECORATOR_AND_FEATURE" bound="true" readMethod="java:/java.awt#Container.getFocusTraversalPolicy(" writeMethod="java:/java.awt#Container.setFocusTraversalPolicy(java.awt.FocusTraversalPolicy"/>
+  </objectsToAttach>
+  <objectsToAttach xsi:type="ecore:EReference" name="insets" eType="org.eclipse.jem.internal.java:JavaClass java:/java.awt#Insets" changeable="false" unsettable="true">
+    <eAnnotations xsi:type="org.eclipse.jem.internal.beaninfo.beaninfo:PropertyDecorator" shortDescription="Get the insets for the container" expert="true" implicitlySetBits="6629298651489370164" implicitDecoratorFlag="IMPLICIT_DECORATOR_AND_FEATURE" readMethod="java:/java.awt#Container.getInsets("/>
+  </objectsToAttach>
+  <objectsToAttach xsi:type="ecore:EReference" name="preferredSize" eType="org.eclipse.jem.internal.java:JavaClass java:/java.awt#Dimension" unsettable="true">
+    <eAnnotations xsi:type="org.eclipse.jem.internal.beaninfo.beaninfo:PropertyDecorator" shortDescription="Get preferred size of container" implicitlySetBits="6629298651489370172" implicitDecoratorFlag="IMPLICIT_DECORATOR_AND_FEATURE" readMethod="java:/java.awt#Container.getPreferredSize(" writeMethod="java:/java.awt#Component.setPreferredSize(java.awt.Dimension"/>
+  </objectsToAttach>
+  <objectsToAttach xsi:type="org.eclipse.jem.internal.beaninfo.beaninfo:BeanEvent" name="container">
+    <eAnnotations xsi:type="org.eclipse.jem.internal.beaninfo.beaninfo:EventSetDecorator" displayName="Container" shortDescription="All container events" implicitlySetBits="-2594073385365405569" implicitDecoratorFlag="IMPLICIT_DECORATOR_AND_FEATURE" inDefaultEventSet="true" addListenerMethod="java:/java.awt#Container.addContainerListener(java.awt.event.ContainerListener" listenerType="java:/java.awt.event#ContainerListener" removeListenerMethod="java:/java.awt#Container.removeContainerListener(java.awt.event.ContainerListener" eventAdapterClass="java:/java.awt.event#ContainerAdapter">
+      <serListMthd name="componentAdded" method="java:/java.awt.event#ContainerListener.componentAdded(java.awt.event.ContainerEvent">
+        <eAnnotations xsi:type="org.eclipse.jem.internal.beaninfo.beaninfo:MethodDecorator" shortDescription="Event fired when a component is added to the container" implicitlySetBits="6629298651489370113">
+          <serParmDesc implicitlySetBits="2017612633061982209" name="containerEvent"/>
+        </eAnnotations>
+      </serListMthd>
+      <serListMthd name="componentRemoved" method="java:/java.awt.event#ContainerListener.componentRemoved(java.awt.event.ContainerEvent">
+        <eAnnotations xsi:type="org.eclipse.jem.internal.beaninfo.beaninfo:MethodDecorator" shortDescription="Event fired when a component is removed from the container" implicitlySetBits="6629298651489370113">
+          <serParmDesc implicitlySetBits="2017612633061982209" name="containerEvent"/>
+        </eAnnotations>
+      </serListMthd>
+    </eAnnotations>
+  </objectsToAttach>
+</change:ChangeDescription>

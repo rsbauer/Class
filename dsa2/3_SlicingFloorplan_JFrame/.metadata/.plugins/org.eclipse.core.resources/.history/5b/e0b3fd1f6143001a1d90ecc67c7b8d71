@@ -1,0 +1,436 @@
+import java.awt.*;
+
+
+
+/**
+ * Define a binary tree and its supporting methods.  This class also handles the necessary tree traversals for drawing 
+ * the nodes.  
+ * 
+ * @author Rob Bauer
+ * @version 1.0  2005-OCT-21
+ */
+public class BinaryTree 
+{
+	/**
+	 * First node of the binary tree 
+	 */
+	private BinaryNode root;
+	
+	/**
+	 * Node fill in color 
+	 */
+	private static final Color NODEFILLCOLOR = new Color(225, 235, 244);
+	
+	/**
+	 * Color of the lines to connect the nodes and used in the floor plan drawing.   
+	 */
+	private static final Color NODELINECOLOR = Color.DARK_GRAY;
+	
+	/**
+	 * Factor to divide the box size value by to gauge the line length for drawing the vertical and horizontal dividers
+	 * in the binary tree view.  
+	 */
+	private static final int LINELENGTHDIVIDEBY = 4;
+	
+	
+	/**
+	 * Initialize the binary tree by setting root to null.
+	 */
+	public BinaryTree()
+	{
+		root = null;								// set node to null
+	}  // end public BinaryTree()
+	
+	
+	/**
+	 * Set root to the supplied binary node.
+	 * 
+	 * @param node BinaryNode containing the node to set root to
+	 */
+	public BinaryTree(BinaryNode node)
+	{
+		root = node;
+	}  // end public BinaryTree(BinaryNode node)
+	
+	
+	/**
+	 * Set the root data to the supplied character as well as set the left and right children to the supplied binary 
+	 * trees. 
+	 * 
+	 * @param character set root's data 
+	 * @param left BinaryTree to be assigned to the left node
+	 * @param right BinaryTree to be assigned to the right node
+	 */
+	public BinaryTree(char character, BinaryTree left, BinaryTree right)
+	{
+		root = new BinaryNode(character);					// create a new node using the given data and assign to root
+		if(left != null)									// check if the left node is null
+			root.setLeftNode(left.getRoot());				// nope, define the left node
+		else
+			root.setLeftNode(null);							// set the left to null
+		
+		if(right != null)									// check if the right node is null
+			root.setRightNode(right.getRoot());				// nope, define the right node 
+		else
+			root.setRightNode(null);						// set the right to null
+	}  // end public BinaryTree(char character, BinaryTree left, BinaryTree right)
+	
+	
+	/**
+	 * Get the left tree for root.
+	 * 
+	 * @return BinaryTree found for the left node of root.
+	 */
+	public BinaryTree getLeftTree()
+	{
+		return new BinaryTree(root.getLeftNode());
+	}  // end public BinaryTree getLeftTree()
+
+
+	/**
+	 * Get the right tree for root.
+	 * 
+	 * @return BinaryTree found for the right node of root.
+	 */
+	public BinaryTree getRightTree()
+	{
+		return new BinaryTree(root.getRightNode());
+	}  // end public BinaryTree getRightTree()
+
+	
+	
+	/**
+	 * Recursively calculate the depth of a tree.  Take the current tree and find the depth of its right and left parts.
+	 * Which ever one is greater, return it plus one.  Continue dividing the tree up until the root node is null.
+	 * 
+	 * @return the depth
+	 */
+	public int getDepth()
+	{
+		if(root == null)									// check if root is null
+			return 0;										// yup, we're done here
+		
+		int left = 0;										// initialize the left counter
+		int right = 0;										// initialize the right counter
+		if(root.getLeftNode() != null)						// check if the left node is available
+			left = getLeftTree().getDepth();				// yup, get the left tree's depth (get recursive!)
+		
+		if(root.getRightNode() != null)						// check if the right node is available
+			right = getRightTree().getDepth();				// yup, get the right tree's depth (recursive!)
+		
+		if(left > right)									// check if the left is greater than the right
+			return left + 1;								// it is, return the left value and add one (include root)
+		
+		return right + 1;									// if got this far, then right was greater, add one & return 
+	}  // end public int getDepth()						
+	
+	
+	/**
+	 * Recursively calculate the node count.  Traverse both sides of the tree and return the number of nodes found.
+	 * 
+	 * @return node count found for the left and right sides of the tree.
+	 */
+	public int getNodeCount()
+	{
+		if(root == null)									// check if root is null
+			return 0;										// it is, then we're done
+		
+		int left = 0;										// initialize the left counter
+		int right = 0;										// initialize the right counter
+		
+		left = getLeftTree().getNodeCount();				// get the number of nodes on the left (get recursive!)
+		right = getRightTree().getNodeCount();				// get the number of nodes on the right (recursive!)
+		return right + left + 1;							// return the number of nodes found plus 1 (to include root)
+	}  // end public int getNodeCount()
+
+	
+	
+	/**
+	 * Set the root node to the given node.
+	 * 
+	 * @param node BinaryNode to set root to.
+	 */
+	public void setRoot(BinaryNode node)
+	{
+		root = node;										// assign root to the given node
+	}  // end public void setRoot(BinaryNode node)
+	
+	
+	public BinaryNode getRoot()
+	{
+		return root;
+	}  // end public BinaryNode getRoot()
+	
+	
+	public String postorderTraversal()
+	{
+		return traverseOrder(2);
+	}  // end public String preorderTraversal()
+
+	public String inorderTraversal()
+	{
+		return traverseOrder(1);
+	}  // end public void inorderTraversal()
+	
+	
+	public String preorderTraversal()
+	{
+		return traverseOrder(0);
+	}  // end public String preorderTraversal()
+
+	
+	public String traverseOrder(int mode)
+	{
+		StringBuffer sBuffer = new StringBuffer();
+		traverse(mode, root, sBuffer);
+		return sBuffer.toString();
+	}  // end public String traverseOrder(String mode)
+	
+	
+
+	private void traverse(int mode, BinaryNode node, StringBuffer sBuffer)
+	{
+		if(node == null)
+			return;
+		
+		if(mode == 0)															// preorder traversal
+			sBuffer.append(node.getData());										// root node data - add to string buffer
+		
+		traverse(mode, node.getLeftNode(), sBuffer);							// traverse the left side of the tree
+		
+		if(mode == 1)															// inorder traversal
+			sBuffer.append(node.getData());										// root node data - add to string buffer
+		
+		traverse(mode, node.getRightNode(), sBuffer);							// traverse the right side of the tree
+		
+		if(mode == 2)															// postorder traversal
+			sBuffer.append(node.getData());										// root node data - add to string buffer
+		
+	}  // end private void traverse(int mode, BinaryNode node, StringBuffer sBuffer)
+	
+	
+	public void drawTree(Graphics2D g, int left, int bottom, int boxsize, int x_spacing, int y_spacing)
+	{
+		nodes2Draw(g, left, bottom, boxsize, x_spacing, y_spacing, 0, 0, root);
+		drawNodeLines(g, root, root, boxsize);
+	}  // end public void drawTree(int top, int left)
+	
+	
+	private void drawNodeLines(Graphics2D g, BinaryNode node, BinaryNode lastNode, int boxsize)
+	{
+		// use preorder to draw the lines
+		if(node == null)
+			return;
+
+		Point center = node.getCenterPoint();
+		Point lastpoint = null;
+
+		g.setColor(NODELINECOLOR);
+		if(lastNode != null)
+		{
+			// draw line
+			lastpoint = lastNode.getCenterPoint();
+			g.drawLine(center.x, center.y, lastpoint.x, lastpoint.y);
+		}  // end if(lastpoint != null)
+		
+		
+		if(node.isLeaf())
+		{
+			drawFilledSquare(g, center, boxsize);
+		}  // end if(node.isLeaf())
+		else
+		{
+			// this is a root
+			drawFilledCircle(g, center, boxsize);
+		}  // end else
+		
+		if(lastpoint != null)		// redraw last node - the line we draw above drew over the node
+		{
+			drawFilledCircle(g, lastpoint, boxsize);
+			labelNode(g, lastNode, lastpoint, boxsize);
+		}  // end if(lastpoint != null)
+		
+		labelNode(g, node, center, boxsize);
+		
+		lastNode = node;
+		drawNodeLines(g, node.getLeftNode(), lastNode, boxsize);
+		drawNodeLines(g, node.getRightNode(), lastNode, boxsize);
+	}  // end private void drawNodeLines(Graphics2D g, Vector points)
+	
+	
+	private void labelNode(Graphics2D g, BinaryNode node, Point center, int boxsize)
+	{
+		int boxsizeQuarter = (int) boxsize / LINELENGTHDIVIDEBY;
+		
+		g.setColor(NODELINECOLOR);
+		char character = node.getData();
+		switch(character)
+		{
+			case '-':
+				g.drawLine(center.x - boxsizeQuarter, center.y, center.x + boxsizeQuarter, center.y);
+				break;
+				
+			case '|':
+				g.drawLine(center.x, center.y + boxsizeQuarter, center.x, center.y - boxsizeQuarter);
+				break;
+		
+			default:				// dealing with a letter
+				g.drawString("" + node.getData(), center.x - 4, center.y + 4);				// label the node
+				break;
+		}  // end switch(character)
+	}  // end private void labelNode(Graphics2D g, BinaryNode node, Point center)
+	
+	private void drawFilledSquare(Graphics2D g, Point center, int boxsize)
+	{
+		int halfbox = boxsize / 2;
+		g.setColor(NODEFILLCOLOR);
+		g.fillRect(center.x - halfbox, center.y - halfbox, boxsize, boxsize);
+		g.setColor(NODELINECOLOR);
+		g.drawRect(center.x - halfbox, center.y - halfbox, boxsize, boxsize);
+	}  // end private void drawFilledSquare(Graphics2D g, int x, int y, int boxsize)
+	
+	private void drawFilledCircle(Graphics2D g, Point center, int boxsize)
+	{
+		int halfbox = boxsize / 2;
+		g.setColor(NODEFILLCOLOR);
+		g.fillOval(center.x - halfbox, center.y - halfbox, boxsize, boxsize);
+		g.setColor(NODELINECOLOR);
+		g.drawOval(center.x - halfbox, center.y - halfbox, boxsize, boxsize);
+	}  // end private void drawFilledCircle(Graphics2D g, Point center, int boxsize)
+	
+	private int nodes2Draw(Graphics2D g, int left, int top, int boxsize, int x_spacing, int y_spacing, int depth, int count, BinaryNode node)
+	{
+		if(node == null)
+			return count;
+		
+		count = nodes2Draw(g, left, top, boxsize, x_spacing, y_spacing, depth + 1, count, node.getLeftNode());
+		
+		// BinaryTree thistree = new BinaryTree(node);
+		// int depth = thistree.getDepth();
+		count = locateNode(g, left, top, boxsize, x_spacing, y_spacing, depth, count, node);
+
+		count = nodes2Draw(g, left, top, boxsize, x_spacing, y_spacing, depth + 1, count, node.getRightNode());
+		return count;
+	}  // end private void drawNode(int top, int left, BinaryNode node)
+	
+	
+	private int locateNode(Graphics2D g, int left, int top, int boxsize, int x_spacing, int y_spacing, int depth, int count, BinaryNode node) 
+	{
+		Point topleft = getTopLeft(left, top, x_spacing, y_spacing, count, depth);
+		Point center = getCenterPoint(topleft.x, topleft.y, x_spacing, y_spacing, count, depth, boxsize);
+		
+		node.setCenterPoint(center.x, center.y);
+
+/*		
+		if(node.isLeaf())
+			g.drawRect(topleft.x, topleft.y, boxsize, boxsize);
+		else
+		{
+			// this is a root
+			g.drawOval(topleft.x, topleft.y, boxsize, boxsize);
+		}  // end else
+
+		g.drawString("" + node.getData(), center.x - 4, center.y + 4);				// label the node
+		
+*/
+		return count + 1;
+	}  // end private int drawNode(Graphics2D g, int left, int bottom, int boxsize, int x_spacing, int y_spacing, int depth, int count, BinaryNode node)
+	
+	
+	
+	
+	private Point getTopLeft(int left, int top, int x_spacing, int y_spacing, int count, int depth)
+	{
+		int x = left + ((x_spacing) * count);
+		int y = (top) + (y_spacing * depth);
+		return new Point(x, y);
+	}  // end private Point getTopLeft(int left, int top, int x_spacing, int y_spacing, int count, int depth)
+	
+	private Point getCenterPoint(int x, int y, int x_spacing, int y_spacing, int count, int depth, int boxsize)
+	{
+		int x_center = x + (boxsize / 2);
+		int y_center = y + (boxsize / 2);
+		return new Point(x_center, y_center);
+	}
+	
+	
+	public void loadTree(String plan)
+	{
+		BinaryTree tree = loadTreeNodes(new StringBuffer(plan));
+		root = tree.getRoot();
+	}  // end public void loadTree(String plan)
+
+	
+	public BinaryTree loadTreeNodes(StringBuffer plan)
+	{
+		if(plan.length() > 0)
+		{
+			char character = plan.charAt(0);
+			plan.deleteCharAt(0);
+			if(character == '-' || character == '|')
+			{
+				BinaryTree left = loadTreeNodes(plan);
+				BinaryTree right = loadTreeNodes(plan);
+				return new BinaryTree(character, left, right);
+			}  // end if(character != '-' && character != '|')
+			return new BinaryTree(character, null, null);
+
+		}  // end if(plan.length() > 0)
+		return null;
+	}  // end public BinaryTree loadTreeNodes2(String plan)
+
+	
+	
+	public String toString()
+	{
+		return inorderTraversal();
+	}  // end public String toString()
+	
+	
+	
+	public void drawFloorplan(Graphics2D g, Point topleft, Point bottomright)
+	{
+		g.setColor(NODELINECOLOR);
+		drawFloorplanNode(g, root, topleft, bottomright);
+	}  // end public void drawFloorplan()
+	
+	
+	private void drawFloorplanNode(Graphics2D g, BinaryNode node, Point topleft, Point bottomright)
+	{
+		if(node == null)
+			return;
+		
+		Point halfcenter = getHalfCenter(topleft, bottomright);
+		if(!node.isLeaf())
+		{
+			
+			if(node.getData() == '-')			// split box horizontally
+			{
+				g.drawLine(topleft.x, halfcenter.y, bottomright.x, halfcenter.y);
+				drawFloorplanNode(g, node.getLeftNode(), topleft, new Point(bottomright.x, halfcenter.y));
+				drawFloorplanNode(g, node.getRightNode(), new Point(topleft.x, halfcenter.y), bottomright);
+			}  // end if(node.getData() == '-')
+			
+			if(node.getData() == '|')			// split box vertically
+			{
+				g.drawLine(halfcenter.x, topleft.y, halfcenter.x, bottomright.y);
+				drawFloorplanNode(g, node.getLeftNode(), topleft, new Point(halfcenter.x, bottomright.y));
+				drawFloorplanNode(g, node.getRightNode(), new Point(halfcenter.x, topleft.y), bottomright);
+			}  // end if(node.getData() == '|')
+		}  // end if(!node.isLeaf())
+		else
+		{
+			// label node
+			g.drawString("" + node.getData(), halfcenter.x, halfcenter.y);
+		}  // end else
+	}  // end private void drawFloorplanNode(BinaryNode node, Point topleft, Point bottomright)
+	
+	
+	private Point getHalfCenter(Point topleft, Point bottomright)
+	{
+		int newy = ((bottomright.y - topleft.y) / 2) + topleft.y;
+		int newx = ((bottomright.x - topleft.x) / 2) + topleft.x;
+		return new Point (newx, newy);
+	}  // end private void getHalfCenter(Point topleft, Point bottomright)
+	
+}  // end public class BinaryTree

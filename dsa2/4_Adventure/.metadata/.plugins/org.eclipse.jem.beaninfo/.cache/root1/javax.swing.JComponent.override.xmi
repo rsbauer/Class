@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:event="event.xmi" xmlns:gridbagpreference="platform:/plugin/org.eclipse.ve.jfc/overrides/java/awt/gridbagpreference.ecore" xmlns:org.eclipse.ve.internal.cde.decorators="http:///org/eclipse/ve/internal/cde/decorators.ecore" xmlns:org.eclipse.ve.internal.jcm="http:///org/eclipse/ve/internal/jcm.ecore">
+  <event:AddMany featureName="eAnnotations">
+    <addedEObjects xsi:type="org.eclipse.ve.internal.cde.decorators:ClassDescriptorDecorator" treeViewClassname="org.eclipse.ve.jfc/org.eclipse.ve.internal.jfc.core.ComponentTreeEditPart" graphViewClassname="org.eclipse.ve.jfc/org.eclipse.ve.internal.jfc.core.ComponentGraphicalEditPart"/>
+    <addedEObjects xsi:type="org.eclipse.ve.internal.jcm:BeanDecorator">
+      <keyedValues xsi:type="gridbagpreference:Preference"/>
+    </addedEObjects>
+  </event:AddMany>
+  <event:Add featureName="eStructuralFeatures">
+    <addedEObjects xsi:type="ecore:EReference" name="nextFocusableComponent" unsettable="true">
+      <eAnnotations xsi:type="org.eclipse.ve.internal.cde.decorators:BasePropertyDecorator" labelProviderClassname="org.eclipse.ve.java.core/org.eclipse.ve.internal.java.vce.JavaBeanLabelProvider" cellEditorClassname="org.eclipse.ve.java.core/org.eclipse.ve.internal.java.vce.MemberJavaBeanCellEditor:java.awt.Component" entryExpandable="false"/>
+    </addedEObjects>
+  </event:Add>
+</xmi:XMI>

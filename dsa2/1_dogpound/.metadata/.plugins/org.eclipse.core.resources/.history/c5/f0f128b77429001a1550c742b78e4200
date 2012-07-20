@@ -1,0 +1,81 @@
+
+package DogPoundBreakout;
+import java.util.Vector;
+import java.util.Enumeration;
+
+/**
+ * COPYRIGHT (C) 2005 Rob Bauer.  All Rights Reserved.
+ * Collect input from the command line, create a jumble, its permutations, 
+ * and find matches based on the supplied input.  Then show the results.
+ * @author Rob Bauer
+ * @version 1.0  2005-09-11
+ */
+
+
+public class Main {
+
+	/**
+	 * Check the input parameters and make sure the proper number exist 
+	 * (at least 2).
+	 * <br>
+	 * Find the jumble and then all of its permutations.
+	 * <br>
+	 * Then find the matches.  Once done, display the results.
+	 * @param args command line arguments
+	 */
+	public static void main(String[] args) {
+		// test the command line arguments
+		String sMessage = validateInput(args);			
+		
+		// if there was a problem, the problem will be in the string sMessage
+		if(sMessage != "") {				
+			// there was a problem, let the user know
+			System.out.println(sMessage);	
+			return;									// exit out of the program
+		}  //  end if(sMessage != "") 
+		
+		String[] aName = new String[args.length - 1];
+		String sJumble = args[0];				// first arg contains the jumble
+		// make a copy of the args, minus the first one 
+		for(int c = 1; c < args.length; c++)			
+			aName[c-1] = args[c];					// assign the test name
+		
+		// setup the jumble and find and assign all its permutations
+		Permutate permutate = new Permutate(sJumble, aName);		
+		
+		if(vFound.size() > 0)						// any matches?
+			System.out.println("The following names were found in \"" 
+					+ sJumble + "\":");				// yup, let the user know
+		else
+			System.out.println("The supplied names were not found in \"" 
+					+ sJumble + "\".");				// none were found
+
+		// display the results
+		for(Enumeration e = vFound.elements(); e.hasMoreElements();) {	
+			System.out.println(e.nextElement());	
+		}  // end for(Enumeration e = vName.elements(); e.hasMoreElements();) {
+		
+		// display total permutations
+		System.out.println("\nTotal permutations found: " + permutate.size());		
+	}  // end public static void main(String[] args) {
+
+	
+	
+	/**
+	 * Test an array of strings - make sure there's at least two strings in 
+	 * the array. 
+	 * @param vars an array of strings to test
+	 * @return String containing the error message, if there were any errors.
+	 */
+	public static String validateInput(String[] vars) {
+		String sMessage = "";
+		if(vars.length < 2) 
+			sMessage = "You must enter at least 2 parameters:\n" 
+			+ "The fist parameter is the jumble and the second (and "
+			+ "additionanal parameters) the dog suspects";
+		return sMessage;
+	}  // end public static String validateInput(String[] vars) {
+
+	
+}  // end public class Main {
+

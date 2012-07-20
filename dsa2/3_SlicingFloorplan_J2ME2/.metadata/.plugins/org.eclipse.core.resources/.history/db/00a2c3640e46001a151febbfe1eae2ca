@@ -1,0 +1,140 @@
+import javax.microedition.lcdui.*;
+
+/**
+ * COPYRIGHT (C) 2005 Rob Bauer.  All Rights Reserved.
+ * <br> <br>
+ * Draw the floor plan based on the binary tree given.  This pane may be displayed in its own window or within a split 
+ * pane.  The actual binary tree drawing takes place in the binary tree class.  This class is responsible for defining 
+ * the window parameters and launching the floor plan drawing process.  The floor plan is split 50/50 between nodes.  
+ * 
+ * @author Rob Bauer
+ * @version 1.0  2005-OCT-21
+ */
+public class DrawFloorPlan extends Canvas implements CommandListener
+{
+	private Command exit;
+	private Command back;
+	private Command binarytreebutton;
+	private Command newplan;
+	
+	private FloorPlan floorplanform;
+	private static final int HEIGHT = (208 - 50);
+	private static final int WIDTH = 176;	
+
+	/**
+	 * Status bar height 
+	 */
+	private static final int STATUSBARHEIGHT = 12;
+	
+	/**
+	 * Window padding in pixels to use   
+	 */
+	private static final int BORDERPADDING = 5;		// border padding in pixels 
+	
+	/**
+	 * Serial version ID
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	/**
+	 * Window dimensions 
+	 */
+//	private Dimension dimension;
+	
+	/**
+	 * Floor plan in pre-order order 
+	 */
+	private String floorplan;
+	
+	/**
+	 * Binary tree to use to generate the floor plan 
+	 */
+	private BinaryTree tree;
+	
+	
+	/**
+	 * Setup the window panel 
+	 */
+	public DrawFloorPlan()
+	{
+		setupPanel();							// setup the window
+	}  // end public DrawFloorPlan()
+
+	
+	/**
+	 * Specify the floor plan to be loaded in the tree.  
+	 * 
+	 * @param givenfloorplan String containing the floor plan in pre-order order.
+	 */
+	public DrawFloorPlan(String givenfloorplan, FloorPlan fpobject)
+	{
+		floorplan = givenfloorplan;				// assign the floor plan
+		floorplanform = fpobject;
+
+		
+		binarytreebutton = new Command("Binary Tree", Command.SCREEN, 1);
+		exit = new Command("Exit", Command.EXIT, 1);
+		back = new Command("Back", Command.BACK, 1);
+		newplan = new Command("New", Command.SCREEN, 1);
+		
+		addCommand(binarytreebutton);
+		addCommand(newplan);
+		addCommand(back);
+		addCommand(exit);
+		setCommandListener(this);
+		
+		tree = new BinaryTree();				// create a new tree
+		tree.loadTree(floorplan);				// load the tree with the given floor plan
+	}  // end public DrawBinaryTree(String givenfloorplan)
+		
+	
+	/**
+	 * Setup the window pane. 
+	 */
+	private void setupPanel()
+	{
+	}  // end private void setupPanel()
+
+	public void paint(Graphics g)
+	{
+		drawFloorPlanFromTree(g, tree);		// draw the floor plan!
+//		drawStatusBar(g2);						// draw the status bar
+	}  // end public paint(Graphics g)
+
+	
+	/**
+	 * Draw the floor plan.  Before doing so, define some parameters of the current drawing window.
+	 *   
+	 * @param g Graphics2D to draw on 
+	 * @param tree Tree to draw the floor plan from 
+	 */
+	private void drawFloorPlanFromTree(Graphics g, BinaryTree tree)
+	{
+		Point topleft = new Point(BORDERPADDING, BORDERPADDING);	// top left of the window
+
+		//  box dimensions to be drawing with in.  Takes into account white space padding (to make it look pretty!)
+		Point boxdim = new Point(WIDTH - (BORDERPADDING * 2), HEIGHT - (BORDERPADDING * 2) 
+				- STATUSBARHEIGHT);
+		
+		// define the bottom right corner of the box
+		Point bottomright = new Point(topleft.x + boxdim.x, topleft.y + boxdim.y);
+		
+		// Note:  color is set as the default color here - should add code to change the color to the line color
+		g.drawRect(topleft.x, topleft.y, boxdim.x, boxdim.y);		// draw the box the floor plan will be within
+		tree.drawFloorplan(g, topleft, bottomright);				// recursively draw the floor plan!
+	}  // end private void drawFloorPlanFromTree(BinaryTree tree)
+
+	public void commandAction(Command command, Displayable displayable)
+	{
+		if(command == back)
+		{
+			floorplanform.showForm();
+		}  // end if(command == back)
+		
+		if(command == exit)
+		{
+			floorplanform.exitMIDlet();
+		}  // end if(command == exit)
+	}  // end public void commandAction(Command command, Displayable displayable)
+	
+}  // end public class DrawFloorPlan

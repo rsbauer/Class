@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:codeGenHelpers="platform:/plugin/org.eclipse.ve.java.core/overrides/codegenHelpers.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:event="event.xmi" xmlns:org.eclipse.ve.internal.cde.decorators="http:///org/eclipse/ve/internal/cde/decorators.ecore" xmlns:org.eclipse.ve.internal.jcm="http:///org/eclipse/ve/internal/jcm.ecore">
+  <event:AddMany featureName="eAnnotations">
+    <addedEObjects xsi:type="org.eclipse.ve.internal.cde.decorators:ClassDescriptorDecorator" treeViewClassname="org.eclipse.ve.jfc/org.eclipse.ve.internal.jfc.core.ComponentTreeEditPart" graphViewClassname="org.eclipse.ve.jfc/org.eclipse.ve.internal.jfc.core.ComponentGraphicalEditPart" modelAdapterClassname="org.eclipse.ve.jfc/org.eclipse.ve.internal.jfc.core.ComponentModelAdapter"/>
+    <addedEObjects xsi:type="org.eclipse.ve.internal.jcm:BeanDecorator" beanProxyClassName="org.eclipse.ve.jfc/org.eclipse.ve.internal.jfc.core.ComponentProxyAdapter" beanLocation="GLOBAL_GLOBAL"/>
+    <addedEObjects xsi:type="codeGenHelpers:CodeGenHelperClass" source="codegen.CodeGenHelperClass" expDecoder="org.eclipse.ve.jfc/org.eclipse.ve.internal.jfc.codegen.ComponentDecoder" modelled="true"/>
+  </event:AddMany>
+  <event:AddMany featureName="eStructuralFeatures">
+    <addedEObjects xsi:type="ecore:EReference" name="bounds">
+      <eAnnotations xsi:type="org.eclipse.ve.internal.cde.decorators:PropertyDescriptorInformation" propertyDescriptorClassname="org.eclipse.ve.jfc/org.eclipse.ve.internal.jfc.core.BoundsPropertyDescriptor"/>
+    </addedEObjects>
+    <addedEObjects xsi:type="ecore:EReference" name="location">
+      <eAnnotations xsi:type="org.eclipse.ve.internal.cde.decorators:PropertyDescriptorInformation" propertyDescriptorClassname="org.eclipse.ve.jfc/org.eclipse.ve.internal.jfc.core.LocationPropertyDescriptor"/>
+    </addedEObjects>
+    <addedEObjects xsi:type="ecore:EReference" name="size">
+      <eAnnotations xsi:type="org.eclipse.ve.internal.cde.decorators:PropertyDescriptorInformation" propertyDescriptorClassname="org.eclipse.ve.jfc/org.eclipse.ve.internal.jfc.core.SizePropertyDescriptor"/>
+    </addedEObjects>
+    <addedEObjects xsi:type="ecore:EReference" name="componentOrientation">
+      <eAnnotations xsi:type="org.eclipse.ve.internal.cde.decorators:BasePropertyDecorator" nullInvalid="true"/>
+    </addedEObjects>
+  </event:AddMany>
+</xmi:XMI>

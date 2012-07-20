@@ -1,0 +1,6 @@
+#Wed Oct 05 11:15:27 EDT 2005
+ColorsAndFontsPreferencePage.expandedCategories=Torg.eclipse.jdt.ui.presentation
+org.eclipse.jdt.ui.editors.textfont=1|Bitstream Vera Sans Mono|8|0|WINDOWS|1|-11|0|0|0|400|0|0|0|0|3|2|1|49|Bitstream Vera Sans Mono;
+org.eclipse.jdt.ui.PropertiesFileEditor.textfont=1|Bitstream Vera Sans Mono|8|0|WINDOWS|1|-11|0|0|0|400|0|0|0|0|3|2|1|49|Bitstream Vera Sans Mono;
+eclipse.preferences.version=1
+ColorsAndFontsPreferencePage.selectedElement=Forg.eclipse.jdt.ui.PropertiesFileEditor.textfont

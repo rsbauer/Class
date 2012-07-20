@@ -1,0 +1,11 @@
+C:\JavaDev\dsa2\1_dogpound\.metadata\.plugins\org.eclipse.jdt.core\229680049.index
+C:\JavaDev\dsa2\1_dogpound\.metadata\.plugins\org.eclipse.jdt.core\2060714404.index
+C:\JavaDev\dsa2\1_dogpound\.metadata\.plugins\org.eclipse.jdt.core\1194959442.index
+C:\JavaDev\dsa2\1_dogpound\.metadata\.plugins\org.eclipse.jdt.core\2751228764.index
+C:\JavaDev\dsa2\1_dogpound\.metadata\.plugins\org.eclipse.jdt.core\3702221452.index
+C:\JavaDev\dsa2\1_dogpound\.metadata\.plugins\org.eclipse.jdt.core\2805633315.index
+C:\JavaDev\dsa2\1_dogpound\.metadata\.plugins\org.eclipse.jdt.core\3486470186.index
+C:\JavaDev\dsa2\1_dogpound\.metadata\.plugins\org.eclipse.jdt.core\3602912485.index
+C:\JavaDev\dsa2\1_dogpound\.metadata\.plugins\org.eclipse.jdt.core\2696069557.index
+C:\JavaDev\dsa2\1_dogpound\.metadata\.plugins\org.eclipse.jdt.core\4293218135.index
+C:\JavaDev\dsa2\1_dogpound\.metadata\.plugins\org.eclipse.jdt.core\857505622.index

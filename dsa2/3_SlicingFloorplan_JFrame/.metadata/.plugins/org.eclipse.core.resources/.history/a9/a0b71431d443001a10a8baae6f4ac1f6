@@ -1,0 +1,115 @@
+import javax.swing.*;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+/**
+ * NavFrame initializes and displays the main application frame.  This frame contains a menu bar which is present 
+ * throughout the application.  The NavFrame class starts up by displaying floor plan input option to the user. 
+ * 
+ * @author Rob Bauer
+ * @version 1.0  2005-OCT-21
+ */
+public class NavFrame extends JFrame
+{
+	/**
+	 * Default version ID 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	/**
+	 * Application title 
+	 */
+	private static final String TITLE = "Slicing Floorplan";
+
+	
+	/**
+	 * Initialize the frame, set the title, setup the menu bar, and display the first frame.  This frame will be the 
+	 * floor plan input frame.  
+	 */
+	public NavFrame()
+	{
+		super(TITLE);								// set the application title
+        setJMenuBar(createMenu());					// create menu and add to menu bar, then add to the frame
+		
+		InputFrame inputFrame = new InputFrame();	// initialize the input frame
+		setContentPane(inputFrame);					// add the input frame to this content pane (below the menu bar)
+	}  // end public NavFrame()
+	
+	
+	/**
+	 * Build the menus and add them to a menu bar.  Then return the new menu bar.
+	 * <br> <br>
+	 * Menu and menu bar code was developed from Sun's Java Component tutorials <a 
+	 * href="http://java.sun.com/docs/books/tutorial/uiswing/components/components.html">
+	 * http://java.sun.com/docs/books/tutorial/uiswing/components/components.html</a>. 
+	 *  
+	 * @return JMenuBar containing a complete menu bar
+	 */
+	public JMenuBar createMenu()
+	{
+		// build the file menu (if adding additional menus, do so after this line)
+		JMenu fileMenu = createFileMenu();		
+        JMenuBar bar = new JMenuBar();			// initialize the menu bar 
+        bar.add(fileMenu);						// add the menu to the menu bar
+        return bar;								// return the finished menu bar
+	}  // end public JMenuBar createMenu()
+	
+	
+	/** 
+	 * Build a file menu.  This file menu currently only gives the option to select a new floor plan or to exit the 
+	 * program.  Code developed for the menu was modelled from Sun's Java Menu Component tutorials <a 
+	 * href="http://java.sun.com/docs/books/tutorial/uiswing/components/components.html">
+	 * http://java.sun.com/docs/books/tutorial/uiswing/components/components.html</a>.
+	 * 
+	 * @return JMenu containing the file menu options
+	 */
+	public JMenu createFileMenu()
+	{
+	    JMenu fileMenu = new JMenu("File");     			// create file menu
+	    fileMenu.setMnemonic('F');              			// set mnemonic to F
+	    
+	    JMenuItem newitem = new JMenuItem("New"); 			// create a menu item
+	    newitem.setMnemonic('N');							// set the mnemonic to N
+	    fileMenu.add(newitem);								// add the menu item to the menu object
+
+        newitem.addActionListener(returnToInputFrame());	// setup the action listener for the "New" menu item
+	    
+        fileMenu.addSeparator();							// a menu seperator (to make the menu look pretty)
+
+	    JMenuItem exititem = new JMenuItem("Exit");			// to be nice, give the user the option to exit 
+	    exititem.setMnemonic('x');							// set mnemonic for exit
+	    fileMenu.add(exititem);								// add the exit item to the menu
+	    exititem.addActionListener(							// add an exit action listener
+                new ActionListener()						// create a new listener
+                {
+                    public void actionPerformed(ActionEvent event)		// if someone clicks on exit
+                    {
+                        System.exit(0);     							// exit application			
+                    }  // end public void actionPeformed(ActionEvent event)
+                }  // end new ActionListener()
+            );  // end exitItem.addActionListener(
+
+	    return fileMenu;									// return the new file menu
+	}  // end public JMenu createFileMenu()
+	
+	
+	/**
+	 * Defines a new action listener which switches the content pane to remove the drawings and to show the floor plan
+	 * input frame (to allow the user to specify a new floor plan).  
+	 * 
+	 * @return ActionListener provides instructions on what to do when the user clicks on the file menu item
+	 */
+	public ActionListener returnToInputFrame()
+	{
+        return(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent event)
+            {
+        		InputFrame inputFrame = new InputFrame();	// Input frame for a floor plan 
+        		setContentPane(inputFrame);					// assign the input frame to the content pane
+        		validate();									// repaint the window with the new frame
+            }  // end public void actionPerformed(ActionEvent event)
+        }  // end new ActionListener()
+        );  // end return(new ActionListener()
+	}  // end public ActionListener getActionListener()
+}  // end public class NavFrame

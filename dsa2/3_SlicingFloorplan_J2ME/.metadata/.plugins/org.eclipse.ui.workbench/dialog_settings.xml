@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="NewWizardAction">
+		<item key="NewWizardSelectionPage.STORE_SELECTED_ID" value="eclipseme.ui.wizards.NewMidletWizard"/>
+		<list key="NewWizardSelectionPage.STORE_EXPANDED_CATEGORIES_ID">
+			<item value="eclipseme.category"/>
+			<item value="DesignerPlugin"/>
+		</list>
+	</section>
+	<section name="org.eclipse.ui.internal.dialogs.FilteredComboTree">
+		<list key="search">
+		</list>
+	</section>
+</section>

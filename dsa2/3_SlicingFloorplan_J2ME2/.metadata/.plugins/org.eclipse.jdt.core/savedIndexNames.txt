@@ -1,0 +1,2 @@
+C:\JavaDev\dsa2\3_SlicingFloorplan_J2ME2\.metadata\.plugins\org.eclipse.jdt.core\822925498.index
+C:\JavaDev\dsa2\3_SlicingFloorplan_J2ME2\.metadata\.plugins\org.eclipse.jdt.core\3660749465.index

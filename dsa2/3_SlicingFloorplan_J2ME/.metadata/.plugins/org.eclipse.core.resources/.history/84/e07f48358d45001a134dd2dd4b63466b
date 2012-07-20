@@ -1,0 +1,41 @@
+package FloorPlan;
+
+import javax.microedition.midlet.*;
+import javax.microedition.lcdui.*;
+import javax.microedition.midlet.MIDletStateChangeException;
+
+public class DrawTree extends Canvas implements CommandListener 
+{
+
+	public DrawTree() 
+	{
+		super();
+		// TODO Auto-generated constructor stub
+	}  // end public DrawTree()
+	
+	public DrawTree(String floorplan)
+	{
+		
+	}  // end public DrawTree(String floorplan)
+	
+	public paint(Graphics g)
+	{
+	
+	}  // end public paint(Graphics g)
+
+	protected void destroyApp(boolean arg0) throws MIDletStateChangeException {
+		// TODO Auto-generated method stub
+
+	}
+
+	protected void startApp() throws MIDletStateChangeException {
+		// TODO Auto-generated method stub
+
+	}
+
+	protected void pauseApp() {
+		// TODO Auto-generated method stub
+
+	}
+
+}

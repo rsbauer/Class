@@ -1,0 +1,134 @@
+!SESSION 2005-11-08 14:33:36.953 -----------------------------------------------
+eclipse.buildId=I20050627-1435
+java.version=1.5.0_04
+java.vendor=Sun Microsystems Inc.
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=en_US
+Command-line arguments:  -os win32 -ws win32 -arch x86
+
+!ENTRY org.eclipse.ui.ide 4 4 2005-11-08 14:50:33.250
+!MESSAGE Error accessing marker type
+
+!ENTRY org.eclipse.core.resources 4 376 2005-11-08 14:50:33.265
+!MESSAGE Marker id: 11 not found.
+
+!ENTRY org.eclipse.ui.ide 4 4 2005-11-08 14:50:33.265
+!MESSAGE Error accessing marker type
+
+!ENTRY org.eclipse.core.resources 4 376 2005-11-08 14:50:33.265
+!MESSAGE Marker id: 11 not found.
+!SESSION 2005-11-20 14:34:29.38 ------------------------------------------------
+eclipse.buildId=I20050627-1435
+java.version=1.5.0_04
+java.vendor=Sun Microsystems Inc.
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=en_US
+Command-line arguments:  -os win32 -ws win32 -arch x86
+
+!ENTRY org.eclipse.core.resources 2 10035 2005-11-20 14:34:33.07
+!MESSAGE A workspace crash was detected. The previous session did not exit normally.
+!SESSION 2005-12-03 19:17:02.31 ------------------------------------------------
+eclipse.buildId=I20050627-1435
+java.version=1.5.0_04
+java.vendor=Sun Microsystems Inc.
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=en_US
+Command-line arguments:  -os win32 -ws win32 -arch x86
+
+!ENTRY org.eclipse.ui.workbench 4 0 2005-12-03 19:19:47.843
+!MESSAGE WARNING: Blocked recursive attempt to close part org.eclipse.uml2.presentation.UML2EditorID while still in the middle of activating it
+!STACK 0
+java.lang.RuntimeException: WARNING: Blocked recursive attempt to close part org.eclipse.uml2.presentation.UML2EditorID while still in the middle of activating it
+	at org.eclipse.ui.internal.WorkbenchPage.closeEditors(WorkbenchPage.java:1144)
+	at org.eclipse.ui.internal.WorkbenchPage.closeEditor(WorkbenchPage.java:1281)
+	at org.eclipse.uml2.presentation.UML2Editor.handleActivate(UML2Editor.java:469)
+	at org.eclipse.uml2.presentation.UML2Editor$1.partActivated(UML2Editor.java:347)
+	at org.eclipse.ui.internal.PartListenerList$1.run(PartListenerList.java:72)
+	at org.eclipse.core.internal.runtime.InternalPlatform.run(InternalPlatform.java:1044)
+	at org.eclipse.core.runtime.Platform.run(Platform.java:783)
+	at org.eclipse.ui.internal.PartListenerList.fireEvent(PartListenerList.java:58)
+	at org.eclipse.ui.internal.PartListenerList.firePartActivated(PartListenerList.java:70)
+	at org.eclipse.ui.internal.PartService.firePartActivated(PartService.java:73)
+	at org.eclipse.ui.internal.PartService.setActivePart(PartService.java:171)
+	at org.eclipse.ui.internal.WorkbenchPagePartList.fireActivePartChanged(WorkbenchPagePartList.java:56)
+	at org.eclipse.ui.internal.PartList.setActivePart(PartList.java:108)
+	at org.eclipse.ui.internal.WorkbenchPage.setActivePart(WorkbenchPage.java:2859)
+	at org.eclipse.ui.internal.WorkbenchPage.requestActivation(WorkbenchPage.java:2471)
+	at org.eclipse.ui.internal.PartPane.requestActivation(PartPane.java:249)
+	at org.eclipse.ui.internal.EditorPane.requestActivation(EditorPane.java:88)
+	at org.eclipse.ui.internal.PartPane.handleEvent(PartPane.java:214)
+	at org.eclipse.swt.widgets.EventTable.sendEvent(EventTable.java:66)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:843)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:867)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:848)
+	at org.eclipse.swt.widgets.Shell.setActiveControl(Shell.java:998)
+	at org.eclipse.swt.widgets.Shell.WM_MOUSEACTIVATE(Shell.java:1635)
+	at org.eclipse.swt.widgets.Control.windowProc(Control.java:3079)
+	at org.eclipse.swt.widgets.Decorations.windowProc(Decorations.java:1582)
+	at org.eclipse.swt.widgets.Display.windowProc(Display.java:3706)
+	at org.eclipse.swt.internal.win32.OS.DefWindowProcW(Native Method)
+	at org.eclipse.swt.internal.win32.OS.DefWindowProc(OS.java:1651)
+	at org.eclipse.swt.widgets.Scrollable.callWindowProc(Scrollable.java:77)
+	at org.eclipse.swt.widgets.Control.windowProc(Control.java:3123)
+	at org.eclipse.swt.widgets.Display.windowProc(Display.java:3706)
+	at org.eclipse.swt.internal.win32.OS.DefWindowProcW(Native Method)
+	at org.eclipse.swt.internal.win32.OS.DefWindowProc(OS.java:1651)
+	at org.eclipse.swt.widgets.Scrollable.callWindowProc(Scrollable.java:77)
+	at org.eclipse.swt.widgets.Control.windowProc(Control.java:3123)
+	at org.eclipse.swt.widgets.Display.windowProc(Display.java:3706)
+	at org.eclipse.swt.internal.win32.OS.DefWindowProcW(Native Method)
+	at org.eclipse.swt.internal.win32.OS.DefWindowProc(OS.java:1651)
+	at org.eclipse.swt.widgets.Scrollable.callWindowProc(Scrollable.java:77)
+	at org.eclipse.swt.widgets.Control.windowProc(Control.java:3123)
+	at org.eclipse.swt.widgets.Display.windowProc(Display.java:3706)
+	at org.eclipse.swt.internal.win32.OS.DefWindowProcW(Native Method)
+	at org.eclipse.swt.internal.win32.OS.DefWindowProc(OS.java:1651)
+	at org.eclipse.swt.widgets.Scrollable.callWindowProc(Scrollable.java:77)
+	at org.eclipse.swt.widgets.Control.windowProc(Control.java:3123)
+	at org.eclipse.swt.widgets.Display.windowProc(Display.java:3706)
+	at org.eclipse.swt.internal.win32.OS.DefWindowProcW(Native Method)
+	at org.eclipse.swt.internal.win32.OS.DefWindowProc(OS.java:1651)
+	at org.eclipse.swt.widgets.Scrollable.callWindowProc(Scrollable.java:77)
+	at org.eclipse.swt.widgets.Control.windowProc(Control.java:3123)
+	at org.eclipse.swt.widgets.Display.windowProc(Display.java:3706)
+	at org.eclipse.swt.internal.win32.OS.DefWindowProcW(Native Method)
+	at org.eclipse.swt.internal.win32.OS.DefWindowProc(OS.java:1651)
+	at org.eclipse.swt.widgets.Scrollable.callWindowProc(Scrollable.java:77)
+	at org.eclipse.swt.widgets.Control.windowProc(Control.java:3123)
+	at org.eclipse.swt.widgets.Display.windowProc(Display.java:3706)
+	at org.eclipse.swt.internal.win32.OS.DefWindowProcW(Native Method)
+	at org.eclipse.swt.internal.win32.OS.DefWindowProc(OS.java:1651)
+	at org.eclipse.swt.widgets.Scrollable.callWindowProc(Scrollable.java:77)
+	at org.eclipse.swt.widgets.Control.windowProc(Control.java:3123)
+	at org.eclipse.swt.widgets.Display.windowProc(Display.java:3706)
+	at org.eclipse.swt.internal.win32.OS.CallWindowProcW(Native Method)
+	at org.eclipse.swt.internal.win32.OS.CallWindowProc(OS.java:1580)
+	at org.eclipse.swt.widgets.Tree.callWindowProc(Tree.java:229)
+	at org.eclipse.swt.widgets.Control.windowProc(Control.java:3123)
+	at org.eclipse.swt.widgets.Tree.windowProc(Tree.java:2391)
+	at org.eclipse.swt.widgets.Display.windowProc(Display.java:3706)
+	at org.eclipse.swt.internal.win32.OS.PeekMessageW(Native Method)
+	at org.eclipse.swt.internal.win32.OS.PeekMessage(OS.java:2111)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:2708)
+	at org.eclipse.ui.internal.Workbench.runEventLoop(Workbench.java:1699)
+	at org.eclipse.ui.internal.Workbench.runUI(Workbench.java:1663)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:367)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:143)
+	at org.eclipse.ui.internal.ide.IDEApplication.run(IDEApplication.java:103)
+	at org.eclipse.core.internal.runtime.PlatformActivator$1.run(PlatformActivator.java:226)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:376)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:163)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.eclipse.core.launcher.Main.invokeFramework(Main.java:334)
+	at org.eclipse.core.launcher.Main.basicRun(Main.java:278)
+	at org.eclipse.core.launcher.Main.run(Main.java:973)
+	at org.eclipse.core.launcher.Main.main(Main.java:948)
+!SESSION 2005-12-03 20:51:02.968 -----------------------------------------------
+eclipse.buildId=I20050627-1435
+java.version=1.5.0_04
+java.vendor=Sun Microsystems Inc.
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=en_US
+Command-line arguments:  -os win32 -ws win32 -arch x86
+
+!ENTRY org.eclipse.core.resources 2 10035 2005-12-03 20:51:10.187
+!MESSAGE A workspace crash was detected. The previous session did not exit normally.

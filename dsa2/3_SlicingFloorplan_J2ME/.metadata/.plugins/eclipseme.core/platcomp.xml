@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<platformComponents version="1.0">
+   <component delegate="eclipseme.core.model.impl.WirelessToolkit$WirelessToolkitPersistenceDelegate" root="C:\Nokia_SDK\Series_60_MIDP_SDK_2_1"/>
+   <component delegate="eclipseme.core.model.impl.uei.UEIPlatformDefinition$UEIPlatformDefinitionPersistenceDelegate" name="Series 60 MIDP SDK 2.1 Platform" path="C:\Nokia_SDK\Series_60_MIDP_SDK_2_1" toolkitName="Generic UEI Toolkit">
+      <component delegate="eclipseme.core.model.impl.uei.UEIEmulator$UEIEmulatorPersistenceDelegate">
+         <emulator path="C:\Nokia_SDK\Series_60_MIDP_SDK_2_1"/>
+      </component>
+      <preverifier class="eclipseme.core.model.impl.uei.UEIPreverifier"/>
+      <profiles>
+         <profile name="MIDP-2.0 (Series 60 MIDP SDK 2.1)"/>
+      </profiles>
+   </component>
+</platformComponents>

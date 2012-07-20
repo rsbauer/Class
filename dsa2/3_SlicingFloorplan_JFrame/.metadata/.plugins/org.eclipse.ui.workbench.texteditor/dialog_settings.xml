@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
+		<item key="wholeword" value="false"/>
+		<item key="incremental" value="false"/>
+		<item key="isRegEx" value="false"/>
+		<item key="y" value="127"/>
+		<item key="selection" value="getCenterPoint"/>
+		<item key="wrap" value="true"/>
+		<item key="x" value="866"/>
+		<item key="casesensitive" value="false"/>
+		<list key="findhistory">
+			<item value="getCenterPoint"/>
+			<item value="insertNode"/>
+			<item value="addNode"/>
+		</list>
+		<list key="replacehistory" value="addNode">
+		</list>
+	</section>
+	<section name="FindReplaceDialog.completion_proposal_size">
+	</section>
+</section>

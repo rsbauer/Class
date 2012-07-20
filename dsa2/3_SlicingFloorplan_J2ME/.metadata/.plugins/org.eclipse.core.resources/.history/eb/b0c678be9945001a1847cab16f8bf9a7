@@ -1,0 +1,629 @@
+import java.awt.*;
+
+
+
+/**
+ * COPYRIGHT (C) 2005 Rob Bauer.  All Rights Reserved.
+ * <br> <br>
+ * Define a binary tree and its supporting methods.  This class also handles the necessary tree traversals for drawing 
+ * the nodes.  
+ * 
+ * @author Rob Bauer
+ * @version 1.0  2005-OCT-21
+ */
+public class BinaryTree 
+{
+	/**
+	 * First node of the binary tree 
+	 */
+	private BinaryNode root;
+	
+	/**
+	 * Node fill in color 
+	 */
+	private static final Color NODEFILLCOLOR = new Color(225, 235, 244);
+	
+	/**
+	 * Color of the lines to connect the nodes and used in the floor plan drawing.   
+	 */
+	private static final Color NODELINECOLOR = Color.DARK_GRAY;
+	
+	/**
+	 * Factor to divide the box size value by to gauge the line length for drawing the vertical and horizontal dividers
+	 * in the binary tree view.  
+	 */
+	private static final int LINELENGTHDIVIDEBY = 4;
+	
+	
+	/**
+	 * Initialize the binary tree by setting root to null.
+	 */
+	public BinaryTree()
+	{
+		root = null;								// set node to null
+	}  // end public BinaryTree()
+	
+	
+	/**
+	 * Set root to the supplied binary node.
+	 * 
+	 * @param node BinaryNode containing the node to set root to
+	 */
+	public BinaryTree(BinaryNode node)
+	{
+		root = node;
+	}  // end public BinaryTree(BinaryNode node)
+	
+	
+	/**
+	 * Set the root data to the supplied character as well as set the left and right children to the supplied binary 
+	 * trees. 
+	 * 
+	 * @param character set root's data 
+	 * @param left BinaryTree to be assigned to the left node
+	 * @param right BinaryTree to be assigned to the right node
+	 */
+	public BinaryTree(char character, BinaryTree left, BinaryTree right)
+	{
+		root = new BinaryNode(character);					// create a new node using the given data and assign to root
+		if(left != null)									// check if the left node is null
+			root.setLeftNode(left.getRoot());				// nope, define the left node
+		else
+			root.setLeftNode(null);							// set the left to null
+		
+		if(right != null)									// check if the right node is null
+			root.setRightNode(right.getRoot());				// nope, define the right node 
+		else
+			root.setRightNode(null);						// set the right to null
+	}  // end public BinaryTree(char character, BinaryTree left, BinaryTree right)
+	
+	
+	/**
+	 * Get the left tree for root.
+	 * 
+	 * @return BinaryTree found for the left node of root.
+	 */
+	public BinaryTree getLeftTree()
+	{
+		return new BinaryTree(root.getLeftNode());
+	}  // end public BinaryTree getLeftTree()
+
+
+	/**
+	 * Get the right tree for root.
+	 * 
+	 * @return BinaryTree found for the right node of root.
+	 */
+	public BinaryTree getRightTree()
+	{
+		return new BinaryTree(root.getRightNode());
+	}  // end public BinaryTree getRightTree()
+
+	
+	
+	/**
+	 * Recursively calculate the depth of a tree.  Take the current tree and find the depth of its right and left parts.
+	 * Which ever one is greater, return it plus one.  Continue dividing the tree up until the root node is null.
+	 * 
+	 * @return the depth
+	 */
+	public int getDepth()
+	{
+		if(root == null)									// check if root is null
+			return 0;										// yup, we're done here
+		
+		int left = 0;										// initialize the left counter
+		int right = 0;										// initialize the right counter
+		if(root.getLeftNode() != null)						// check if the left node is available
+			left = getLeftTree().getDepth();				// yup, get the left tree's depth (get recursive!)
+		
+		if(root.getRightNode() != null)						// check if the right node is available
+			right = getRightTree().getDepth();				// yup, get the right tree's depth (recursive!)
+		
+		if(left > right)									// check if the left is greater than the right
+			return left + 1;								// it is, return the left value and add one (include root)
+		
+		return right + 1;									// if got this far, then right was greater, add one & return 
+	}  // end public int getDepth()						
+	
+	
+	/**
+	 * Recursively calculate the node count.  Traverse both sides of the tree and return the number of nodes found.
+	 * 
+	 * @return node count found for the left and right sides of the tree.
+	 */
+	public int getNodeCount()
+	{
+		if(root == null)									// check if root is null
+			return 0;										// it is, then we're done
+		
+		int left = 0;										// initialize the left counter
+		int right = 0;										// initialize the right counter
+		
+		left = getLeftTree().getNodeCount();				// get the number of nodes on the left (get recursive!)
+		right = getRightTree().getNodeCount();				// get the number of nodes on the right (recursive!)
+		return right + left + 1;							// return the number of nodes found plus 1 (to include root)
+	}  // end public int getNodeCount()
+
+	
+	
+	/**
+	 * Set the root node to the given node.
+	 * 
+	 * @param node BinaryNode to set root to.
+	 */
+	public void setRoot(BinaryNode node)
+	{
+		root = node;										// assign root to the given node
+	}  // end public void setRoot(BinaryNode node)
+	
+	
+	/**
+	 * Get the root node.
+	 * 
+	 * @return BinaryNode for root.
+	 */
+	public BinaryNode getRoot()
+	{
+		return root;
+	}  // end public BinaryNode getRoot()
+	
+	
+	
+	/**
+	 * Perform a post order traversal of the given binary tree.  This method sets up for recursion.  This method also
+	 * is a friendly interface to the traverse function.  Mode #2 is for post order.
+	 * 
+	 * @return String containing the node data in post order.
+	 */
+	public String postorderTraversal()
+	{
+		return traverseOrder(2);							// start the traversal 
+	}  // end public String preorderTraversal()
+
+
+	/**
+	 * Perform an in order traversal of the given binary tree.  This method sets up for recursion.  This method also
+	 * is a friendly interface to the traverse function.  Mode #1 is for post order.
+	 * 
+	 * @return String containing the node data in order.
+	 */
+	public String inorderTraversal()
+	{
+		return traverseOrder(1);							// start the traversal
+	}  // end public void inorderTraversal()
+	
+	
+	/**
+	 * Perform a pre-order traversal of the given binary tree.  This method sets up for recursion.  This method also
+	 * is a friendly interface to the traverse function.  Mode #0 is for post order.
+	 * 
+	 * @return String containing the node data in pre-order.
+	 */
+	public String preorderTraversal()
+	{
+		return traverseOrder(0);							// start the traversal
+	}  // end public String preorderTraversal()
+
+	
+	/**
+	 * Start the traversal process.  Before traversing the tree, the string buffer needs to be setup.
+	 * 
+	 * @param mode Given traversal to perform. 0 = pre-order, 1 = in-order, 2 = post-order
+	 * @return String containing the traversed tree's node data in the order as specified by mode.
+	 */
+	public String traverseOrder(int mode)
+	{
+		StringBuffer sBuffer = new StringBuffer();			// string buffer to keep track of the node data
+		traverse(mode, root, sBuffer);						// start the traversal
+		return sBuffer.toString();							// convert the buffer to a string and return it
+	}  // end public String traverseOrder(String mode)
+	
+	
+
+	/**
+	 * Traverse a binary tree based on the root node given, the traversal mode, and the buffer to store the data in.
+	 * 
+	 * @param mode Given traversal to perform. 0 = pre-order, 1 = in-order, 2 = post-order
+	 * @param node BinaryNode containing the root node to traverse
+	 * @param sBuffer StringBuffer to store the node data in.
+	 */
+	private void traverse(int mode, BinaryNode node, StringBuffer sBuffer)
+	{
+		if(node == null)									// check if this is node is null
+			return;											// yup, then we're done here
+		
+		if(mode == 0)										// preorder traversal
+			sBuffer.append(node.getData());					// root node data - add to string buffer
+		
+		traverse(mode, node.getLeftNode(), sBuffer);		// traverse the left side of the tree
+		
+		if(mode == 1)										// inorder traversal
+			sBuffer.append(node.getData());					// root node data - add to string buffer
+		
+		traverse(mode, node.getRightNode(), sBuffer);		// traverse the right side of the tree
+		
+		if(mode == 2)										// postorder traversal
+			sBuffer.append(node.getData());					// root node data - add to string buffer
+		
+	}  // end private void traverse(int mode, BinaryNode node, StringBuffer sBuffer)
+	
+	
+	
+	
+	/**
+	 * Draw the binary tree graphically.  The tree is first traversed in-order to determine the nodes' points.  Once
+	 * found, the tree is traversed again using pre-order to draw the nodes and the connecting lines.  This was done
+	 * to wiggle around the problem of drawing the lines behind the nodes.  A better solution would be to use multiple
+	 * JPanels and draw the nodes on one and then lines on a second one.  Then place the node panel above the line 
+	 * panel.  This would mean the tree is only traversed once instead of twice, but would introduce added complexity.  
+	 * 
+	 * @param g Graphics2D to paint with
+	 * @param left The left (x-axis) value to start drawing from
+	 * @param bottom The bottom (y-axis) value to starting drawing from
+	 * @param boxsize The box size to use - this is the width.  For circles, this is the diameter.
+	 * @param x_spacing The horizontal spacing to use between nodes.
+	 * @param y_spacing The vertical spacing to use between nodes.
+	 */
+	public void drawTree(Graphics2D g, int left, int bottom, int boxsize, int x_spacing, int y_spacing)
+	{
+		nodes2Draw(g, left, bottom, boxsize, x_spacing, y_spacing, 0, 0, root);		// find the nodes points
+		drawNodeLines(g, root, root, boxsize);										// draw the nodes and lines
+	}  // end public void drawTree(int top, int left)
+	
+	
+	/**
+	 * Draw a node and lines to its children using recursion.  The traversal used is pre-order.      
+	 *  
+	 * @param g Graphics2D to paint with
+	 * @param node BinaryNode to start drawing from
+	 * @param lastNode The last node drawn. This typically will be the node's parent
+	 * @param boxsize The box size to use to draw the node.
+	 */
+	private void drawNodeLines(Graphics2D g, BinaryNode node, BinaryNode lastNode, int boxsize)
+	{
+		// use preorder to draw the lines
+		if(node == null)									// check if the root is null		
+			return;											// yup, then we're done 
+
+		Point center = node.getCenterPoint();				// get the node's center point
+		Point lastpoint = null;								// the last node's point location
+
+		g.setColor(NODELINECOLOR);							// set the node connector line color 
+		if(lastNode != null)								// check if a last node was given
+		{
+			// draw line
+			lastpoint = lastNode.getCenterPoint();			// get the last node's center point
+			g.drawLine(center.x, center.y, lastpoint.x, lastpoint.y);	// draw a line from the last node to this node
+		}  // end if(lastpoint != null)
+		
+		// all the magic below happens on the root node 
+				
+		if(node.isLeaf())									// check if this is a leaf
+			drawFilledSquare(g, center, boxsize);			// yup, draw a square 
+		else
+			drawFilledCircle(g, center, boxsize);			// nope, draw a circle (this is a root node)
+		
+		if(lastpoint != null)							// redraw last node - the line we draw above drew over the node
+		{
+			drawFilledCircle(g, lastpoint, boxsize);		// a leaf will never need redrawing - redraw the root node
+			labelNode(g, lastNode, lastpoint, boxsize);		// label the node
+		}  // end if(lastpoint != null)
+		
+		labelNode(g, node, center, boxsize);				// label this node
+		
+		lastNode = node;									// set the last node to the current node
+		// recursion starts here
+		drawNodeLines(g, node.getLeftNode(), lastNode, boxsize);	// draw this node's left child node
+		drawNodeLines(g, node.getRightNode(), lastNode, boxsize);	// draw this node's right child node
+	}  // end private void drawNodeLines(Graphics2D g, Vector points)
+	
+	
+	/**
+	 * Label a node.  If the node's data is a '-' or '|' then draw lines.  Otherwise, draw the node's data.  This method
+	 * does not validate the node's data.  It should be a valid char value.  
+	 * 
+	 * @param g Graphics2D to paint with.
+	 * @param node BinaryNode to label
+	 * @param center Point specifying where to draw the label
+	 * @param boxsize The box size. This is used to determine how large to draw the vertical and horizontal lines
+	 */
+	private void labelNode(Graphics2D g, BinaryNode node, Point center, int boxsize)
+	{
+		int boxsizeQuarter = (int) boxsize / LINELENGTHDIVIDEBY;			// calculate the line length 
+		
+		g.setColor(NODELINECOLOR);											// set the label to the line color
+		char character = node.getData();									// get the node's data
+		switch(character)													// determine the draw instruction to use
+		{
+			case '-':														// draw a horizontal line
+				g.drawLine(center.x - boxsizeQuarter, center.y, center.x + boxsizeQuarter, center.y);
+				break;
+				
+			case '|':														// draw a vertical line
+				g.drawLine(center.x, center.y + boxsizeQuarter, center.x, center.y - boxsizeQuarter);
+				break;
+		
+			default:														// dealing with a letter
+				g.drawString("" + node.getData(), center.x - 4, center.y + 4);		// label the node
+				break;
+		}  // end switch(character)
+	}  // end private void labelNode(Graphics2D g, BinaryNode node, Point center)
+	
+	
+	/**
+	 * Draw a filled square.  This is usually a leaf node (if everything is working ok!).
+	 * 
+	 * @param g Graphics2D to paint on
+	 * @param center Point specifying where to draw the node
+	 * @param boxsize The box size to use
+	 */
+	private void drawFilledSquare(Graphics2D g, Point center, int boxsize)
+	{
+		int halfbox = boxsize / 2;										// need to get the left/right side of the box 
+		g.setColor(NODEFILLCOLOR);										// set the fill color
+		g.fillRect(center.x - halfbox, center.y - halfbox, boxsize, boxsize);	// draw the box
+		g.setColor(NODELINECOLOR);										// set the line color
+		g.drawRect(center.x - halfbox, center.y - halfbox, boxsize, boxsize);	// outline the box (makes it pretty!)
+	}  // end private void drawFilledSquare(Graphics2D g, int x, int y, int boxsize)
+	
+
+	/**
+	 * Draw a filled circle.  This is usually a root node (if I'm traversing the tree correctly!).
+	 * 
+	 * @param g Graphics2D to paint with
+	 * @param center Point specifying where to draw the node
+	 * @param boxsize The box size to use
+	 */
+	private void drawFilledCircle(Graphics2D g, Point center, int boxsize)
+	{
+		int halfbox = boxsize / 2;										// need to get the left/right side of the circle
+		g.setColor(NODEFILLCOLOR);										// set the fill color
+		g.fillOval(center.x - halfbox, center.y - halfbox, boxsize, boxsize);	// draw the circle
+		g.setColor(NODELINECOLOR);										// set the line color
+		g.drawOval(center.x - halfbox, center.y - halfbox, boxsize, boxsize);	// out the circle (makes it pretty!)
+	}  // end private void drawFilledCircle(Graphics2D g, Point center, int boxsize)
+	
+	
+	/**
+	 * Traverse the tree in-order and determine the nodes and their center points so we can draw the nodes.  This method
+	 * gets the recursion rolling.  The method for drawing the nodes was modelled after the one specified in our 
+	 * Data Structures and Algorithms in Java book on page 302.  For each node, we need to identify its count in the 
+	 * traversal and its depth in the tree.  Knowing these two facts allows us to figure out where to draw the node.
+	 * To make it look pretty, the spacing information is included.  This spacing determines how to stretch the tree
+	 * out (or shrink it) to fit the given window.  This also allows for the tree to resize when the window is resized.
+	 * 
+	 * @param g Graphics2D to draw with
+	 * @param left Left value to start drawing from
+	 * @param top Top value to start drawing from
+	 * @param boxsize Box size to draw
+	 * @param x_spacing horizontal spacing to use
+	 * @param y_spacing vertical spacing to use
+	 * @param depth depth of the tree calculated 
+	 * @param count node count of the tree
+	 * @param node current BinaryNode to process
+	 * @return count found for the given tree
+	 */
+	private int nodes2Draw(Graphics2D g, int left, int top, int boxsize, int x_spacing, int y_spacing, int depth, 
+			int count, BinaryNode node)
+	{
+		if(node == null)												// check if this node is null
+			return count;												// yup, return the count
+		
+		// process the left child
+		count = nodes2Draw(g, left, top, boxsize, x_spacing, y_spacing, depth + 1, count, node.getLeftNode());
+		
+		// process the current node
+		count = locateNode(g, left, top, boxsize, x_spacing, y_spacing, depth, count, node);	// get the node location
+		
+		// process the right child
+		count = nodes2Draw(g, left, top, boxsize, x_spacing, y_spacing, depth + 1, count, node.getRightNode());
+
+		return count;													// return the count we have so far
+	}  // end private int nodes2Draw(Graphics2D g, int left, int top, int boxsize, int x_spacing, int y_spacing, ...
+	
+	
+	
+	/**
+	 * Calculate the node's location based on the given parameters and the position of the node in the tree.  Assign
+	 * the point location to the node and increment the node counter.
+	 * 
+	 * @param g Graphics2D to draw with
+	 * @param left Left value to start drawing from
+	 * @param top Top value to start drawing from
+	 * @param boxsize Box size to draw
+	 * @param x_spacing horizontal spacing to use
+	 * @param y_spacing vertical spacing to use
+	 * @param depth depth of the tree calculated 
+	 * @param count node count of the tree
+	 * @param node current BinaryNode to process
+	 * @return count plus this node
+	 */
+	private int locateNode(Graphics2D g, int left, int top, int boxsize, int x_spacing, int y_spacing, int depth, 
+			int count, BinaryNode node) 
+	{
+		// calculate the top left position for this node
+		Point topleft = getTopLeft(left, top, x_spacing, y_spacing, count, depth);
+		// from the top left position and the box size, calculate the center point of this node
+		Point center = getCenterPoint(topleft.x, topleft.y, boxsize);
+		
+		node.setCenterPoint(center.x, center.y);						// assign the center location to the node
+
+		return count + 1;												// increment the node counter
+	}  // end private int drawNode(Graphics2D g, int left, int bottom, int boxsize, int x_spacing, int y_spacing, ...
+	
+	
+	/**
+	 * Find the top left pixel coordinate.
+	 * 
+	 * @param left Left value to start drawing from
+	 * @param top Top value to start drawing from
+	 * @param x_spacing horizontal spacing to use
+	 * @param y_spacing vertical spacing to use
+	 * @param count node count of the tree
+	 * @param depth depth of the tree calculated 
+	 * @return Point specifying the top left pixel coordinate
+	 */
+	private Point getTopLeft(int left, int top, int x_spacing, int y_spacing, int count, int depth)
+	{
+		int x = left + ((x_spacing) * count);		// use node's count in the tree to place it horizontally							
+		int y = (top) + (y_spacing * depth);		// use the node's depth to place it vertically
+		return new Point(x, y);						// return the coordinate
+	}  // end private Point getTopLeft(int left, int top, int x_spacing, int y_spacing, int count, int depth)
+	
+	
+	/**
+	 * Calculate the center pixel coordinate based on the box size
+	 * 
+	 * @param x left pixel 
+	 * @param y top pixel
+	 * @param boxsize box size being used
+	 * @return Point defining the center pixel coordinate
+	 */
+	private Point getCenterPoint(int x, int y, int boxsize)
+	{
+		int x_center = x + (boxsize / 2);								// get the horizontal center
+		int y_center = y + (boxsize / 2);								// get the vertical center
+		return new Point(x_center, y_center);							// return the new point
+	}
+	
+	
+	/**
+	 * Load the tree based on a string that is in pre-order format.
+	 * 
+	 * @param plan String containing the pre-order tree
+	 */
+	public void loadTree(String plan)
+	{
+		// kick off the recursion with a new string buffer
+		// learned the hard way: need a string buffer here or get really funky trees!
+		BinaryTree tree = loadTreeNodes(new StringBuffer(plan));	
+		// set the root to the tree's given root - this effectly wipes out the current tree
+		root = tree.getRoot();										
+	}  // end public void loadTree(String plan)
+
+	
+	/**
+	 * Recursively load the nodes of the tree so they can be parsed later.  Check if the plan still has data and get the
+	 * first character.  If its a - or | then this character is not a leaf node and parse the plan to find the left and
+	 * right subtrees of this node (do this by recursively calling loadTreeNodes() using pre-order traversal).  If the 
+	 * character is some other character, then this node is a leaf. 
+	 * 
+	 * @param plan String containing the current floor plan to parse
+	 * @return BinaryTree containing the tree to work on
+	 */
+	public BinaryTree loadTreeNodes(StringBuffer plan)
+	{
+		if(plan.length() > 0)										// check to make sure the plan has data
+		{
+			char character = plan.charAt(0);						// get the first character of the plan
+			plan.deleteCharAt(0);									// remove the character (kinda like a stack!)
+
+			if(character == '-' || character == '|')				// is it a control character?
+			{
+				BinaryTree left = loadTreeNodes(plan);				// yup, parse the left tree
+				BinaryTree right = loadTreeNodes(plan);				// parse the right side 
+				return new BinaryTree(character, left, right);		// add the data to the tree and return the new tree
+			}  // end if(character != '-' && character != '|')
+
+			return new BinaryTree(character, null, null);			// return a new tree with the character loaded
+		}  // end if(plan.length() > 0)
+		
+		return null;												// done!
+	}  // end public BinaryTree loadTreeNodes2(String plan)
+
+	
+	
+	/**
+	 * Convert the tree to a string.  Do so by doing an in-order traversal.     
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	public String toString()
+	{
+		return inorderTraversal();									// return the tree in in-order 
+	}  // end public String toString()
+	
+	
+	
+	/**
+	 * Draw the floor plan.  Setup the color and kick off the recursion.
+	 * 
+	 * @param g Graphics2D to draw with
+	 * @param topleft top left pixel coordinate to draw from
+	 * @param bottomright bottom right pixel coordinate to draw with in
+	 */
+	public void drawFloorplan(Graphics2D g, Point topleft, Point bottomright)
+	{
+		g.setColor(NODELINECOLOR);								// set the line color (note, outer box already drawn)
+		drawFloorplanNode(g, root, topleft, bottomright);			// start drawing the internal sections 
+	}  // end public void drawFloorplan()
+	
+	
+	/**
+	 * Draw the individual parts of the floor plan.  Determine the node's data and if its a control character like
+	 * '-' or '|' then draw a line.  If the node does not contain a control character, then label the area the node
+	 * belongs to.  The recursion uses pre-order traversal.  During each pass, recalculate the box by dividing it in 
+	 * half and passing this new value along to the next iteration.   
+	 * 
+	 * @param g Graphics2D to draw with
+	 * @param node Node to process
+	 * @param topleft top left most coordinate to work with in
+	 * @param bottomright bottom right most coordinate to work with in
+	 */
+	private void drawFloorplanNode(Graphics2D g, BinaryNode node, Point topleft, Point bottomright)
+	{
+		if(node == null)											// check if the node is null
+			return;													// yup, then we're done!
+		
+		Point halfcenter = getHalfCenter(topleft, bottomright);		// calculate the new center of the current box
+		if(!node.isLeaf())											// is this node a leaf?  If not, draw a line
+		{
+			
+			if(node.getData() == '-')								// split box horizontally
+			{
+				// draw the line
+				g.drawLine(topleft.x, halfcenter.y, bottomright.x, halfcenter.y);
+
+				// continue processing the left tree  
+				drawFloorplanNode(g, node.getLeftNode(), topleft, new Point(bottomright.x, halfcenter.y));
+
+				// continue processing the right tree
+				drawFloorplanNode(g, node.getRightNode(), new Point(topleft.x, halfcenter.y), bottomright);
+			}  // end if(node.getData() == '-')
+			
+			if(node.getData() == '|')								// split box vertically
+			{
+				// draw the line
+				g.drawLine(halfcenter.x, topleft.y, halfcenter.x, bottomright.y);
+				
+				// continue processing the left tree
+				drawFloorplanNode(g, node.getLeftNode(), topleft, new Point(halfcenter.x, bottomright.y));
+				
+				// continue processing the right tree
+				drawFloorplanNode(g, node.getRightNode(), new Point(halfcenter.x, topleft.y), bottomright);
+			}  // end if(node.getData() == '|')
+		}  // end if(!node.isLeaf())
+		else
+		{
+			// label node
+			g.drawString("" + node.getData(), halfcenter.x, halfcenter.y);
+		}  // end else
+	}  // end private void drawFloorplanNode(BinaryNode node, Point topleft, Point bottomright)
+	
+	
+	/**
+	 * Calculate the new center of the given box
+	 * 
+	 * @param topleft Top left most point
+	 * @param bottomright bottom right most point
+	 * @return center of the given box coordinates
+	 */
+	private Point getHalfCenter(Point topleft, Point bottomright)
+	{
+		int newy = ((bottomright.y - topleft.y) / 2) + topleft.y;		// calculate the y coordinate
+		int newx = ((bottomright.x - topleft.x) / 2) + topleft.x;		// calculate the x coordinate
+		return new Point (newx, newy);									// return the new point
+	}  // end private void getHalfCenter(Point topleft, Point bottomright)
+	
+}  // end public class BinaryTree
