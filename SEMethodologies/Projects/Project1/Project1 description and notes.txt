@@ -1,0 +1,66 @@
+https://dev.cs.uakron.edu/svn/cs680S12/801/students/rsbauer
+
+Assignment Requirements:
+	For Project 1 you will be creating a design using UML class and sequence diagrams. The requirements of the system under development is in the wiki for the course, which you can get to from the title of this news item.
+
+	    This is not a group project. Individually work on your design. Do not discuss your design with anyone else. However, you may discuss generic UML notation with others in the class.
+	    The design can be expressed in one class diagram, or in several. It can include the same model elements (e.g., classes) on several diagrams. Organize these so that they fit the problem.
+	    The format for the diagrams must (ultimately) be able to be stored in a file. You can use a tool to draw this, including Visio, gliffy, powerpoint, argoUML, yUML, etc. In any case, concentrate on the design, not the tool that you are using to draw the design.
+	    If you don't want to use a tool, consider using a whiteboard and taking a picture of it.
+	    If you want to do your diagram(s) on paper you will need to have it scanned. In this case, please use regular printer paper.
+	    Create as complete a design as you can
+	    Store your files in your part of the repository under Project1. At a minimum, provide a pdf or image file that can be displayed in a browser. Also add and commit any other files formats, e.g., the argoUML files.
+
+	Good design comes from frequent iteration. I expect to see that with this project.
+
+	The project is due on Thursday, Feb 9
+
+
+Software Requirements:
+	A user wants to analyze software systems using many different code analysis models and for multiple programming languages. The models include graphs such as call graphs and dependency graphs. The languages include C, C++, Java, and C#. A project may have files in multiple languages. In addition to the models, the user will want to query the source code (and the models). The input data will be the source code as text. The output of a query will be either the location of the source code in the project, or the actual source.
+
+	As an example, a user may want to generate a call graph, and find out how many calls to the method setPoint() are called (directly or indirectly) from setLine().
+
+	For efficiency reasons, a user may request multiple analysis and multiple queries in a single request. 
+
+--------------------------------------------------------------------------------
+
+Input -->  Output
+
+Input may be:
+C, C++, Java, C#, call graph, dependency graph
+
+Output:
+Source (text), call graph, dependency graph
+
+http://yuml.me/diagram/class/draw
+[Input]->[Process]->[Output]
+
+[CodeAnalyzer|inputFile;outpufFile;searchMode|generateReport()]
+
+[Search|query|search()]
+[SearchC||search()]
+[SearchCPlusPlus||search()]
+[SearchCSharp||search()]
+[SearchJava||search()]
+[SearchCallGraph||search()]
+[SearchDependencyGraph||search()]
+
+
+[File|filename|open();close();read();write()]
+
+[Report|file|generate()]
+[ReportCallGraph||generate()]
+[ReportDependencyGraph||generate()]
+[ReportSouce||generate()]
+
+
+-- -- -- --
+
+[CodeAnalyzer]
+generateReport()
+->File:open(input)
+->File:open(output)
+->output = search(input)
+->Report:generate(output, outputfile)
+

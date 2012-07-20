@@ -1,0 +1,423 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"FileU",
+				"FileUtil_CSharp"
+			],
+			[
+				"gener",
+				"generateReport"
+			],
+			[
+				"Fileu",
+				"FileUtil_CPlusPlus"
+			],
+			[
+				"file",
+				"fileFactory"
+			],
+			[
+				"dest",
+				"destination"
+			],
+			[
+				"srcdest",
+				"srcdestArray"
+			],
+			[
+				"de",
+				"destination"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "seqdiagram.txt",
+			"settings":
+			{
+				"buffer_size": 899,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "Query.cpp",
+			"settings":
+			{
+				"buffer_size": 480,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "Report.cpp",
+			"settings":
+			{
+				"buffer_size": 823,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "Makefile",
+			"settings":
+			{
+				"buffer_size": 1937,
+				"line_ending": "Windows"
+			}
+		}
+	],
+	"build_system": "Packages/Makefile/Make.sublime-build",
+	"command_palette":
+	{
+		"height": 392.0,
+		"selected_items":
+		[
+			[
+				"",
+				"Package Control: Discover Packages"
+			]
+		],
+		"width": 404.0
+	},
+	"console":
+	{
+		"height": 129.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/home/astro/sem/prj2/AbstractFileUtil.cpp",
+		"/home/astro/sem/prj2/CodeAnalyzer.cpp",
+		"/home/astro/sem/prj2/FileUtil_Java.cpp",
+		"/home/astro/sem/prj2/FileUtil_DependencyGraph.cpp",
+		"/home/astro/sem/prj2/FileUtil_CSharp.cpp",
+		"/home/astro/sem/prj2/FileUtil_CPlusPlus.cpp",
+		"/home/astro/sem/prj2/FileUtil_CallGraph.cpp",
+		"/home/astro/sem/prj2/FileUtil_C.cpp",
+		"/home/astro/sem/prj2/FileUtil.cpp",
+		"/home/astro/sem/prj2/Query.cpp",
+		"/home/astro/sem/prj2/AbstractFileUtil.hpp",
+		"/home/astro/sem/prj2/Report.cpp",
+		"/home/astro/sem/prj2/FileUtil_C.hpp",
+		"/home/astro/sem/prj2/FileUtil.hpp",
+		"/home/astro/sem/prj2/FileUtil_CallGraph.hpp",
+		"/home/astro/sem/prj2/Result.hpp",
+		"/home/astro/sem/prj2/Report.hpp",
+		"/home/astro/sem/prj2/Query.hpp",
+		"/home/astro/sem/prj2/seqdiagram.txt",
+		"/home/astro/sem/prj2/CodeAnalyzer.hpp",
+		"/home/astro/sem/prj2/Makefile",
+		"/home/astro/sem/prj2/FileUtil_CPlusPlus.hpp",
+		"/home/astro/sem/prj2/FileUtil_CSharp.hpp",
+		"/home/astro/sem/prj2/FileUtil_DependencyGraph.hpp",
+		"/home/astro/sem/prj2/FileUtil_Java.hpp",
+		"/home/astro/sem/prj2/FileFactory.hpp",
+		"/home/astro/sem/prj2/FileFactory.cpp",
+		"/home/astro/sem/prj2/Client.cpp",
+		"/home/astro/sem/prj2/Result.cpp",
+		"/home/astro/sem/prj2/IFileUtil.cpp",
+		"/home/astro/sem/prj2/IFileUtil.hpp",
+		"/home/astro/sem/Projects/Project2/Client.cpp",
+		"/home/astro/.config/sublime-text-2/Packages/Default/Preferences.sublime-settings",
+		"/home/astro/sem/Projects/Project2/Query.cpp",
+		"/home/astro/sem/Projects/Project2/Query.hpp",
+		"/home/astro/sem/Projects/Project2/Report.cpp",
+		"/home/astro/sem/Projects/Project2/Report.hpp",
+		"/home/astro/sem/Projects/Project2/Result.cpp",
+		"/home/astro/sem/Projects/Project2/Result.hpp",
+		"/home/astro/sem/Projects/Project2/SourceCode.cpp",
+		"/home/astro/sem/Projects/Project2/SourceCode.hpp",
+		"/home/astro/sem/Projects/Project2/CodeAnalyzer.cpp",
+		"/home/astro/sem/Projects/Project2/CodeAnalyzer.hpp",
+		"/home/astro/sem/Projects/Project2/FileUtil.cpp",
+		"/home/astro/sem/Projects/Project2/FileUtil.hpp",
+		"/home/astro/sem/Projects/Project2/Graph.cpp",
+		"/home/astro/sem/Projects/Project2/Graph.hpp",
+		"/home/astro/sem/Projects/project2_sblime",
+		"/home/astro/rsbauer/Projects/Project4/Makefile",
+		"/home/astro/rsbauer/Projects/Project4/burst.c",
+		"/home/astro/rsbauer/Projects/Project4/readme",
+		"/home/astro/rsbauer/Projects/Project4/burst.h",
+		"/home/astro/rsbauer/Projects/Project4/fileio.c",
+		"/home/astro/rsbauer/Projects/Project4/fileio.h",
+		"/home/astro/rsbauer/Projects/Project4/words.txt",
+		"/home/astro/rsbauer/Projects/Project4/help.txt",
+		"/home/astro/rsbauer/Projects/Project3/mcat/multiplex/copy.c",
+		"/home/astro/rsbauer/Projects/Project4/args.c",
+		"/home/astro/examples/examples/makeargv/makeargv.h",
+		"/home/astro/rsbauer/Projects/Project3/mcat/multiplex/mcat.c",
+		"/home/astro/examples/examples/pthreads/pthreads.c",
+		"/home/astro/rsbauer/Projects/Project4/stack.h",
+		"/home/astro/rsbauer/Projects/Project4/stack.c",
+		"/home/astro/rsbauer/Projects/Project4/streamio.c",
+		"/home/astro/rsbauer/Projects/Project4/streamio.h",
+		"/home/astro/rsbauer/Projects/Project3/mcat/multiplex/copy.h",
+		"/home/astro/examples/examples/makeargv/makeargv.c",
+		"/home/astro/examples/examples/makeargv/makeargv_t.c",
+		"/home/astro/rsbauer/Projects/Project3/mcat/sync/copy.c",
+		"/home/astro/rsbauer/Projects/Project4/RSBgetline.h",
+		"/home/astro/rsbauer/Projects/Project4/RSBgetline.c",
+		"/home/astro/rsbauer/Projects/Project4/RSBgetline_t.c",
+		"/home/astro/rsbauer/Projects/Project4/getline_t",
+		"/home/astro/rsbauer/Projects/Project4/burst.o",
+		"/home/astro/rsbauer/Projects/Project4/getline_t.c",
+		"/home/astro/rsbauer/Projects/Project4/getline.c",
+		"/home/astro/rsbauer/Projects/Project4/getline.h",
+		"/home/astro/rsbauer/Projects/Project3/mcat/sync/copy.h",
+		"/home/astro/rsbauer/Projects/Project3/mcat/multiplex/Makefile",
+		"/home/astro/examples/examples/mio/mcopy.c",
+		"/home/astro/rsbauer/Projects/Project3/mcat/multiplex/hipc.h",
+		"/home/astro/rsbauer/Projects/Project3/mcat/multiplex/copy_old.c",
+		"/home/astro/examples/examples/io/copy.c",
+		"/home/astro/examples/examples/makeargv/makeargv_u.c",
+		"/home/astro/rsbauer/Projects/Project3/mcat/sync/Makefile",
+		"/home/astro/rsbauer/Projects/Project3/mcat/sync/mcat.c",
+		"/home/astro/examples/examples/io/read.c",
+		"/home/astro/examples/examples/io/write.c",
+		"/home/astro/rsbauer/Projects/Project2/finddups/finddups"
+	],
+	"find":
+	{
+		"height": 33.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"errno",
+			"errorno",
+			"malloc",
+			"fd_isset",
+			"/*",
+			"if (",
+			"&&",
+			"=",
+			")",
+			"for (",
+			"*/",
+			"/*",
+			";",
+			";\\n\\}",
+			";}",
+			";\\n}",
+			";}",
+			"{"
+		],
+		"highlight": true,
+		"in_selection": true,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"SayBro",
+			"YoCheckIt ",
+			"YoCheckIt",
+			"AND",
+			"is",
+			" OK",
+			" ok",
+			"YoDude ",
+			"YoDude",
+			"CheckItOut",
+			"SayBro",
+			" an ",
+			"man",
+			"like"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 3,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "seqdiagram.txt",
+					"settings":
+					{
+						"buffer_size": 899,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "Query.cpp",
+					"settings":
+					{
+						"buffer_size": 480,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								480,
+								480
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "Report.cpp",
+					"settings":
+					{
+						"buffer_size": 823,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								592,
+								592
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "Makefile",
+					"settings":
+					{
+						"buffer_size": 1937,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1937,
+								1937
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Makefile/Makefile.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 0.0
+	},
+	"input":
+	{
+		"height": 33.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"replace":
+	{
+		"height": 62.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"selected_items":
+		[
+		],
+		"width": 380.0
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 150.0,
+	"status_bar_visible": true
+}

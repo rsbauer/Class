@@ -1,0 +1,14 @@
+96
+
+- "File" is way too weak a word for what it is doing.
+
+- "++" and "#" are not valid characters of an identifier for class and
+  method names (but you knew that :) )
+
+- "Java", and names like it, are much too vague
+
+- Interesting idea to have both the source code and the graphs to be
+  derived from the same class.  That might work, and it might not.
+
+- "Result" is too weak a name, so is Report.  However, the structure
+  looks good.

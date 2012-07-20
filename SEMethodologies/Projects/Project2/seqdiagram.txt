@@ -1,0 +1,38 @@
+http://www.websequencediagrams.com/
+
+CodeAnalyzer->Query: path
+Query->FileFactory: createFileUtil(path)
+FileFactory->AbstractFileUtil: Constructor
+FileFactory->Query: AbstractFileUtil
+Query->AbstractFileUtil: setPath(path)
+loop files in path
+CodeAnalyzer->Query: query(terms)
+Query->AbstractFileUtil: query(terms)
+AbstractFileUtil->AbstractFileUtil: open
+loop until EOF
+AbstractFileUtil->AbstractFileUtil: read
+end
+AbstractFileUtil->AbstractFileUtil: close
+CodeAnalyzer->ParseReport: addResult(parsedResult)
+
+CodeAnalyzer->ParseReport: generate(path, reportname)
+ParseReport->FileFactory: createFileUtil(path)
+FileFactory->ParseReport: AbstractFileUtil
+ParseReport->AbstractFileUtil: setPath(path)
+ParseReport->FileUtil: setPath(reportFilename)
+ParseReport->FileUtil:open()
+ParseReport->AbstractFileUtil:generateReport(parsedResults)
+AbstractFileUtil->ParseReport: reportResults
+ParseReport->FileUtil:write(reportResults)
+ParseReport->FileUtil:close()
+end
+
+
+
+
+
+
+
+
+
+

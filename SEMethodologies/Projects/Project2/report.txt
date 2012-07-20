@@ -1,0 +1,24 @@
+What did you learn from your design by the base implementation?
+---------------------------------------------------------------
+I learned my design really stunk.  I had thought to use a factory for implementing the different file types, but I hadn't put that in the UML design.  Also, not sure how I managed to put spaces in 2 of my class names (doh!).  Basically, my initial design was very incomplete and probably difficult to read and understand.
+
+
+How difficult was it to maintain consistency between the design and the implementation?
+---------------------------------------------------------------------------------------
+Very difficult, considering the design was very incomplete.  
+
+
+List the refactorings that you used
+-----------------------------------
+Extract method
+Inline method
+Push down fields 
+
+
+Put in the analysis anything else that you can think of that is not reflected in the commit messages
+----------------------------------------------------------------------------------------------------
+Personal observation:  My initial UML design stunk and it wasn't until I was forced to write code did I realize how bad it was.  UML has its value in communicating a design to other developers, but I personally would be concerned if the only work that was done for the initial design was the UML class and sequence diagrams (unless the UML author is really good and has thought about all the details).
+
+Instead, creating a skeleton project seems to make a lot of sense.  I've seen this at Progressive Insurance on the project I worked on.  The system architect didn't have a chance to provide any formal documentation, but provided developers with the skeleton project he had prototyped.  The code was certainly in a high state of flux and any low level class/sequence diagram documentation would have been out of date by the time developers had a chance to add code (high level documentation on how the software was to interact with other systems was provided).
+
+
